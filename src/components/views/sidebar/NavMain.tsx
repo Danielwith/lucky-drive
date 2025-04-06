@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   SidebarGroup,
@@ -6,16 +6,12 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 import { PATH } from "@/lib/constants/route_path";
-import { NavInfoData } from "@/lib/types/types"
+import { NavInfoData } from "@/lib/types/types";
 import { useLocation } from "wouter";
 
-export function NavMain({
-  items,
-}: {
-  items: NavInfoData[]
-}) {
+export function NavMain({ items }: { items: NavInfoData[] }) {
   const [location, push] = useLocation();
 
   return (
@@ -43,8 +39,15 @@ export function NavMain({
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton tooltip={item.title} variant={"navitem"} onClick={() => push(`${PATH.DASHBOARD}/${item.url}`)} isActive={item.url === location.split('/')[2]}>
-                {item.icon && <item.icon />}
+              <SidebarMenuButton
+                tooltip={item.title}
+                variant={"navitem"}
+                onClick={() => {
+                  push(`${PATH.DASHBOARD}/${item.url}`);
+                }}
+                isActive={item.url === location.split("/")[2]}
+              >
+                {<item.icon />}
                 <span>{item.title}</span>
                 <span className="ml-auto">{item.count}</span>
               </SidebarMenuButton>
@@ -53,5 +56,5 @@ export function NavMain({
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>
-  )
+  );
 }

@@ -6,17 +6,17 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
-import { NavMain } from "../views/sidebar/NavMain"
-import { useNavStore } from "@/lib/store/nav_store"
-import user from "@/assets/images/user.png"
-import { Separator } from "../ui/separator"
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
-import { Button } from "../ui/button"
-import { Settings } from "lucide-react"
+} from "@/components/ui/sidebar";
+import { NavMain } from "../views/sidebar/NavMain";
+import { useNavStore } from "@/lib/store/nav_store";
+import user from "@/assets/images/user.png";
+import { Separator } from "../ui/separator";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Button } from "../ui/button";
+import { Settings } from "lucide-react";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const NAV_DATA = useNavStore((state)=> state.navData)
+  const NAV_DATA = useNavStore((state) => state.navData);
 
   return (
     <Sidebar collapsible="offcanvas" {...props}>
@@ -32,7 +32,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <AvatarImage src={user} />
                   <AvatarFallback>AVATAR</AvatarFallback>
                 </Avatar>
-
                 <div>
                   <p className="text-sm font-semibold">Oscar Hurtado</p>
                   <span className="text-xs font-medium">Administrador</span>
@@ -53,9 +52,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         {/* <NavDocuments items={data.documents} /> */}
         {/* <NavSecondary items={data.navSecondary} className="mt-auto" />  */}
       </SidebarContent>
-      <SidebarFooter>
-        {/* <NavUser user={data.user} /> */}
-      </SidebarFooter>
+      <SidebarFooter>{/* <NavUser user={data.user} /> */}</SidebarFooter>
     </Sidebar>
-  )
+  );
 }
