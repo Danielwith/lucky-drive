@@ -1,18 +1,20 @@
-import { create } from 'zustand';
-import { NavInfoData } from '../types/types';
-import { fetchNavData } from '@/services/init/nav_data_service';
+import { create } from "zustand";
+import { fetchNavData } from "@/services/init/nav_data_service";
+import { NavigationTypes } from "../types/types";
 
 const NAV_REFRESH_SECONDS = 15;
 
-type NavStore = {
-  navData: NavInfoData[];
-  updateNavData: (newData: NavInfoData[]) => void;
+interface NavStore {
+  navData: NavigationTypes.NavInfoData[];
+  updateNavData: (newData: NavigationTypes.NavInfoData[]) => void;
   startAutoRefresh: () => void;
-};
+}
 
 export const useNavStore = create<NavStore>((set) => ({
   navData: [],
-  updateNavData: (newData) => set({ navData: newData }),
+  updateNavData: (newData) => {
+    set({ navData: newData });
+  },
   startAutoRefresh: () => {
     const intervalId = setInterval(async () => {
       const newData = await fetchNavData();

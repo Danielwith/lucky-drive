@@ -8,10 +8,10 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { PATH } from "@/lib/constants/route_path";
-import { NavInfoData } from "@/lib/types/types";
+import { NavigationTypes } from "@/lib/types/types";
 import { useLocation } from "wouter";
 
-export function NavMain({ items }: { items: NavInfoData[] }) {
+export function NavMain({ items }: { items: NavigationTypes.NavInfoData[] }) {
   const [location, push] = useLocation();
 
   return (

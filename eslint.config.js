@@ -5,6 +5,7 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import tseslint from 'typescript-eslint'
 import reactX from "eslint-plugin-react-x";
 import reactDom from "eslint-plugin-react-dom";
+import { isModuleNamespaceObject } from 'util/types'
 
 export default tseslint.config(
   { ignores: ["dist"] },
@@ -38,6 +39,10 @@ export default tseslint.config(
         "warn",
         { allowConstantExport: true },
       ],
+      "@typescript-eslint/no-namespace": "off",
+      "@typescript-eslint/no-unsafe-call": "off",
+      "@typescript-eslint/no-unsafe-member-access": "off",
+      "@typescript-eslint/no-unsafe-assignment": "off"
     },
   }
 );

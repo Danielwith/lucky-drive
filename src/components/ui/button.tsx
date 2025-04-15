@@ -20,8 +20,12 @@ const buttonVariants = cva(
         ghost:
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
+        semicircular_fab:
+          "border rounded-xl shadow-zinc-400 shadow-md bg-sidebar text-violet-900 hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 [&_svg:not([class*='size-'])]:size-4",
         circular_fab:
           "border rounded-full text-violet-900 bg-zinc-200 shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 [&_svg:not([class*='size-'])]:size-5",
+        circular_fab_main:
+          "border rounded-full text-white bg-purple-500 shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 [&_svg:not([class*='size-'])]:size-5",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
@@ -52,7 +56,6 @@ function Button({
   return (
     <Comp
       data-slot="button"
-      
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
     />
