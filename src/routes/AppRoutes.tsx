@@ -1,13 +1,13 @@
-import { Redirect, Route, Switch } from "wouter"
-import Login from "@/pages/Login"
-import DashboardRoutes from "./DashboardRoutes"
-import { PATH } from "@/lib/constants/route_path"
+import { Redirect, Route, Switch } from "wouter";
+import Login from "@/pages/Login";
+import DashboardRoutes from "./DashboardRoutes";
+import { PATH } from "@/lib/constants/route_path";
 
 export default function App() {
   return (
     <Switch>
       {/* Rutas públicas */}
-      <Route path={`${PATH.LOGIN}`} component={Login} />
+      <Route path={PATH.LOGIN} component={Login} />
 
       {/* Rutas protegidas */}
       <Route path={`${PATH.DASHBOARD}/:rest*`}>
@@ -18,5 +18,5 @@ export default function App() {
         <Redirect to="/login" />
       </Route>
     </Switch>
-  )
+  );
 }

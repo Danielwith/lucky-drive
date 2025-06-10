@@ -1,12 +1,26 @@
 import { NavigationTypes } from "@/lib/types/types";
-import { Folder, Heart, Info, SendHorizontal, Trash2 } from "lucide-react"
+import {
+  Folder,
+  Heart,
+  Info,
+  MapPin,
+  SendHorizontal,
+  Trash2,
+} from "lucide-react";
 
-export const fetchNavData = async (): Promise<NavigationTypes.NavInfoData[]> => {
+export const fetchNavData = async (): Promise<
+  NavigationTypes.NavInfoData[]
+> => {
   const NAV_DATA: NavigationTypes.NavInfoData[] = [
     {
       title: "Recepción de requerimientos",
       url: "request-reception",
       icon: Info,
+    },
+    {
+      title: "Tracking",
+      url: "tracking",
+      icon: MapPin,
     },
     {
       title: "Estado de choferes",

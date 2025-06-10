@@ -8,6 +8,7 @@ import TripHistory from "@/pages/dashboard/TripHistory";
 import DriversManagement from "@/pages/dashboard/DriversManagement";
 import UserManagement from "@/pages/dashboard/UserManagement";
 import { PATH } from "@/lib/constants/route_path";
+import Tracking from "@/pages/dashboard/Tracking";
 
 export default function DashboardRoutes() {
   return (
@@ -18,6 +19,7 @@ export default function DashboardRoutes() {
             path={`${PATH.DASHBOARD}/request-reception`}
             component={RequestReception}
           />
+          <Route path={`${PATH.DASHBOARD}/tracking`} component={Tracking} />
           <Route
             path={`${PATH.DASHBOARD}/driver-status`}
             component={DriverStatus}
