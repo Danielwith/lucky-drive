@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/sidebar";
 import { NavMain } from "../views/sidebar/NavMain";
 import { useNavStore } from "@/lib/store/nav_store";
-import user from "@/assets/images/user.png";
 import { Separator } from "../ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
@@ -29,7 +28,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             >
               <a href="#">
                 <Avatar>
-                  <AvatarImage src={user} />
+                  <AvatarImage src="/images/user.png" />
                   <AvatarFallback>AVATAR</AvatarFallback>
                 </Avatar>
                 <div>

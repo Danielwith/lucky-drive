@@ -1,3 +1,5 @@
+import { MapContainerProps } from "react-leaflet";
+import { LatLngExpression } from "leaflet";
 import { ModalDialog } from "@/components/templates/AppDialog";
 import { Button } from "@/components/ui/button";
 import { ColumnDef, Table } from "@tanstack/react-table";
@@ -15,6 +17,22 @@ export namespace DataTableTypes {
   }
 
   export type TableActions = "ADD" | "DOWNLOAD";
+}
+
+export namespace MapViewerTypes {
+  export interface MarkerData {
+    lat: number;
+    lng: number;
+    popupText?: string;
+  }
+
+  export interface MapViewerProps {
+    center?: LatLngExpression;
+    zoom?: number;
+    markers?: MarkerData[];
+    /** Puedes extender con cualquier otra prop de MapContainerProps */
+    mapProps?: Partial<Omit<MapContainerProps, "center" | "zoom">>;
+  }
 }
 
 export namespace ModalDialogTypes {
