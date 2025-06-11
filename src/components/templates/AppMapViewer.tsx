@@ -5,8 +5,9 @@ import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: "/images/marker-icon-2x.png",
-  iconUrl: "/images/marker-icon.png",
-  shadowUrl: "/images/marker-shadow.png",
+  iconUrl: "/images/marker-icon.svg",
+  shadowUrl: "",
+  //   shadowUrl: "/images/marker-shadow.png",
 });
 
 export const AppMapViewer: React.FC<MapViewerTypes.MapViewerProps> = ({
@@ -19,18 +20,13 @@ export const AppMapViewer: React.FC<MapViewerTypes.MapViewerProps> = ({
     <MapContainer
       center={center}
       zoom={zoom}
-      style={{
-        width: "inherit",
-        height: "100%",
-        position: "absolute",
-        overflow: "hidden",
-      }}
+      className="w-full h-full absolute overflow-hidden"
       scrollWheelZoom
       zoomControl={false}
       {...mapProps}
     >
       <TileLayer
-        attribution=""
+        attribution="&copy; OpenStreetMap contributors"
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
 

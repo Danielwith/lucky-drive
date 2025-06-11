@@ -22,31 +22,31 @@ export const fetchNavData = async (): Promise<
       url: "tracking",
       icon: MapPin,
     },
-    {
-      title: "Estado de choferes",
-      url: "driver-status",
-      icon: SendHorizontal,
-    },
-    {
-      title: "Programación de viajes",
-      url: "trip-planning",
-      icon: Heart,
-    },
-    {
-      title: "Historial de viajes",
-      url: "trip-history",
-      icon: Trash2,
-    },
-    {
-      title: "Administración de choferes",
-      url: "drivers-management",
-      icon: Folder,
-    },
-    {
-      title: "Administración de usuarios",
-      url: "users-management",
-      icon: Folder,
-    },
+    // {
+    //   title: "Estado de choferes",
+    //   url: "driver-status",
+    //   icon: SendHorizontal,
+    // },
+    // {
+    //   title: "Programación de viajes",
+    //   url: "trip-planning",
+    //   icon: Heart,
+    // },
+    // {
+    //   title: "Historial de viajes",
+    //   url: "trip-history",
+    //   icon: Trash2,
+    // },
+    // {
+    //   title: "Administración de choferes",
+    //   url: "drivers-management",
+    //   icon: Folder,
+    // },
+    // {
+    //   title: "Administración de usuarios",
+    //   url: "users-management",
+    //   icon: Folder,
+    // },
   ];
 
   return NAV_DATA.map((e) => {

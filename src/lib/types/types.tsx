@@ -4,6 +4,7 @@ import { ModalDialog } from "@/components/templates/AppDialog";
 import { Button } from "@/components/ui/button";
 import { ColumnDef, Table } from "@tanstack/react-table";
 import { LucideIcon, Pencil } from "lucide-react";
+import { DateRange } from "react-day-picker";
 
 export namespace DataTableTypes {
   export interface props<TData, TValue> {
@@ -17,6 +18,21 @@ export namespace DataTableTypes {
   }
 
   export type TableActions = "ADD" | "DOWNLOAD";
+}
+
+export namespace SelectTypes {
+  export type GenericSelectProps = {
+    label?: string;
+    placeholder?: string;
+    data: SelectData[];
+    onChange?: (value: string) => void;
+    value?: string;
+  };
+
+  export interface SelectData {
+    label: string;
+    value: string;
+  }
 }
 
 export namespace MapViewerTypes {
@@ -132,3 +148,34 @@ export namespace TripHistoryTypes {}
 export namespace TripPlanningTypes {}
 
 export namespace UserManagementTypes {}
+
+export namespace TrackingTypes {
+  export interface TrackingForm {
+    dateRange: DateRange | undefined;
+    transporte: string;
+    conductor: string;
+  }
+
+  export interface SearchData {
+    user: string;
+    placa: string;
+    telefono: string;
+    destino: {
+      from: number;
+      to: number;
+    };
+    paradas: ParadaData[];
+  }
+
+  export interface ParadaData {
+    numero: number;
+    nombre: string;
+    estado: number;
+    info: ParadaInfoData;
+  }
+
+  export interface ParadaInfoData {
+    observacion: string;
+    fotos: string[];
+  }
+}
