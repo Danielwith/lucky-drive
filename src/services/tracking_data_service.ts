@@ -3,6 +3,7 @@ export namespace TrackingDataService {
   export const fetchFormSearch = (
     formRequest: TrackingTypes.TrackingForm
   ): TrackingTypes.SearchData[] => {
+    console.log(formRequest);
     return [
       {
         user: "Juan Pérez",

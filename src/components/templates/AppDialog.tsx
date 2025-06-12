@@ -1,20 +1,5 @@
 import { ModalDialogTypes } from "@/lib/types/types";
-import { Button } from "../ui/button";
-import {
-  ContextMenu,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuTrigger,
-} from "../ui/context-menu";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "../ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 
 export function ModalDialog({ trigger, children }: ModalDialogTypes.props) {
   return (

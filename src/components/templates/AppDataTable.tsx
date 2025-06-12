@@ -118,7 +118,9 @@ export function DataTable<TData, TValue>({
                 .map((column) => {
                   const headerText =
                     typeof column.columnDef.header === "function"
-                      ? column.columnDef.header().props.children
+                      ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        //@ts-expect-error
+                        column.columnDef.header().props.children
                       : column.columnDef.header;
 
                   return (

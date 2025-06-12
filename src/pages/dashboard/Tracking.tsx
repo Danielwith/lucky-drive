@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { MapViewerTypes, SelectTypes, TrackingTypes } from "@/lib/types/types";
 import { IoSearchSharp } from "react-icons/io5";
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { FaRegUser } from "react-icons/fa";
 import { RiCarLine } from "react-icons/ri";
 import { TbPhone } from "react-icons/tb";
@@ -93,7 +93,9 @@ export default function Tracking() {
                       placeholder="Buscar conductor"
                       icon={<IoSearchSharp />}
                       value={field.value}
-                      onChange={(e) => field.onChange(e.target.value)}
+                      onChange={(e) => {
+                        field.onChange(e.target.value);
+                      }}
                     />
                   )}
                 />
@@ -154,7 +156,9 @@ function SearchCard({ item }: { item: TrackingTypes.SearchData }) {
             {item.paradas.map((parada: TrackingTypes.ParadaData) => (
               <div
                 key={parada.numero}
-                onClick={() => setSelectedParada(parada)}
+                onClick={() => {
+                  setSelectedParada(parada);
+                }}
                 className="flex flex-wrap flex-row items-center gap-2.5 overflow-hidden w-full cursor-pointer hover:bg-gray-100 p-1 rounded"
               >
                 <PiMapPinFill color={parada.estado === 1 ? "green" : "red"} />
@@ -230,7 +234,9 @@ function SearchCard({ item }: { item: TrackingTypes.SearchData }) {
       <div className="">
         <Button
           variant="circular_fab_main"
-          onClick={() => setSelectedParada(null)}
+          onClick={() => {
+            setSelectedParada(null);
+          }}
           className="mt-4 w-full"
         >
           Ok
