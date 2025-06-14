@@ -1,5 +1,5 @@
 import { NavigationTypes } from "@/lib/types/types";
-import { Info, MapPin } from "lucide-react";
+import { Info, MapPin, SendHorizontal } from "lucide-react";
 
 export const fetchNavData = (): NavigationTypes.NavInfoData[] => {
   const NAV_DATA: NavigationTypes.NavInfoData[] = [
@@ -13,11 +13,11 @@ export const fetchNavData = (): NavigationTypes.NavInfoData[] => {
       url: "tracking",
       icon: MapPin,
     },
-    // {
-    //   title: "Estado de choferes",
-    //   url: "driver-status",
-    //   icon: SendHorizontal,
-    // },
+    {
+      title: "Estado de choferes",
+      url: "driver-status",
+      icon: SendHorizontal,
+    },
     // {
     //   title: "Programación de viajes",
     //   url: "trip-planning",

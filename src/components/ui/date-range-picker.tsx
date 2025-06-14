@@ -55,7 +55,10 @@ export default function DateRangePicker({
             <FiCalendar />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+        <PopoverContent
+          className="w-auto overflow-hidden p-0 z-50"
+          align="start"
+        >
           <Calendar
             mode="range"
             selected={range}

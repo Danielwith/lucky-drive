@@ -55,6 +55,7 @@ export namespace ModalDialogTypes {
   export interface props {
     trigger: React.ReactNode; // HTML(XML) que desencadena el mostrar dialogo
     children: React.ReactNode; // Contenido HTML(XML) del dialogo
+    exitButton?: boolean; // Boton X de salir
   }
 }
 
@@ -69,7 +70,11 @@ export namespace NavigationTypes {
 
 export namespace DriversManagementTypes {}
 
-export namespace DriverStatusTypes {}
+export namespace DriverStatusTypes {
+  export interface DriverStatusForm {
+    driverInfo: string;
+  }
+}
 
 export namespace RequestReceptionTypes {
   // export interface AdminTable {

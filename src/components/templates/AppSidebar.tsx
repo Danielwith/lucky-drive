@@ -24,7 +24,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenuItem>
             <SidebarMenuButton
               asChild
-              className="data-[slot=sidebar-menu-button]:!p-1.5 h-auto"
+              className="data-[slot=sidebar-menu-button]:!p-1.5 h-auto text-primary"
             >
               <a href="#">
                 <Avatar>
@@ -44,7 +44,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={NAV_DATA} />
         <Separator className="data-[orientation=horizontal]:w-[85%] mx-auto mb-2" />
         <div className="px-6">
-          <Button variant="circular_fab" size="icon">
+          <Button
+            className="bg-zinc-700 border-0 text-violet-300"
+            variant="circular_fab"
+            size="icon"
+          >
             <Settings />
           </Button>
         </div>

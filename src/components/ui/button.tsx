@@ -9,8 +9,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default:
-          "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90",
+        default: "bg-lucky text-primary-foreground shadow-xs hover:bg-lucky/90",
         destructive:
           "bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
         outline:
@@ -21,11 +20,11 @@ const buttonVariants = cva(
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
         semicircular_fab:
-          "border rounded-xl shadow-zinc-400 shadow-md bg-sidebar text-violet-900 hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 [&_svg:not([class*='size-'])]:size-4",
+          "border rounded-xl shadow-zinc-400 shadow-md bg-primary text-secondary hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 [&_svg:not([class*='size-'])]:size-4",
         circular_fab:
           "border rounded-full text-violet-900 bg-zinc-200 shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 [&_svg:not([class*='size-'])]:size-5",
         circular_fab_main:
-          "border rounded-full text-white bg-purple-500 shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 [&_svg:not([class*='size-'])]:size-5",
+          "border rounded-full text-white bg-lucky shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 [&_svg:not([class*='size-'])]:size-5",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",

@@ -16,7 +16,7 @@ export default function DashboardLayout({
       <AppSidebar variant="inset" />
       <SidebarInset>
         <DashboardHeader />
-        {staticChildren.current}
+        <div className="overflow-auto h-full">{staticChildren.current}</div>
       </SidebarInset>
     </SidebarProvider>
   );

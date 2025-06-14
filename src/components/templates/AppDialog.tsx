@@ -1,11 +1,31 @@
 import { ModalDialogTypes } from "@/lib/types/types";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
+import { ReactNode, useState } from "react";
 
-export function ModalDialog({ trigger, children }: ModalDialogTypes.props) {
+type RenderProps = {
+  close: () => void;
+};
+
+type Props = Omit<ModalDialogTypes.props, "children"> & {
+  /**
+   * Si 'children' es función la llamamos con { close },
+   * si es ReactNode lo renderizamos directamente.
+   */
+  children: ReactNode | ((args: RenderProps) => ReactNode);
+};
+
+export function ModalDialog({ trigger, children, exitButton = true }: Props) {
+  const [open, setOpen] = useState(false);
+  const close = () => setOpen(false);
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
-      <DialogContent>{children}</DialogContent>
+      <DialogContent className="w-auto" exitButton={exitButton}>
+        {typeof children === "function"
+          ? (children as (args: RenderProps) => ReactNode)({ close })
+          : children}
+      </DialogContent>
     </Dialog>
     // <Dialog>
     //   <ContextMenu>

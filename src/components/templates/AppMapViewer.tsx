@@ -20,7 +20,7 @@ export const AppMapViewer: React.FC<MapViewerTypes.MapViewerProps> = ({
     <MapContainer
       center={center}
       zoom={zoom}
-      className="w-full h-full absolute overflow-hidden"
+      className="w-full h-full absolute overflow-hidden z-10"
       scrollWheelZoom
       zoomControl={false}
       {...mapProps}

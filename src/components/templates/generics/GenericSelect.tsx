@@ -22,10 +22,10 @@ export default function GenericSelect({
         {label}
       </Label>
       <Select value={value} onValueChange={onChange}>
-        <SelectTrigger id="select" className="w-[180px] z-[999]">
+        <SelectTrigger id="select" className="w-[180px] z-50 cursor-pointer">
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
-        <SelectContent className="z-[999]">
+        <SelectContent className="z-50">
           <SelectGroup>
             {data.map((item) => (
               <SelectItem key={item.value} value={item.value}>

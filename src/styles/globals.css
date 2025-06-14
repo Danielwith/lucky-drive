@@ -28,7 +28,7 @@
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.97 0.0118 313.22);
+  --sidebar: oklch(0.2265 0.01 303.71);
   --sidebar-foreground: oklch(0.141 0.005 285.823);
   --sidebar-primary: oklch(0.606 0.25 292.717);
   --sidebar-primary-foreground: oklch(0.969 0.016 293.756);
@@ -36,6 +36,11 @@
   --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
   --sidebar-border: oklch(0.92 0.004 286.32);
   --sidebar-ring: oklch(0.606 0.25 292.717);
+
+  
+  --primary: oklch(0.9101 0.0459 306.58);
+  --secondary: oklch(0.4005 0.034 298.59);
+  --lucky: oklch(0.601 0.1766 296.04)
 }
 
 .dark {
@@ -108,6 +113,7 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-lucky: var(--lucky)
 }
 
 @layer base {
@@ -116,6 +122,12 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .text-2xs {
+    font-size: .5rem;
   }
 }
 
@@ -130,7 +142,7 @@
     scrollbar-width: none; /* Firefox */
   }
 
-  .scrollbar-main::-webkit-scrollbar {
+  ::-webkit-scrollbar {
     width: 6px; /* Ancho del scrollbar */
     height: 6px; /* Altura para scroll horizontal */
 
@@ -140,7 +152,7 @@
     @apply bg-purple-200
   }
 
-  .scrollbar-main::-webkit-scrollbar-thumb {
+  ::-webkit-scrollbar-thumb {
     @apply bg-purple-500
   }
 
