@@ -137,6 +137,11 @@
   .text-2xs {
     font-size: .5rem;
   }
+
+  .bg-dark-blur{
+    @apply bg-neutral-950/80;
+    @apply backdrop-blur-md;
+  }
 }
 
 @layer utilities {

@@ -17,21 +17,21 @@ export default function Login() {
 
   return (
     <div className="h-screen flex items-center justify-center md:bg-[url('assets/images/login.png')] bg-center bg-cover bg-no-repeat">
-      <div className="md:p-6 h-[85%] rounded-2xl  w-full max-w-4xl space-y-4 bg-neutral-950/80 md:backdrop-blur-md md:shadow-[0_4px_37.3px_0_rgb(0,0,0)] md:mx-8">
+      <div className="md:p-6 h-[85%] rounded-2xl w-full max-w-4xl space-y-4 bg-neutral-950/80 md:backdrop-blur-md md:shadow-[0_4px_37.3px_0_rgb(0,0,0)] md:mx-8">
         <div className="flex flex-col flex-wrap h-full justify-around items-center">
           <img
             className="place-self-center w-[40%] min-w-[140px] max-w-[150px]"
             src="assets/images/logo.png"
             alt="Lucky Logo"
           ></img>
-          <div className="flex flex-col flex-wrap gap-4.5">
+          <div className="flex flex-col flex-wrap gap-4.5 md:min-w-[18rem]">
             <div className="flex flex-col gap-2">
               <h1 className="text-4xl font-extrabold text-center">Lucky GO</h1>
               <h3 className="text-[.68rem] font-bold text-center">
                 Panel de administración
               </h3>
             </div>
-            <div className="max-w-[16rem]">
+            <div>
               <Input
                 className="mb-2"
                 variant={"filled"}
@@ -60,6 +60,12 @@ export default function Login() {
                 onClick={handleLogin}
               >
                 Ingresar
+              </Button>
+              <Button
+                className="hover:bg-transparent h-4 text-xs font-normal"
+                variant={"ghost"}
+              >
+                ¿Olvidaste tu contraseña?
               </Button>
               <div className="grid grid-cols-[1fr_max-content_1fr] items-center">
                 <div className="h-[1px] bg-[#F0EEE040]"></div>

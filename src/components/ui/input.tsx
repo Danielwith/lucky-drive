@@ -82,7 +82,7 @@ function Input({
           aria-label={
             showPassword ? "Ocultar contraseña" : "Mostrar contraseña"
           }
-          className="absolute right-2 top-1/2 -translate-y-1/2 rounded px-2 py-1 text-violet-500 hover:text-gray-700 focus:outline-none"
+          className="cursor-pointer absolute right-2 top-1/2 -translate-y-1/2 rounded px-2 py-1 text-violet-500 hover:text-gray-700 focus:outline-none"
         >
           {showPassword ? (
             <EyeOff className="h-5 w-5" />
@@ -91,10 +91,10 @@ function Input({
           )}
         </button>
       )}
-      {showIcon && (
+      {showIcon && !isPassword && (
         <button
           type="button"
-          className="absolute right-2 top-1/2 -translate-y-1/2 rounded px-2 py-1 text-violet-500 focus:outline-none"
+          className="cursor-pointer absolute right-2 top-1/2 -translate-y-1/2 rounded px-2 py-1 text-violet-500 focus:outline-none"
         >
           {icon}
         </button>

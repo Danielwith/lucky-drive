@@ -48,7 +48,7 @@ export default function Tracking() {
   return (
     <div className="w-full h-full relative">
       <div className="absolute top-0 w-full z-50 p-2">
-        <div className="flex flex-col flex-wrap gap-5 bg-white rounded-xl shadow-material p-4">
+        <div className="flex flex-col flex-wrap gap-5 bg-white dark:bg-neutral-700 rounded-xl shadow-material p-4">
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-row flex-wrap items-end justify-between gap-2"

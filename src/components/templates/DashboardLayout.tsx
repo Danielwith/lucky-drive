@@ -13,11 +13,15 @@ export default function DashboardLayout({
 
   return (
     <SidebarProvider>
-      <AppSidebar variant="inset" />
-      <SidebarInset>
-        <DashboardHeader />
-        <div className="overflow-auto h-full">{staticChildren.current}</div>
-      </SidebarInset>
+      <div className="flex grow bg-neutral-400/20 backdrop-blur-xs md:my-3 md:mx-5 rounded-xl relative h-screen md:h-[calc(100dvh-1.5rem)]">
+        <AppSidebar variant="inset" />
+        <SidebarInset className="bg-dark-blur">
+          <DashboardHeader />
+          <div className="overflow-auto w-full h-full rounded-b-xl">
+            {staticChildren.current}
+          </div>
+        </SidebarInset>
+      </div>
     </SidebarProvider>
   );
 }

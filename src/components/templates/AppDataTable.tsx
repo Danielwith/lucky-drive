@@ -62,7 +62,7 @@ export function DataTable<TData, TValue>({
     <div className="w-full h-full flex flex-col">
       <div
         className={twMerge(
-          "flex py-1.5 justify-between px-3 bg-[#F7F2FA] content-between"
+          "flex py-1.5 justify-between px-3 bg-[#F7F2FA] dark:bg-neutral-700 w-full content-between"
         )}
       >
         <div className="flex">
@@ -97,7 +97,7 @@ export function DataTable<TData, TValue>({
               // table.getColumn("email")?.setFilterValue(event.target.value)
               table.setGlobalFilter(event.target.value);
             }}
-            className="max-w-sm mx-1 border-black placeholder:text-black"
+            className="max-w-sm mx-1 border-black"
           />
           <Separator orientation="vertical" className="mx-1" />
           <Button variant="ghost">

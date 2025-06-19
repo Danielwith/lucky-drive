@@ -19,7 +19,7 @@ export function DataTablePagination<TData>({
   table,
 }: DataTableTypes.paginationProps<TData>) {
   return (
-    <div className="flex items-center justify-between p-2 bg-[#F7F2FA] w-full">
+    <div className="flex items-center justify-between p-2 bg-[#F7F2FA] dark:bg-neutral-700 w-full">
       <div className="flex-1 text-sm text-muted-foreground">
         {/* {table.getFilteredSelectedRowModel().rows.length} of{" "}
         {table.getFilteredRowModel().rows.length} row(s) selected. */}

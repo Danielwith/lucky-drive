@@ -64,7 +64,7 @@ export default function DriverStatus() {
   };
 
   return (
-    <div className="p-4 w-full h-full bg-black">
+    <div className="p-4 w-full h-full">
       <div className="grid grid-cols-1 md:flex gap-4 h-full ">
         {cards.map(({ status, color, items }) => (
           <section
