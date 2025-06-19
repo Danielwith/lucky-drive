@@ -16,12 +16,12 @@ export default function Login() {
   };
 
   return (
-    <div className="h-screen flex items-center justify-center md:bg-[url('/images/login.png')] bg-center bg-cover bg-no-repeat">
-      <div className="md:p-6 h-[85%] rounded-4xl md:border w-full max-w-4xl space-y-4 bg-white/80 md:backdrop-blur-xs md:shadow-[0_4px_37.3px_0_rgb(110,110,110)] md:mx-8">
+    <div className="h-screen flex items-center justify-center md:bg-[url('assets/images/login.png')] bg-center bg-cover bg-no-repeat">
+      <div className="md:p-6 h-[85%] rounded-2xl  w-full max-w-4xl space-y-4 bg-neutral-950/80 md:backdrop-blur-md md:shadow-[0_4px_37.3px_0_rgb(0,0,0)] md:mx-8">
         <div className="flex flex-col flex-wrap h-full justify-around items-center">
           <img
             className="place-self-center w-[40%] min-w-[140px] max-w-[150px]"
-            src="/images/logo.png"
+            src="assets/images/logo.png"
             alt="Lucky Logo"
           ></img>
           <div className="flex flex-col flex-wrap gap-4.5">
@@ -54,9 +54,26 @@ export default function Login() {
                 }}
               ></Input>
             </div>
-            <div>
-              <Button className="w-full rounded-full h-9" onClick={handleLogin}>
+            <div className="flex flex-col gap-3">
+              <Button
+                className="w-full rounded-full h-10"
+                onClick={handleLogin}
+              >
                 Ingresar
+              </Button>
+              <div className="grid grid-cols-[1fr_max-content_1fr] items-center">
+                <div className="h-[1px] bg-[#F0EEE040]"></div>
+                <div className="my-0 mx-2 text-xs font-normal -translate-y-0.5">
+                  O iniciar sesión con
+                </div>
+                <div className="h-[1px] bg-[#F0EEE040]"></div>
+              </div>
+              <Button
+                className="w-full rounded-full h-10"
+                onClick={handleLogin}
+              >
+                <img src="assets/icon/microsoft.svg" alt="" />
+                Microsoft 365
               </Button>
             </div>
           </div>

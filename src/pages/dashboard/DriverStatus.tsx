@@ -40,7 +40,7 @@ export default function DriverStatus() {
 
   const sampleTasks = Array.from({ length: 6 }).map((_, i) => ({
     id: `REQ-0102${i}`,
-    name: "Martinez Isla, Jose Luis",
+    name: "Martinez Isla, Jose LuisPRUEBAEXTRALARGATEXTO",
     start: "Av. Mendiburu 1236",
     end: "Av. Mendiburu 1236",
     distance: "14 Km",
@@ -85,7 +85,7 @@ export default function DriverStatus() {
             </header>
 
             {/* Task list */}
-            <div className="flex-1 overflow-y-auto px-3 space-y-3">
+            <div className="flex-1 overflow-y-auto px-3 space-y-3 ">
               {sampleTasks.slice(0, items).map((task) => (
                 <div
                   key={task.id}
@@ -106,9 +106,9 @@ export default function DriverStatus() {
                       <div className="relative h-8">
                         <h3 className="font-bold relative flex items-center gap-1 h-full">
                           <span
-                            className={`w-2 h-2 inline-block ${color} rounded-full`}
+                            className={`min-w-2 min-h-2 inline-block ${color} rounded-full`}
                           ></span>
-                          {task.name}
+                          <p className="">{task.name}</p>
                         </h3>
                         <AccordionTrigger
                           dir="rtl"

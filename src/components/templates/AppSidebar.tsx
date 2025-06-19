@@ -28,7 +28,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             >
               <a href="#">
                 <Avatar>
-                  <AvatarImage src="/images/user.png" />
+                  <AvatarImage src="assets/images/user.png" />
                   <AvatarFallback>AVATAR</AvatarFallback>
                 </Avatar>
                 <div>
