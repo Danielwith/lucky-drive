@@ -28,7 +28,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             >
               <a href="#">
                 <Avatar>
-                  <AvatarImage src="assets/images/user.png" />
+                  <AvatarImage src="/assets/images/user.png" />
                   <AvatarFallback>AVATAR</AvatarFallback>
                 </Avatar>
                 <div>
@@ -40,6 +40,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
+      <div className="flex justify-center my-1">
+        <Separator className="max-w-10/12"></Separator>
+      </div>
       <SidebarContent>
         <NavMain items={NAV_DATA} />
         <Separator className="data-[orientation=horizontal]:w-[85%] mx-auto mb-2" />

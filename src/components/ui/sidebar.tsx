@@ -483,7 +483,7 @@ const sidebarMenuButtonVariants = cva(
         outline:
           "bg-transparent shadow-[0_0_0_1px_hsl(var(--sidebar-border))] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:shadow-[0_0_0_1px_hsl(var(--sidebar-accent))]",
         navitem:
-          "shadow-[0_0_0_1px_hsl(var(--sidebar-border))] data-[active=true]:bg-secondary data-[active=true]:text-primary",
+          "shadow-[0_0_0_1px_hsl(var(--sidebar-border))] data-[active=true]:bg-secondary data-[active=true]:text-primary hover:bg-neutral-500/20 transition-all duration-75",
       },
       size: {
         default: "h-8 text-sm",

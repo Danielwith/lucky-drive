@@ -17,7 +17,7 @@ export default function DashboardLayout({
         <AppSidebar variant="inset" />
         <SidebarInset className="bg-dark-blur">
           <DashboardHeader />
-          <div className="overflow-auto w-full h-full rounded-b-xl">
+          <div className="overflow-auto w-full h-full md:rounded-xl rounded-b-xl">
             {staticChildren.current}
           </div>
         </SidebarInset>
