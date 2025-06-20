@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { ColumnDef, Table } from "@tanstack/react-table";
 import { LucideIcon, Pencil } from "lucide-react";
 import { DateRange } from "react-day-picker";
+import { IconType } from "react-icons/lib";
+import { ReactNode } from "react";
 
 export namespace DataTableTypes {
   export interface props<TData, TValue> {
@@ -18,6 +20,23 @@ export namespace DataTableTypes {
   }
 
   export type TableActions = "ADD" | "DOWNLOAD";
+}
+
+export namespace TaskBoardTypes {
+  export interface props {
+    cards: BoardCard[];
+    tasks: BoardItemContent[];
+  }
+
+  export interface BoardCard {
+    status: string;
+    color: string;
+  }
+
+  export interface BoardItemContent {
+    statusParent: string;
+    renderXml: () => ReactNode;
+  }
 }
 
 export namespace SelectTypes {
@@ -63,7 +82,7 @@ export namespace NavigationTypes {
   export interface NavInfoData {
     title: string;
     url: string;
-    icon: LucideIcon;
+    icon: LucideIcon | IconType;
     count?: string;
   }
 }
@@ -72,6 +91,12 @@ export namespace DriversManagementTypes {}
 
 export namespace DriverStatusTypes {
   export interface DriverStatusForm {
+    driverInfo: string;
+  }
+}
+
+export namespace RequestCourierTypes {
+  export interface RequestCourierForm {
     driverInfo: string;
   }
 }

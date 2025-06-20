@@ -138,6 +138,10 @@
     font-size: .5rem;
   }
 
+  .text-continue {
+    line-break: anywhere;
+  }
+
   .bg-dark-blur{
     @apply bg-neutral-950/80;
     @apply backdrop-blur-md;

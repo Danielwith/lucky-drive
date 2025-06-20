@@ -25,7 +25,7 @@ type TaskContentProps = {
   Icon: IconType;
 };
 
-export default function DriverStatus() {
+export default function RequestTaxi() {
   const cards = [
     { status: "Pendiente", color: "bg-red-500", items: 3 },
     { status: "En curso", color: "bg-yellow-500", items: 4 },
@@ -40,7 +40,7 @@ export default function DriverStatus() {
 
   const sampleTasks = Array.from({ length: 6 }).map((_, i) => ({
     id: `REQ-0102${i}`,
-    name: "Martinez Isla, Jose LuisPRUEBAEXTRALARGATEXTO",
+    name: "Martinez Isla, Jose Luis",
     start: "Av. Mendiburu 1236",
     end: "Av. Mendiburu 1236",
     distance: "14 Km",
@@ -89,7 +89,7 @@ export default function DriverStatus() {
               {sampleTasks.slice(0, items).map((task) => (
                 <div
                   key={task.id}
-                  className="bg-neutral-700 rounded-lg px-4 py-2.5 flex flex-col space-y-1 text-gray-200 "
+                  className="bg-neutral-700 rounded-lg px-4 py-2.5 flex flex-col space-y-1 text-gray-200"
                 >
                   <div className="flex justify-between items-center text-2xs">
                     <span>{task.id}</span>
@@ -104,16 +104,18 @@ export default function DriverStatus() {
                   <Accordion type="single" collapsible className="w-full">
                     <AccordionItem value={task.id}>
                       <div className="relative ">
-                        <h3 className="font-bold relative flex items-center gap-1 h-full text-base/5">
+                        <h3 className="font-bold relative flex items-center gap-1 h-full text-base/5 my-1">
                           <span
                             className={`min-w-2 min-h-2 inline-block ${color} rounded-full`}
                           ></span>
-                          <p className="">{task.name}</p>
+                          <p className="text-continue max-w-[88%] ">
+                            {task.name}
+                          </p>
                         </h3>
                         <AccordionTrigger
                           dir="rtl"
                           autoFocus={false}
-                          className="p-0 hover:no-underline grow absolute top-0 w-full  h-full"
+                          className="p-0 hover:no-underline grow absolute bottom-1 w-full h-full"
                         ></AccordionTrigger>
                       </div>
                       <Separator className="bg-neutral-500"></Separator>

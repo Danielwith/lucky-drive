@@ -1,22 +1,44 @@
 import { NavigationTypes } from "@/lib/types/types";
-import { Info, MapPin, SendHorizontal } from "lucide-react";
+import { PiMapPinFill } from "react-icons/pi";
+import { AiOutlineClockCircle, AiOutlineUser } from "react-icons/ai";
+import { MdInbox } from "react-icons/md";
 
 export const fetchNavData = (): NavigationTypes.NavInfoData[] => {
   const NAV_DATA: NavigationTypes.NavInfoData[] = [
     {
-      title: "Recepción de requerimientos",
-      url: "request-reception",
-      icon: Info,
+      title: "Requerimientos Taxi",
+      url: "request-taxi",
+      icon: MdInbox,
+    },
+    {
+      title: "Requerimientos Courier",
+      url: "request-courier",
+      icon: MdInbox,
+    },
+    {
+      title: "Requerimientos Taxi Express",
+      url: "request-taxi-express",
+      icon: MdInbox,
     },
     {
       title: "Tracking",
       url: "tracking",
-      icon: MapPin,
+      icon: PiMapPinFill,
     },
     {
-      title: "Estado de choferes",
-      url: "driver-status",
-      icon: SendHorizontal,
+      title: "Historial de viajes",
+      url: "trip-history",
+      icon: AiOutlineClockCircle,
+    },
+    {
+      title: "Administración de conductores",
+      url: "drivers-management",
+      icon: AiOutlineUser,
+    },
+    {
+      title: "Lista de usuarios",
+      url: "users-management",
+      icon: AiOutlineUser,
     },
     // {
     //   title: "Programación de viajes",

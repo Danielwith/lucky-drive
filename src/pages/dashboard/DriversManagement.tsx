@@ -4,5 +4,5 @@ export default function DriversManagement() {
       <h1 className="text-2xl font-bold">Dashboard</h1>
       <p>Bienvenido al panel principal.</p>
     </div>
-  )
+  );
 }

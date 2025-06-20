@@ -4,8 +4,8 @@ import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 L.Icon.Default.mergeOptions({
-  iconRetinaUrl: "assets/images/marker-icon-2x.png",
-  iconUrl: "assets/images/marker-icon.svg",
+  iconRetinaUrl: "/assets/images/marker-icon-2x.png",
+  iconUrl: "/assets/images/marker-icon.svg",
   shadowUrl: "",
   //   shadowUrl: "assets/images/marker-shadow.png",
 });
