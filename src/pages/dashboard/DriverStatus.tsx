@@ -69,7 +69,7 @@ export default function DriverStatus() {
         {cards.map(({ status, color, items }) => (
           <section
             key={status}
-            className="rounded-2xl flex flex-col h-full grow gap-5"
+            className="rounded-2xl flex flex-col h-full grow gap-5 "
           >
             {/* Header */}
             <header className="mx-3 border-b bg-neutral-700 border-neutral-700 rounded-lg">
@@ -89,7 +89,7 @@ export default function DriverStatus() {
               {sampleTasks.slice(0, items).map((task) => (
                 <div
                   key={task.id}
-                  className="bg-neutral-700 rounded-lg px-4 py-2.5 flex flex-col space-y-1 text-gray-200"
+                  className="bg-neutral-700 rounded-lg px-4 py-2.5 flex flex-col space-y-1 text-gray-200 "
                 >
                   <div className="flex justify-between items-center text-2xs">
                     <span>{task.id}</span>
@@ -103,8 +103,8 @@ export default function DriverStatus() {
                   </div>
                   <Accordion type="single" collapsible className="w-full">
                     <AccordionItem value={task.id}>
-                      <div className="relative h-8">
-                        <h3 className="font-bold relative flex items-center gap-1 h-full">
+                      <div className="relative ">
+                        <h3 className="font-bold relative flex items-center gap-1 h-full text-base/5">
                           <span
                             className={`min-w-2 min-h-2 inline-block ${color} rounded-full`}
                           ></span>
@@ -113,7 +113,7 @@ export default function DriverStatus() {
                         <AccordionTrigger
                           dir="rtl"
                           autoFocus={false}
-                          className="p-0 hover:no-underline grow absolute top-0 w-full h-7"
+                          className="p-0 hover:no-underline grow absolute top-0 w-full  h-full"
                         ></AccordionTrigger>
                       </div>
                       <Separator className="bg-neutral-500"></Separator>
