@@ -8,7 +8,6 @@ import { Separator } from "@/components/ui/separator";
 import { AppTaskBoard } from "@/components/templates/AppTaskBoard";
 import { RequestCourierTypes, TaskBoardTypes } from "@/lib/types/types";
 import { CalendarClock } from "lucide-react";
-import { IconType } from "react-icons/lib";
 import { PiMapPinFill } from "react-icons/pi";
 import { RiPinDistanceFill } from "react-icons/ri";
 import { ModalDialog } from "@/components/templates/AppDialog";
@@ -17,14 +16,6 @@ import { FaTaxi } from "react-icons/fa";
 import { Controller, useForm } from "react-hook-form";
 import { SearchSelect } from "@/components/templates/generics/SearchSelect";
 import { IoIosCloseCircle } from "react-icons/io";
-
-type TaskContentProps = {
-  task_label: string;
-  task_data_1: string | number;
-  task_data_2: string | number;
-  between?: boolean;
-  Icon: IconType;
-};
 
 export default function RequestCourier() {
   const cards: TaskBoardTypes.BoardCard[] = [
@@ -98,7 +89,7 @@ export default function RequestCourier() {
                   <span
                     className={`min-w-2 min-h-2 inline-block ${color} rounded-full`}
                   ></span>
-                  <p className="text-continue max-w-[88%] ">{task.name}</p>
+                  <p className="text-continue max-w-[88%]">{task.name}</p>
                 </h3>
                 <AccordionTrigger
                   dir="rtl"
@@ -109,28 +100,28 @@ export default function RequestCourier() {
               <Separator className="bg-neutral-500"></Separator>
               <div className="w-full mt-1">
                 <div className="text-sm space-y-0.5">
-                  <TaskContent
+                  <TaskBoardTypes.TaskContentDefault
                     Icon={PiMapPinFill}
                     task_label="Inicio"
                     task_data_1={task.start}
                     task_data_2={task.district}
-                  ></TaskContent>
-                  <TaskContent
+                  ></TaskBoardTypes.TaskContentDefault>
+                  <TaskBoardTypes.TaskContentDefault
                     Icon={PiMapPinFill}
                     task_label="Fin"
                     task_data_1={task.end}
                     task_data_2={task.province}
-                  ></TaskContent>
+                  ></TaskBoardTypes.TaskContentDefault>
                 </div>
               </div>
               <AccordionContent>
-                <TaskContent
+                <TaskBoardTypes.TaskContentDefault
                   Icon={RiPinDistanceFill}
                   task_label="Distancia"
                   task_data_1={""}
                   task_data_2={task.distance}
                   between={false}
-                ></TaskContent>
+                ></TaskBoardTypes.TaskContentDefault>
                 <div className="flex gap-2 flex-col mt-3">
                   <ModalDialog
                     exitButton={false}
@@ -200,28 +191,4 @@ export default function RequestCourier() {
   });
 
   return <AppTaskBoard cards={cards} tasks={taskData} />;
-}
-
-function TaskContent({
-  task_label,
-  task_data_1,
-  task_data_2,
-  between = true,
-  Icon,
-}: TaskContentProps) {
-  return (
-    <div
-      className={`flex items-center ${between ? "justify-between" : ""} gap-2`}
-    >
-      <div className="flex items-center">
-        <Icon className="w-3 h-3 mr-1"></Icon>
-        {/* <PiMapPinFill className="w-3 h-3 mr-1" /> */}
-        <span className="text-neutral-400">{task_label}:&nbsp;</span>
-        {task_data_1}
-      </div>
-      <div>
-        <span className="capitalize font-bold">{task_data_2}</span>
-      </div>
-    </div>
-  );
 }

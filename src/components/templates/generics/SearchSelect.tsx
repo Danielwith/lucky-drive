@@ -1,14 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
-import {
-  Command,
-  CommandInput,
-  CommandList,
-  CommandEmpty,
-  CommandGroup,
-  CommandItem,
-} from "@/components/ui/command";
-import { Check, X } from "lucide-react";
-import { cn } from "@/lib/utils";
+import React from "react";
+import { IoMdSearch } from "react-icons/io";
+import Select, {
+  components,
+  ControlProps,
+  SingleValue,
+  StylesConfig,
+} from "react-select";
 
 type Option = {
   label: string;
@@ -22,101 +19,73 @@ type SearchSelectProps = {
   className?: string;
 };
 
+const CustomControl = (props: ControlProps<Option, false>) => {
+  return (
+    <components.Control {...props}>
+      <div className="pl-2 scale-125">
+        <IoMdSearch />
+      </div>
+
+      {/* El resto del input */}
+      {props.children}
+    </components.Control>
+  );
+};
+
 export const SearchSelect: React.FC<SearchSelectProps> = ({
   options,
   placeholder = "Buscar...",
   onChange,
   className,
 }) => {
-  const [open, setOpen] = useState(false);
-  const [inputValue, setInputValue] = useState("");
-  const [selectedValue, setSelectedValue] = useState("");
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  const filtered = options.filter((opt) =>
-    opt.label.toLowerCase().includes(inputValue.toLowerCase())
-  );
-
-  const handleSelect = (val: string) => {
-    setSelectedValue(val);
-    const sel = options.find((o) => o.value === val);
-    const label = sel?.label ?? "";
-    setInputValue(label);
-    setOpen(false);
-    onChange?.(val);
+  const handleChange = (selectedOption: SingleValue<Option>) => {
+    if (selectedOption && onChange) {
+      onChange(selectedOption.value);
+      console.log(selectedOption);
+    }
   };
 
-  const clearSelection = () => {
-    setSelectedValue("");
-    setInputValue("");
-    setOpen(false);
-    onChange?.("");
+  const colourStyles: StylesConfig<Option> = {
+    input: (styles) => ({
+      ...styles,
+      color: "white",
+    }),
+    placeholder: (styles) => ({
+      ...styles,
+      color: "white",
+    }),
+    control: (styles) => ({
+      ...styles,
+      borderRadius: 0,
+      backgroundColor: "transparent",
+      border: 0,
+      boxShadow: "unset",
+    }),
+    option: (styles, { isSelected }) => ({
+      ...styles,
+      color: isSelected ? "white" : "black",
+      backgroundColor: isSelected ? "#6750A4" : "",
+    }),
+    singleValue: (styles) => ({
+      ...styles,
+      color: "white",
+    }),
   };
-
-  // Cerrar al click fuera
-  useEffect(() => {
-    const onClickOutside = (e: MouseEvent) => {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(e.target as Node)
-      ) {
-        setOpen(false);
-      }
-    };
-    window.addEventListener("mousedown", onClickOutside);
-    return () => window.removeEventListener("mousedown", onClickOutside);
-  }, []);
 
   return (
-    <div ref={containerRef} className={cn("relative w-64", className)}>
-      <Command>
-        <div className="relative">
-          <CommandInput
-            placeholder={placeholder}
-            className="h-9 pr-8"
-            value={inputValue}
-            onClick={() => setOpen(true)}
-            onValueChange={(val) => setInputValue(val)}
-          />
-          {inputValue && (
-            <button
-              type="button"
-              onClick={clearSelection}
-              className="absolute right-2 top-1/2 -translate-y-1/2 p-1"
-            >
-              <X className="h-4 w-4 text-gray-500 hover:text-gray-700" />
-            </button>
-          )}
-        </div>
-
-        {open && (
-          <CommandList className="absolute top-full left-0 mt-1 w-full z-50 bg-white shadow-lg rounded-md max-h-[200px] overflow-auto">
-            {filtered.length === 0 ? (
-              <CommandEmpty>No se encontró resultado.</CommandEmpty>
-            ) : (
-              <CommandGroup>
-                {filtered.map((opt) => (
-                  <CommandItem
-                    key={opt.value}
-                    value={opt.value}
-                    onSelect={() => handleSelect(opt.value)}
-                  >
-                    {opt.label}
-                    <Check
-                      className={cn(
-                        "ml-auto h-4 w-4",
-                        selectedValue === opt.value
-                          ? "opacity-100"
-                          : "opacity-0"
-                      )}
-                    />
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-            )}
-          </CommandList>
-        )}
-      </Command>
-    </div>
+    <Select<Option>
+      className={className}
+      options={options}
+      placeholder={placeholder}
+      styles={colourStyles}
+      onChange={handleChange}
+      isClearable={true}
+      noOptionsMessage={() => "No hay resultados"}
+      components={{
+        DropdownIndicator: () => null,
+        IndicatorSeparator: () => null,
+        Control: CustomControl,
+      }}
+    />
   );
 };

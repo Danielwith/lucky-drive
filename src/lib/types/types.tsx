@@ -35,7 +35,69 @@ export namespace TaskBoardTypes {
 
   export interface BoardItemContent {
     statusParent: string;
+    /* ITEM HIJO */
     renderXml: () => ReactNode;
+  }
+
+  type TaskContentProps = {
+    task_label: string;
+    task_data_1: string | number;
+    task_data_2: string | number;
+    between?: boolean;
+    Icon: IconType;
+  };
+
+  export function TaskContentDefault({
+    task_label,
+    task_data_1,
+    task_data_2,
+    between = true,
+    Icon,
+  }: TaskContentProps) {
+    return (
+      <div
+        className={`flex items-center ${
+          between ? "justify-between" : ""
+        } gap-2`}
+      >
+        <div className="flex items-center">
+          <Icon className="w-3 h-3 mr-1"></Icon>
+          {/* <PiMapPinFill className="w-3 h-3 mr-1" /> */}
+          <span className="text-neutral-400">{task_label}:&nbsp;</span>
+          {task_data_1}
+        </div>
+        <div>
+          <span className="capitalize font-bold">{task_data_2}</span>
+        </div>
+      </div>
+    );
+  }
+
+  export function AddressTags({ address }: { address: string[] }) {
+    const maxTags = 3;
+    const filledTags = address;
+    const emptyTags = Array.from({ length: maxTags - filledTags.length });
+
+    return (
+      <div className="flex gap-2">
+        {filledTags.map((tag, i) => (
+          <span
+            key={`filled-${i}`}
+            className="bg-[#D0BCFF] text-[#4A4458] text-xs px-2 py-1 rounded grow font-bold content-center"
+          >
+            {tag}
+          </span>
+        ))}
+        {emptyTags.map((_, i) => (
+          <span
+            key={`empty-${i}`}
+            className="bg-[#EFB8C8] text-[#4A4458] text-xs px-2 py-1 rounded grow font-bold content-center"
+          >
+            -
+          </span>
+        ))}
+      </div>
+    );
   }
 }
 
@@ -75,6 +137,7 @@ export namespace ModalDialogTypes {
     trigger: React.ReactNode; // HTML(XML) que desencadena el mostrar dialogo
     children: React.ReactNode; // Contenido HTML(XML) del dialogo
     exitButton?: boolean; // Boton X de salir
+    customStyles?: string;
   }
 }
 

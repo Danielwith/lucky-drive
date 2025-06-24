@@ -14,14 +14,22 @@ type Props = Omit<ModalDialogTypes.props, "children"> & {
   children: ReactNode | ((args: RenderProps) => ReactNode);
 };
 
-export function ModalDialog({ trigger, children, exitButton = true }: Props) {
+export function ModalDialog({
+  trigger,
+  children,
+  exitButton = true,
+  customStyles,
+}: Props) {
   const [open, setOpen] = useState(false);
   const close = () => setOpen(false);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
-      <DialogContent className="w-auto" exitButton={exitButton}>
+      <DialogContent
+        className={`w-auto ${customStyles ?? ""}`}
+        exitButton={exitButton}
+      >
         {typeof children === "function"
           ? (children as (args: RenderProps) => ReactNode)({ close })
           : children}
