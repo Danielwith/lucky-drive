@@ -30,19 +30,31 @@ export namespace RequestTaxiExpressDataService {
               label: "Inicio",
               address: "Av. Mendiburu 1236",
               ubication: "Miraflores",
-              status: randomStatus,
             },
             {
               label: "1",
               address: "Av. Mendiburu 1236",
               ubication: "Miraflores",
-              status: randomStatus,
+              items: [
+                {
+                  label: "GUI-034920",
+                  status: "Pendiente",
+                },
+                {
+                  label: "GUI-034920",
+                  status: "GUI-034920",
+                },
+                {
+                  label: "Caja pequeña",
+                  status: "Pendiente",
+                },
+              ],
+              completed: 2,
             },
             {
               label: "2",
               address: "Av. Mendiburu 1236",
               ubication: "Miraflores",
-              status: randomStatus,
             },
           ],
           selected_driver: "Juan",

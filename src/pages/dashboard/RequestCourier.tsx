@@ -1,6 +1,7 @@
 import { AppTaskBoard, TaskModal } from "@/components/templates/AppTaskBoard";
 import {
   Accordion,
+  AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
@@ -12,7 +13,6 @@ import {
   TaskBoardTypes,
 } from "@/lib/types/types";
 import { RequestCourierService } from "@/services/request_courier_service";
-import { AccordionContent } from "@radix-ui/react-accordion";
 import { CalendarClock } from "lucide-react";
 import { useCallback, useEffect } from "react";
 import { MdLinearScale, MdPayments } from "react-icons/md";
@@ -115,17 +115,20 @@ export default function RequestCourier() {
                       >
                         {task.modal_data.points.map(
                           (p: RequestCourierTypes.Point, i: number) => (
-                            <AccordionItem value={`${task.id}_${i}`} key={i}>
+                            <AccordionItem
+                              value={`${task.id}_${i}`}
+                              key={`ACCCOURIER_${i}`}
+                            >
                               <AccordionTrigger className="p-0 [&>svg]:hidden hover:bg-[#554e65] hover:no-underline">
                                 <div className="w-full flex flex-col border border-[#837f8c] rounded-md p-2 flex-wrap justify-between gap-2 items-center">
-                                  <div className="w-full flex flex-wrap items-center justify-between gap-2">
+                                  <div className="w-full grid grid-cols-[auto_1fr_auto] items-center justify-between gap-2">
                                     <div className="flex items-center px-2 w-[80px] justify-center">
                                       <PiMapPinFill className="min-w-5 min-h-5 mr-2"></PiMapPinFill>
                                       <span className="break-all">
                                         {p.label}
                                       </span>
                                     </div>
-                                    <div className="grow">
+                                    <div>
                                       <p>{p.address}</p>
                                       <p className="font-bold">{p.ubication}</p>
                                     </div>
@@ -137,7 +140,7 @@ export default function RequestCourier() {
                                       </span>
                                     </div>
                                   </div>
-                                  <AccordionContent className="w-full">
+                                  <AccordionContent className="pb-0">
                                     {p.items.map(
                                       (
                                         e: RequestCourierTypes.Item,

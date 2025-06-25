@@ -112,19 +112,19 @@ export default function RequestTaxi() {
                       <div className="flex flex-col gap-2">
                         {task.modal_data.points.map((p: any, i: number) => (
                           <Accordion
-                            key={i}
+                            key={`ACCTAXI_${i}`}
                             type="single"
                             collapsible
                             className="w-full"
                           >
                             <AccordionItem value={`${task.id}_${i}`}>
                               <AccordionTrigger className="p-0 [&>svg]:hidden hover:bg-[#554e65] hover:no-underline">
-                                <div className="w-full flex border border-[#837f8c] rounded-md p-2 flex-wrap justify-between gap-2 items-center">
+                                <div className="w-full grid grid-cols-[auto_1fr_auto] border border-[#837f8c] rounded-md p-2 flex-wrap justify-between gap-2 items-center">
                                   <div className="flex items-center px-2 w-[80px] justify-center">
                                     <PiMapPinFill className="min-w-5 min-h-5 mr-2"></PiMapPinFill>
                                     <span className="break-all">{p.label}</span>
                                   </div>
-                                  <div className="grow">
+                                  <div>
                                     <p>{p.address}</p>
                                     <p className="font-bold">{p.ubication}</p>
                                   </div>

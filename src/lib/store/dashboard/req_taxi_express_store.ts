@@ -6,11 +6,10 @@ interface ReqTaxiExpressTaskBoardStore {
   updateReqTaxiExpressData: (newData: RequestTaxiExpressTypes.Task[]) => void;
 }
 
-export const useReqTaxiTaskBoardStore = create<ReqTaxiExpressTaskBoardStore>(
-  (set) => ({
+export const useReqTaxiExpressTaskBoardStore =
+  create<ReqTaxiExpressTaskBoardStore>((set) => ({
     reqTaxiExpressData: [],
     updateReqTaxiExpressData: (newData) => {
       set({ reqTaxiExpressData: newData });
     },
-  })
-);
+  }));

@@ -203,7 +203,6 @@ export namespace RequestCourierTypes {
     label: string;
     address: string;
     ubication: string;
-    status: string;
     items: Item[];
     completed: number;
   }
@@ -235,11 +234,17 @@ export namespace RequestCourierTypes {
 }
 
 export namespace RequestTaxiExpressTypes {
+  export interface Item {
+    label: string;
+    status: string;
+  }
+
   export interface Point {
     label: string;
     address: string;
     ubication: string;
-    status: string;
+    items?: Item[];
+    completed?: number;
   }
 
   export interface ModalData {

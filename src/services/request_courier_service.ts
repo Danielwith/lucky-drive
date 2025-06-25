@@ -30,7 +30,6 @@ export namespace RequestCourierService {
               label: "Inicio",
               address: "Av. Mendiburu 1236",
               ubication: "Miraflores",
-              status: randomStatus,
               items: [
                 {
                   label: "Caja pequeña",
@@ -46,7 +45,6 @@ export namespace RequestCourierService {
               label: "1",
               address: "Av. Mendiburu 1236",
               ubication: "Miraflores",
-              status: randomStatus,
               items: [
                 {
                   label: "Caja pequeña",
@@ -70,7 +68,6 @@ export namespace RequestCourierService {
               label: "2",
               address: "Av. Mendiburu 1236",
               ubication: "Miraflores",
-              status: randomStatus,
               items: [
                 {
                   label: "Caja pequeña",
