@@ -28,6 +28,11 @@ export namespace TaskBoardTypes {
     tasks: BoardItemContent[];
   }
 
+  // DEFAULT, no es dinamico
+  export interface form {
+    driverInfo: string;
+  }
+
   export interface BoardCard {
     status: string;
     color: string;
@@ -152,17 +157,41 @@ export namespace NavigationTypes {
 
 export namespace DriversManagementTypes {}
 
-export namespace DriverStatusTypes {
-  export interface DriverStatusForm {
-    driverInfo: string;
+export namespace RequestTaxiTypes {
+  export interface Point {
+    label: string;
+    address: string;
+    ubication: string;
+    status: string;
+  }
+
+  export interface ModalData {
+    distance: string;
+    cost: number;
+    ppto: number;
+    points: Point[];
+    selected_driver: string;
+  }
+
+  export interface Task {
+    id: string;
+    name: string;
+    start: {
+      address: string;
+      ubication: string;
+    };
+    end?: {
+      address: string;
+      ubication: string;
+    };
+    time: string;
+    status: string;
+    address: string[];
+    modal_data: ModalData;
   }
 }
 
-export namespace RequestCourierTypes {
-  export interface RequestCourierForm {
-    driverInfo: string;
-  }
-}
+export namespace RequestCourierTypes {}
 
 export namespace RequestReceptionTypes {
   // export interface AdminTable {
@@ -235,12 +264,6 @@ export namespace RequestReceptionTypes {
     },
   ];
 }
-
-export namespace TripHistoryTypes {}
-
-export namespace TripPlanningTypes {}
-
-export namespace UserManagementTypes {}
 
 export namespace TrackingTypes {
   export interface TrackingForm {

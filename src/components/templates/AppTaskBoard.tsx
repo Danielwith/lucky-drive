@@ -11,7 +11,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { RequestCourierTypes, SearchSelectTypes } from "@/lib/types/types";
+import { SearchSelectTypes } from "@/lib/types/types";
 import { CalendarClock } from "lucide-react";
 import { Separator } from "../ui/separator";
 
@@ -69,32 +69,28 @@ export const TaskModal = memo(function TaskModal({
   drivers,
   indicator,
   content,
+  onFormAction,
 }: {
   task: any;
   color: string | undefined;
   drivers: SearchSelectTypes.Option[];
   indicator: ReactNode;
   content: ReactNode;
+  onFormAction: (formData: TaskBoardTypes.form) => void; // Envia al padre info del form
 }) {
-  const { handleSubmit, control } =
-    useForm<RequestCourierTypes.RequestCourierForm>({
-      defaultValues: {
-        driverInfo: "",
-      },
-    });
+  const { handleSubmit, control } = useForm<TaskBoardTypes.form>({
+    defaultValues: {
+      driverInfo: "",
+    },
+  });
 
-  const onAssign = (
-    data: RequestCourierTypes.RequestCourierForm,
-    closeModal: () => void
-  ) => {
+  const onAssign = (data: TaskBoardTypes.form, closeModal: () => void) => {
     console.log("Form Data ASSIGN:", data);
+    onFormAction(data);
     closeModal();
   };
 
-  const onCancel = (
-    data: RequestCourierTypes.RequestCourierForm,
-    closeModal: () => void
-  ) => {
+  const onCancel = (data: TaskBoardTypes.form, closeModal: () => void) => {
     console.log("Form Data CANCEL:", data);
     closeModal();
   };
