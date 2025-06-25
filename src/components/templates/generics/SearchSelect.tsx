@@ -1,4 +1,5 @@
-import React from "react";
+import { SearchSelectTypes } from "@/lib/types/types";
+import React, { useEffect } from "react";
 import { IoMdSearch } from "react-icons/io";
 import Select, {
   components,
@@ -7,19 +8,9 @@ import Select, {
   StylesConfig,
 } from "react-select";
 
-type Option = {
-  label: string;
-  value: string;
-};
-
-type SearchSelectProps = {
-  options: Option[];
-  placeholder?: string;
-  onChange?: (value: string) => void;
-  className?: string;
-};
-
-const CustomControl = (props: ControlProps<Option, false>) => {
+const CustomControl = (
+  props: ControlProps<SearchSelectTypes.Option, false>
+) => {
   return (
     <components.Control {...props}>
       <div className="pl-2 scale-125">
@@ -32,20 +23,31 @@ const CustomControl = (props: ControlProps<Option, false>) => {
   );
 };
 
-export const SearchSelect: React.FC<SearchSelectProps> = ({
+export const SearchSelect: React.FC<SearchSelectTypes.props> = ({
   options,
   placeholder = "Buscar...",
   onChange,
+  value,
   className,
+  isDisabled = false,
+  autoSelectFirst = false,
 }) => {
-  const handleChange = (selectedOption: SingleValue<Option>) => {
-    if (selectedOption && onChange) {
-      onChange(selectedOption.value);
-      console.log(selectedOption);
+  const selectedOption = options.find((opt) => opt.value === value) ?? null;
+
+  useEffect(() => {
+    if (autoSelectFirst && !value && options.length > 0 && onChange) {
+      onChange(options[0].value);
+    }
+  }, [autoSelectFirst, value, options, onChange]);
+
+  const handleChange = (option: SingleValue<SearchSelectTypes.Option>) => {
+    if (onChange) {
+      onChange(option ? option.value : "");
+      console.log(option);
     }
   };
 
-  const colourStyles: StylesConfig<Option> = {
+  const colourStyles: StylesConfig<SearchSelectTypes.Option> = {
     input: (styles) => ({
       ...styles,
       color: "white",
@@ -73,12 +75,14 @@ export const SearchSelect: React.FC<SearchSelectProps> = ({
   };
 
   return (
-    <Select<Option>
+    <Select<SearchSelectTypes.Option>
       className={className}
       options={options}
       placeholder={placeholder}
       styles={colourStyles}
       onChange={handleChange}
+      value={selectedOption}
+      isDisabled={isDisabled}
       isClearable={true}
       noOptionsMessage={() => "No hay resultados"}
       components={{

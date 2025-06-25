@@ -272,3 +272,20 @@ export namespace TrackingTypes {
     fotos: string[];
   }
 }
+
+export namespace SearchSelectTypes {
+  export type Option = {
+    label: string;
+    value: string;
+  };
+
+  export type props = {
+    options: Option[];
+    placeholder?: string;
+    onChange?: (value: string) => void;
+    value?: string;
+    className?: string;
+    isDisabled?: boolean;
+    autoSelectFirst?: boolean;
+  };
+}

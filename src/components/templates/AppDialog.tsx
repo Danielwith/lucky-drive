@@ -1,6 +1,8 @@
 import { ModalDialogTypes } from "@/lib/types/types";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import { ReactNode, useState } from "react";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { DialogTitle } from "@radix-ui/react-dialog";
 
 type RenderProps = {
   close: () => void;
@@ -26,7 +28,11 @@ export function ModalDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
+      <VisuallyHidden asChild>
+        <DialogTitle>Dialog</DialogTitle>
+      </VisuallyHidden>
       <DialogContent
+        aria-describedby=""
         className={`w-auto ${customStyles ?? ""}`}
         exitButton={exitButton}
       >

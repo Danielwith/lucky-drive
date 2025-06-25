@@ -1,21 +1,13 @@
 import {
   Accordion,
-  AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { CalendarClock } from "lucide-react";
-import { IoIosCloseCircle } from "react-icons/io";
-import { FaTaxi } from "react-icons/fa";
 import { PiMapPinFill } from "react-icons/pi";
-import { RiPinDistanceFill } from "react-icons/ri";
-import { ModalDialog } from "@/components/templates/AppDialog";
-import { SearchSelect } from "@/components/templates/generics/SearchSelect";
-import { Controller, useForm } from "react-hook-form";
-import { RequestCourierTypes, TaskBoardTypes } from "@/lib/types/types";
-import { AppTaskBoard } from "@/components/templates/AppTaskBoard";
+import { SearchSelectTypes, TaskBoardTypes } from "@/lib/types/types";
+import { AppTaskBoard, TaskModal } from "@/components/templates/AppTaskBoard";
 import { MdLinearScale, MdPayments } from "react-icons/md";
 
 export default function RequestTaxi() {
@@ -25,25 +17,11 @@ export default function RequestTaxi() {
     { status: "Terminados", color: "bg-green-500" },
   ];
 
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm<RequestCourierTypes.RequestCourierForm>({
-    defaultValues: {
-      driverInfo: "",
-    },
-  });
-
-  const frameworks = [
+  const frameworks: SearchSelectTypes.Option[] = [
     { label: "React", value: "react" },
     { label: "Vue", value: "vue" },
     { label: "Angular", value: "angular" },
   ];
-
-  const onSubmit = (data: RequestCourierTypes.RequestCourierForm) => {
-    console.log("Form Data:", data);
-  };
 
   const statusList = ["Pendiente", "En curso", "Terminados"];
 
@@ -56,11 +34,11 @@ export default function RequestTaxi() {
       name: "Martinez Isla, Jose Luis",
       start: {
         address: "Av. Mendiburu 1236",
-        district: "San Miguel",
+        ubication: "San Miguel",
       },
       end: {
         address: "Av. Mendiburu 1236",
-        district: "SMP",
+        ubication: "SMP",
       },
       time: "11:35 PM, 06 Jul 2025",
       status: randomStatus,
@@ -89,6 +67,7 @@ export default function RequestTaxi() {
             status: randomStatus,
           },
         ],
+        selected_driver: "Juan",
       },
     };
   });
@@ -114,166 +93,74 @@ export default function RequestTaxi() {
           </div>
           <Accordion type="single" collapsible className="w-full">
             <AccordionItem value={task.id}>
-              <div className="relative ">
+              <div className="relative">
                 <h3 className="font-bold relative flex items-center gap-1 h-full text-base/5 my-1">
                   <span
                     className={`min-w-2 min-h-2 inline-block ${color} rounded-full`}
                   ></span>
                   <p className="text-continue max-w-[88%]">{task.name}</p>
                 </h3>
-                <ModalDialog
-                  exitButton={false}
-                  customStyles="bg-[#4A4458] px-2 py-3"
-                  trigger={
-                    <AccordionTrigger
-                      dir="rtl"
-                      autoFocus={false}
-                      className="p-0 hover:no-underline grow absolute bottom-1 w-full h-full"
-                    ></AccordionTrigger>
-                  }
-                  children={({ close }) => (
-                    <div className="w-[448px] px-4 py-2.5 flex flex-col space-y-1 text-gray-200">
-                      <div className="flex justify-between items-center text-sm">
-                        <span>{task.id}</span>
-                        <span className="flex items-center gap-1">
-                          <CalendarClock
-                            className="inline align-middle"
-                            size={14}
-                          />
-                          {task.time}
-                        </span>
-                      </div>
-                      {/* SOLO DECORATIVO ESTE ACORDION */}
-                      <Accordion type="single" collapsible className="w-full">
-                        <AccordionItem value={task.id}>
-                          <div className="relative">
-                            <h3 className="font-bold relative flex items-center gap-1 h-full text-xl/5 my-4">
-                              <span
-                                className={`min-w-2 min-h-2 inline-block ${color} rounded-full`}
-                              ></span>
-                              <p className="text-continue max-w-[88%]">
-                                {task.name}
-                              </p>
-                            </h3>
-                            <AccordionTrigger
-                              disabled={true}
-                              dir="rtl"
-                              autoFocus={false}
-                              className="p-0 hover:no-underline -translate-y-0.5 grow absolute bottom-1 w-full h-full disabled:opacity-100 [&>svg]:rotate-360"
-                            ></AccordionTrigger>
-                          </div>
-                          <Separator className="bg-neutral-500"></Separator>
-                          <div className="flex gap-1 flex-col my-1.5">
-                            <div className="flex items-center gap-2 justify-between text-sm">
-                              <div className="flex items-center">
-                                <MdLinearScale className="w-4 h-4 mr-1"></MdLinearScale>
-                                {/* <PiMapPinFill className="w-3 h-3 mr-1" /> */}
-                                <span className="text-neutral-400">
-                                  Distancia:&nbsp;
-                                </span>
-                                {task.modal_data.distance}
-                              </div>
-                              <div className="flex items-center">
-                                <MdPayments className="w-4 h-4 mr-1"></MdPayments>
-                                <span className="text-neutral-400">
-                                  Costo:&nbsp;
-                                </span>
-                                S/{task.modal_data.cost.toFixed(2)}
-                              </div>
-                            </div>
-                            <div className="flex items-center text-sm">
-                              <MdLinearScale className="w-4 h-4 mr-1"></MdLinearScale>
-                              {/* <PiMapPinFill className="w-3 h-3 mr-1" /> */}
-                              <span className="text-neutral-400">
-                                Ppto:&nbsp;
-                              </span>
-                              {task.modal_data.ppto}
-                            </div>
-                          </div>
-                        </AccordionItem>
-                      </Accordion>
-                      {/* CONTENIDO DENTRO */}
-                      <div className="flex flex-col gap-2">
-                        {task.modal_data.points.map((e, idx) => {
-                          return (
-                            <Accordion
-                              type="single"
-                              collapsible
-                              className="w-full"
-                              key={`${task.id}_${idx}`}
-                            >
-                              <AccordionItem value={`${task.id}_${idx}`}>
-                                <AccordionTrigger className="p-0 [&>svg]:hidden hover:bg-[#554e65] hover:no-underline">
-                                  <div className="w-full flex border border-[#837f8c] rounded-md p-2 flex-wrap justify-between gap-2 items-center">
-                                    <div className="flex items-center px-2 w-[80px] justify-center">
-                                      <PiMapPinFill className="min-w-5 min-h-5 mr-2"></PiMapPinFill>
-                                      <span className="break-all">
-                                        {e.label}
-                                      </span>
-                                    </div>
-                                    <div className="grow">
-                                      <p>{e.address}</p>
-                                      <p className="font-bold">{e.ubication}</p>
-                                    </div>
-                                    <div>
-                                      <span
-                                        className={`min-w-2 min-h-2 inline-block ${color} rounded-full`}
-                                      ></span>
-                                    </div>
-                                  </div>
-                                </AccordionTrigger>
-                                {/* <AccordionContent>ddd</AccordionContent> */}
-                              </AccordionItem>
-                            </Accordion>
-                          );
-                        })}
-                      </div>
-
-                      <form onSubmit={handleSubmit(onSubmit)} className="mt-3">
-                        {/* <div className="text-center font-bold ">
-                          <p>Ingresa el nombre o DNI del conductor</p>
-                        </div> */}
-                        <div className="py-2 w-full">
-                          <Controller
-                            control={control}
-                            name="driverInfo"
-                            rules={{
-                              required: "Debe seleccionar un conductor",
-                            }}
-                            render={({ field }) => (
-                              <>
-                                <SearchSelect
-                                  className="w-full [&>div]:bg-transparent  **:placeholder:text-white border-3 border-[#68548E]"
-                                  options={frameworks}
-                                  placeholder="Ingresa nombre o DNI"
-                                  onChange={field.onChange}
-                                />
-                                {errors.driverInfo && (
-                                  <p className="text-sm text-red-600 mt-1">
-                                    {errors.driverInfo.message?.toString()}
-                                  </p>
-                                )}
-                              </>
-                            )}
-                          />
+                {/* SE INSTANCIA, PARA EVITAR REENDERIZADOS */}
+                <TaskModal
+                  task={task}
+                  color={color}
+                  drivers={frameworks}
+                  indicator={
+                    <div className="flex gap-1 flex-col my-1.5">
+                      <div className="flex items-center gap-2 justify-between text-sm">
+                        <div className="flex items-center">
+                          <MdLinearScale className="w-4 h-4 mr-1"></MdLinearScale>
+                          <span className="text-neutral-400">
+                            Distancia:&nbsp;
+                          </span>
+                          {task.modal_data.distance}
                         </div>
-                        <div className="flex gap-2 flex-col">
-                          <Button className="w-full h-10 bg-[#6750A4]">
-                            <FaTaxi />
-                            Asignar
-                          </Button>
-                          <Button
-                            className="w-full h-10 bg-[#d0bcff] hover:bg-[#d0bcff]/90 text-black"
-                            onClick={close}
-                          >
-                            <IoIosCloseCircle />
-                            Atrás
-                          </Button>
+                        <div className="flex items-center">
+                          <MdPayments className="w-4 h-4 mr-1"></MdPayments>
+                          <span className="text-neutral-400">Costo:&nbsp;</span>
+                          S/{task.modal_data.cost.toFixed(2)}
                         </div>
-                      </form>
+                      </div>
+                      <div className="flex items-center text-sm">
+                        <MdLinearScale className="w-4 h-4 mr-1"></MdLinearScale>
+                        <span className="text-neutral-400">Ppto:&nbsp;</span>
+                        {task.modal_data.ppto}
+                      </div>
                     </div>
-                  )}
-                ></ModalDialog>
+                  }
+                  content={
+                    <div className="flex flex-col gap-2">
+                      {task.modal_data.points.map((p: any, i: number) => (
+                        <Accordion
+                          key={i}
+                          type="single"
+                          collapsible
+                          className="w-full"
+                        >
+                          <AccordionItem value={`${task.id}_${i}`}>
+                            <AccordionTrigger className="p-0 [&>svg]:hidden hover:bg-[#554e65] hover:no-underline">
+                              <div className="w-full flex border border-[#837f8c] rounded-md p-2 flex-wrap justify-between gap-2 items-center">
+                                <div className="flex items-center px-2 w-[80px] justify-center">
+                                  <PiMapPinFill className="min-w-5 min-h-5 mr-2"></PiMapPinFill>
+                                  <span className="break-all">{p.label}</span>
+                                </div>
+                                <div className="grow">
+                                  <p>{p.address}</p>
+                                  <p className="font-bold">{p.ubication}</p>
+                                </div>
+                                <div>
+                                  <span
+                                    className={`min-w-2 min-h-2 inline-block ${color} rounded-full`}
+                                  />
+                                </div>
+                              </div>
+                            </AccordionTrigger>
+                          </AccordionItem>
+                        </Accordion>
+                      ))}
+                    </div>
+                  }
+                />
               </div>
               <Separator className="bg-neutral-500"></Separator>
               <div className="w-full mt-1">
@@ -282,88 +169,23 @@ export default function RequestTaxi() {
                     Icon={PiMapPinFill}
                     task_label="Inicio"
                     task_data_1={task.start.address}
-                    task_data_2={task.start.district}
+                    task_data_2={task.start.ubication}
                   ></TaskBoardTypes.TaskContentDefault>
-                  <TaskBoardTypes.TaskContentDefault
-                    Icon={PiMapPinFill}
-                    task_label="Fin"
-                    task_data_1={task.end.address}
-                    task_data_2={task.end.district}
-                  ></TaskBoardTypes.TaskContentDefault>
+                  {task.end ? (
+                    <TaskBoardTypes.TaskContentDefault
+                      Icon={PiMapPinFill}
+                      task_label="Fin"
+                      task_data_1={task.end.address}
+                      task_data_2={task.end.ubication}
+                    ></TaskBoardTypes.TaskContentDefault>
+                  ) : (
+                    ""
+                  )}
                 </div>
                 <TaskBoardTypes.AddressTags
                   address={task.address}
                 ></TaskBoardTypes.AddressTags>
               </div>
-              {/* <AccordionContent>
-                <TaskBoardTypes.TaskContentDefault
-                  Icon={RiPinDistanceFill}
-                  task_label="Distancia"
-                  task_data_1={""}
-                  task_data_2={task.distance}
-                  between={false}
-                ></TaskBoardTypes.TaskContentDefault>
-                <div className="flex gap-2 flex-col mt-3">
-                  <ModalDialog
-                    exitButton={false}
-                    trigger={
-                      <Button className=" w-full h-10 bg-[#6750A4]">
-                        <FaTaxi />
-                        Asignar chofer
-                      </Button>
-                    }
-                    children={({ close }) => (
-                      <form onSubmit={handleSubmit(onSubmit)}>
-                        <div className="w-[282px] text-center font-bold">
-                          <p>Ingresa el nombre o DNI del conductor</p>
-                        </div>
-                        <div className="py-2 w-full">
-                          <Controller
-                            control={control}
-                            name="driverInfo"
-                            rules={{
-                              required: "Debe seleccionar un conductor",
-                            }}
-                            render={({ field }) => (
-                              <>
-                                <SearchSelect
-                                  className="w-full"
-                                  options={frameworks}
-                                  placeholder="Ingresa nombre o DNI"
-                                  onChange={field.onChange}
-                                />
-                                {errors.driverInfo && (
-                                  <p className="text-sm text-red-600 mt-1">
-                                    {errors.driverInfo.message?.toString()}
-                                  </p>
-                                )}
-                              </>
-                            )}
-                          />
-                        </div>
-                        <div className="flex gap-2 flex-col">
-                          <Button className="w-full h-10 bg-[#6750A4]">
-                            <FaTaxi />
-                            Asignar chofer
-                          </Button>
-                          <Button
-                            className="w-full h-10 bg-[#d0bcff] hover:bg-[#d0bcff]/90 text-black"
-                            onClick={close}
-                          >
-                            <IoIosCloseCircle />
-                            Rechazar viaje
-                          </Button>
-                        </div>
-                      </form>
-                    )}
-                  ></ModalDialog>
-
-                  <Button className="w-full h-10 bg-[#FFE9E7] hover:bg-[#FFE9E7]/90  text-black">
-                    <IoIosCloseCircle />
-                    Rechazar viaje
-                  </Button>
-                </div>
-              </AccordionContent> */}
             </AccordionItem>
           </Accordion>
         </div>
