@@ -170,7 +170,7 @@ export namespace RequestTaxiTypes {
     cost: number;
     ppto: number;
     points: Point[];
-    selected_driver: string;
+    selected_driver?: string;
   }
 
   export interface Task {
@@ -191,7 +191,82 @@ export namespace RequestTaxiTypes {
   }
 }
 
-export namespace RequestCourierTypes {}
+export namespace RequestCourierTypes {
+  export interface Item {
+    label: string;
+    status: string;
+    weight: string;
+    instruction: string;
+  }
+
+  export interface Point {
+    label: string;
+    address: string;
+    ubication: string;
+    status: string;
+    items: Item[];
+    completed: number;
+  }
+
+  export interface ModalData {
+    distance: string;
+    cost: number;
+    ppto: number;
+    points: Point[];
+    selected_driver?: string;
+  }
+
+  export interface Task {
+    id: string;
+    name: string;
+    start: {
+      address: string;
+      ubication: string;
+    };
+    end?: {
+      address: string;
+      ubication: string;
+    };
+    time: string;
+    status: string;
+    address: string[];
+    modal_data: ModalData;
+  }
+}
+
+export namespace RequestTaxiExpressTypes {
+  export interface Point {
+    label: string;
+    address: string;
+    ubication: string;
+    status: string;
+  }
+
+  export interface ModalData {
+    distance: string;
+    cost: number;
+    ppto: number;
+    points: Point[];
+    selected_driver?: string;
+  }
+
+  export interface Task {
+    id: string;
+    name: string;
+    start: {
+      address: string;
+      ubication: string;
+    };
+    end?: {
+      address: string;
+      ubication: string;
+    };
+    time: string;
+    status: string;
+    address: string[];
+    modal_data: ModalData;
+  }
+}
 
 export namespace RequestReceptionTypes {
   // export interface AdminTable {

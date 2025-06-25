@@ -6,7 +6,11 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { CalendarClock } from "lucide-react";
 import { PiMapPinFill } from "react-icons/pi";
-import { SearchSelectTypes, TaskBoardTypes } from "@/lib/types/types";
+import {
+  RequestTaxiTypes,
+  SearchSelectTypes,
+  TaskBoardTypes,
+} from "@/lib/types/types";
 import { AppTaskBoard, TaskModal } from "@/components/templates/AppTaskBoard";
 import { MdLinearScale, MdPayments } from "react-icons/md";
 import { RequestTaxiDataService } from "@/services/request_taxi_data_service";
@@ -45,7 +49,7 @@ export default function RequestTaxi() {
   }, [refreshData]);
 
   const taskData: TaskBoardTypes.BoardItemContent[] = TAXI_DATA.map(
-    (task: any) => {
+    (task: RequestTaxiTypes.Task) => {
       const color = cards.find((e: TaskBoardTypes.BoardCard) => {
         return e.status === task.status;
       })?.color;
