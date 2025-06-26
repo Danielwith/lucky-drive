@@ -44,15 +44,21 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../ui/dialog";
-import { Separator } from "../ui/separator";
 import { IoSearchSharp } from "react-icons/io5";
+import { exportJSONToExcel, getTableJSON } from "@/lib/helpers/ExcelGenerator";
+import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
+import { useState } from "react";
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   actions,
   customFilters,
+  sheetname = "data",
 }: DataTableTypes.props<TData, TValue>) {
+  const [rowSeparator, setRowSeparator] =
+    useState<DataTableTypes.SeparatorLevel>("high");
+
   const table: Table<TData> = useReactTable({
     data,
     columns,
@@ -60,6 +66,12 @@ export function DataTable<TData, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
   });
+
+  const separator: Record<DataTableTypes.SeparatorLevel, string> = {
+    low: "h-24",
+    mid: "h-18",
+    high: "",
+  };
 
   return (
     <div className="w-full h-full flex flex-col">
@@ -96,7 +108,6 @@ export function DataTable<TData, TValue>({
           {customFilters?.(table)}
           <Input
             placeholder="Buscar"
-            value={table.getColumn("email")?.getFilterValue() as string}
             onChange={(event) => {
               // table.getColumn("email")?.setFilterValue(event.target.value)
               table.setGlobalFilter(event.target.value);
@@ -115,6 +126,25 @@ export function DataTable<TData, TValue>({
             <Rows4 />
           </Button> */}
           {/* <Separator orientation="vertical" className="mx-1" /> */}
+          {actions.includes("ADD") && (
+            <ToggleGroup
+              type="single"
+              value={rowSeparator}
+              onValueChange={(value: DataTableTypes.SeparatorLevel) => {
+                if (value) setRowSeparator(value);
+              }}
+            >
+              <ToggleGroupItem value="low">
+                <Rows2 />
+              </ToggleGroupItem>
+              <ToggleGroupItem value="mid">
+                <Rows3 />
+              </ToggleGroupItem>
+              <ToggleGroupItem value="high">
+                <Rows4 />
+              </ToggleGroupItem>
+            </ToggleGroup>
+          )}
           <div className="grid grid-flow-col gap-1">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -150,7 +180,13 @@ export function DataTable<TData, TValue>({
               </DropdownMenuContent>
             </DropdownMenu>
             {actions.includes("DOWNLOAD") && (
-              <Button variant="ghost">
+              <Button
+                variant="ghost"
+                onClick={() => {
+                  const jsonData = getTableJSON(table);
+                  exportJSONToExcel(jsonData, sheetname);
+                }}
+              >
                 <Download />
               </Button>
             )}
@@ -210,6 +246,7 @@ export function DataTable<TData, TValue>({
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
+                className={separator[rowSeparator]}
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>

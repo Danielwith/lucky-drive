@@ -14,13 +14,16 @@ export namespace DataTableTypes {
     data: TData[];
     actions: TableActions[];
     customFilters?: (table: Table<TData>) => ReactNode;
+    sheetname?: string;
   }
 
   export interface paginationProps<TData> {
     table: Table<TData>;
   }
 
-  export type TableActions = "ADD" | "DOWNLOAD";
+  export type SeparatorLevel = "low" | "mid" | "high";
+
+  export type TableActions = "ADD" | "DOWNLOAD" | "SEPARATOR";
 }
 
 export namespace TaskBoardTypes {

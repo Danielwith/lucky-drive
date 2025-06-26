@@ -11,7 +11,7 @@ import { twMerge } from "tailwind-merge";
 
 export default function TripHistory() {
   const data = fetchTripHistoryData();
-  const tableActions: DataTableTypes.TableActions[] = ["DOWNLOAD"];
+  const tableActions: DataTableTypes.TableActions[] = [];
   const status: TripHistoryTypes.TripStatus[] = [
     "En curso",
     "Sin asignar",
@@ -29,6 +29,7 @@ export default function TripHistory() {
         columns={TripHistoryTypes.columns}
         data={data}
         actions={tableActions}
+        sheetname="HISTORIAL_VIAJES"
         customFilters={(table) => (
           <>
             <GenericSelect
