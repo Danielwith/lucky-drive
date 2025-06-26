@@ -7,6 +7,7 @@ import { LucideIcon, Pencil } from "lucide-react";
 import { DateRange } from "react-day-picker";
 import { IconType } from "react-icons/lib";
 import { ReactNode } from "react";
+import { MdOutlineRemoveRedEye } from "react-icons/md";
 
 export namespace DataTableTypes {
   export interface props<TData, TValue> {
@@ -159,8 +160,6 @@ export namespace NavigationTypes {
   }
 }
 
-export namespace DriversManagementTypes {}
-
 export namespace RequestTaxiTypes {
   export interface Point {
     label: string;
@@ -307,7 +306,7 @@ export namespace TripHistoryTypes {
                   console.log("Editar", data);
                 }}
               >
-                <Pencil className="h-4 w-4" />
+                <MdOutlineRemoveRedEye className="scale-150" />
               </Button>
             }
           >
@@ -346,6 +345,8 @@ export namespace TripHistoryTypes {
     },
   ];
 }
+
+export namespace DriversManagementTypes {}
 
 export namespace RequestReceptionTypes {
   // export interface AdminTable {

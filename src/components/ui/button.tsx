@@ -19,7 +19,8 @@ const buttonVariants = cva(
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         semicircular_fab:
-          "border rounded-xl shadow-zinc-400 shadow-md bg-primary text-secondary hover:bg-accent hover:text-accent-foreground [&_svg:not([class*='size-'])]:size-4",
+          // shadow-md
+          "border rounded-xl shadow-zinc-400 bg-primary text-secondary light:hover:bg-accent light:hover:text-accent-foreground [&_svg:not([class*='size-'])]:size-4",
         circular_fab:
           "border rounded-full text-violet-900 bg-zinc-200 shadow-xs hover:bg-accent hover:text-accent-foreground [&_svg:not([class*='size-'])]:size-5",
         circular_fab_main:

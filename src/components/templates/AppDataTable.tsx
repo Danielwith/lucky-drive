@@ -115,17 +115,6 @@ export function DataTable<TData, TValue>({
             icon={<IoSearchSharp />}
             className="max-w-sm  border-gray-500"
           />
-          {/* <Separator orientation="vertical" className="mx-1" /> */}
-          {/* <Button variant="ghost">
-            <Rows2 />
-          </Button>
-          <Button variant="ghost">
-            <Rows3 />
-          </Button>
-          <Button variant="ghost">
-            <Rows4 />
-          </Button> */}
-          {/* <Separator orientation="vertical" className="mx-1" /> */}
           {actions.includes("ADD") && (
             <ToggleGroup
               type="single"
