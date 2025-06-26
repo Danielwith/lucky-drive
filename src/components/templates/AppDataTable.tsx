@@ -5,11 +5,12 @@ import {
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
+  Table,
   useReactTable,
 } from "@tanstack/react-table";
 
 import {
-  Table,
+  Table as AppTable,
   TableBody,
   TableCell,
   TableHead,
@@ -44,13 +45,15 @@ import {
   DialogTitle,
 } from "../ui/dialog";
 import { Separator } from "../ui/separator";
+import { IoSearchSharp } from "react-icons/io5";
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   actions,
+  customFilters,
 }: DataTableTypes.props<TData, TValue>) {
-  const table = useReactTable({
+  const table: Table<TData> = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
@@ -62,10 +65,10 @@ export function DataTable<TData, TValue>({
     <div className="w-full h-full flex flex-col">
       <div
         className={twMerge(
-          "flex py-1.5 justify-between px-3 bg-[#F7F2FA] dark:bg-neutral-700 w-full content-between"
+          "flex py-4 justify-between px-3 bg-[#F7F2FA] dark:bg-[#1D1B20] w-full content-between"
         )}
       >
-        <div className="flex">
+        <div className="flex gap-3">
           {actions.includes("ADD") && (
             <ModalDialog
               exitButton={true}
@@ -90,17 +93,19 @@ export function DataTable<TData, TValue>({
               </DialogFooter>
             </ModalDialog>
           )}
+          {customFilters?.(table)}
           <Input
-            placeholder="Filtro"
+            placeholder="Buscar"
             value={table.getColumn("email")?.getFilterValue() as string}
             onChange={(event) => {
               // table.getColumn("email")?.setFilterValue(event.target.value)
               table.setGlobalFilter(event.target.value);
             }}
-            className="max-w-sm mx-1 border-black"
+            icon={<IoSearchSharp />}
+            className="max-w-sm  border-gray-500"
           />
-          <Separator orientation="vertical" className="mx-1" />
-          <Button variant="ghost">
+          {/* <Separator orientation="vertical" className="mx-1" /> */}
+          {/* <Button variant="ghost">
             <Rows2 />
           </Button>
           <Button variant="ghost">
@@ -108,46 +113,13 @@ export function DataTable<TData, TValue>({
           </Button>
           <Button variant="ghost">
             <Rows4 />
-          </Button>
-          <Separator orientation="vertical" className="mx-1" />
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost">
-                <SlidersHorizontal />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              {table
-                .getAllColumns()
-                .filter((column) => column.getCanHide())
-                .map((column) => {
-                  const headerText =
-                    typeof column.columnDef.header === "function"
-                      ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                        //@ts-expect-error
-                        column.columnDef.header().props.children
-                      : column.columnDef.header;
-
-                  return (
-                    <DropdownMenuCheckboxItem
-                      key={column.id}
-                      className="capitalize"
-                      checked={column.getIsVisible()}
-                      onCheckedChange={(value) => {
-                        column.toggleVisibility(!!value);
-                      }}
-                    >
-                      {headerText?.toString()}
-                    </DropdownMenuCheckboxItem>
-                  );
-                })}
-            </DropdownMenuContent>
-          </DropdownMenu>
-          {actions.includes("DOWNLOAD") && (
+          </Button> */}
+          {/* <Separator orientation="vertical" className="mx-1" /> */}
+          <div className="grid grid-flow-col gap-1">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost">
-                  <Download />
+                  <SlidersHorizontal />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
@@ -155,6 +127,13 @@ export function DataTable<TData, TValue>({
                   .getAllColumns()
                   .filter((column) => column.getCanHide())
                   .map((column) => {
+                    const headerText =
+                      typeof column.columnDef.header === "function"
+                        ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                          //@ts-expect-error
+                          column.columnDef.header().props.children
+                        : column.columnDef.header;
+
                     return (
                       <DropdownMenuCheckboxItem
                         key={column.id}
@@ -164,15 +143,20 @@ export function DataTable<TData, TValue>({
                           column.toggleVisibility(!!value);
                         }}
                       >
-                        {column.id}
+                        {headerText?.toString()}
                       </DropdownMenuCheckboxItem>
                     );
                   })}
               </DropdownMenuContent>
             </DropdownMenu>
-          )}
+            {actions.includes("DOWNLOAD") && (
+              <Button variant="ghost">
+                <Download />
+              </Button>
+            )}
+          </div>
         </div>
-        <div>
+        <div className="hidden">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost">
@@ -201,7 +185,7 @@ export function DataTable<TData, TValue>({
           </DropdownMenu>
         </div>
       </div>
-      <Table>
+      <AppTable className={!table.getRowModel().rows.length ? "h-full" : ""}>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
@@ -236,13 +220,16 @@ export function DataTable<TData, TValue>({
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
+              <TableCell
+                colSpan={columns.length}
+                className="h-full text-center"
+              >
                 Sin resultados.
               </TableCell>
             </TableRow>
           )}
         </TableBody>
-      </Table>
+      </AppTable>
       <DataTablePagination table={table} />
     </div>
   );

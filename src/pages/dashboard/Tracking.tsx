@@ -48,7 +48,7 @@ export default function Tracking() {
   return (
     <div className="w-full h-full relative">
       <div className="absolute top-0 w-full z-50 p-2">
-        <div className="flex flex-col flex-wrap gap-5 bg-white dark:bg-neutral-700 rounded-xl shadow-material p-4">
+        <div className="flex flex-col flex-wrap gap-5 bg-white dark:bg-[#1D1B20] rounded-xl shadow-material p-4">
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-row flex-wrap items-end justify-between gap-2"
@@ -75,6 +75,7 @@ export default function Tracking() {
                     data={transporte}
                     value={field.value}
                     onChange={field.onChange}
+                    placeholder=""
                   />
                 )}
               />
@@ -88,6 +89,7 @@ export default function Tracking() {
                   name="conductor"
                   render={({ field }) => (
                     <Input
+                      className="border-gray-500"
                       id="conductor"
                       type="text"
                       placeholder="Buscar conductor"
@@ -106,11 +108,14 @@ export default function Tracking() {
             </Button>
           </form>
           {results && (
-            <div className="border-t-1 pt-4 pb-2 flex gap-4 w-full overflow-x-auto">
-              {results.map((item: TrackingTypes.SearchData) => (
-                <SearchCard key={item.placa} item={item} />
-              ))}
-            </div>
+            <>
+              <Separator className="bg-neutral-500"></Separator>
+              <div className=" pb-2 flex gap-4 w-full overflow-x-auto">
+                {results.map((item: TrackingTypes.SearchData) => (
+                  <SearchCard key={item.placa} item={item} />
+                ))}
+              </div>
+            </>
           )}
         </div>
       </div>
@@ -126,7 +131,7 @@ function SearchCard({ item }: { item: TrackingTypes.SearchData }) {
   // Vista original
   if (!selectedParada) {
     return (
-      <div className="min-w-[250px] w-[250px] shadow-material rounded-xl p-3 h-full">
+      <div className="min-w-[250px] w-[250px] shadow-material rounded-xl p-3 h-full bg-[#342c44]">
         <div className="flex flex-wrap flex-row items-center gap-2.5 overflow-hidden w-full">
           <FaRegUser />
           <p className="w-[calc(100%-1.75rem)] overflow-ellipsis overflow-hidden font-semibold">
@@ -159,7 +164,7 @@ function SearchCard({ item }: { item: TrackingTypes.SearchData }) {
                 onClick={() => {
                   setSelectedParada(parada);
                 }}
-                className="flex flex-wrap flex-row items-center gap-2.5 overflow-hidden w-full cursor-pointer hover:bg-gray-100 p-1 rounded"
+                className="flex flex-wrap flex-row items-center gap-2.5 overflow-hidden w-full cursor-pointer  p-1 rounded"
               >
                 <PiMapPinFill color={parada.estado === 1 ? "green" : "red"} />
                 <p className="w-[calc(100%-1.75rem)] overflow-ellipsis overflow-hidden">
@@ -175,14 +180,14 @@ function SearchCard({ item }: { item: TrackingTypes.SearchData }) {
 
   // Vista detallada al seleccionar una parada
   return (
-    <div className="min-w-[250px] w-[250px] shadow-material rounded-xl p-3 h-full">
+    <div className="min-w-[250px] w-[250px] shadow-material rounded-xl p-3 h-full bg-[#342c44]">
       <div className="flex flex-wrap flex-row items-center gap-2.5 overflow-hidden w-full cursor-pointer hover:bg-gray-100 p-1 rounded">
         <PiMapPinFill color={selectedParada.estado === 1 ? "green" : "red"} />
         <p className="w-[calc(100%-1.75rem)] overflow-ellipsis overflow-hidden font-semibold">
           Parada {selectedParada.numero}: {selectedParada.nombre}
         </p>
       </div>
-      <Separator className="my-2"></Separator>
+      <Separator className="my-2 bg-white"></Separator>
       {selectedParada.estado === 1 ? (
         <>
           <p className="font-semibold mb-2">Datos de recepcionario</p>
@@ -213,10 +218,10 @@ function SearchCard({ item }: { item: TrackingTypes.SearchData }) {
         </>
       )}
 
-      <Separator className="my-2"></Separator>
+      <Separator className="my-2 bg-white"></Separator>
       <p className="font-semibold">Observaciones</p>
       <p>{selectedParada.info.observacion}</p>
-      <Separator className="my-3"></Separator>
+      <Separator className="my-3 bg-white"></Separator>
 
       <p className="font-semibold text-center">Fotos de sustento</p>
       {selectedParada.info.fotos.length > 0 && (
@@ -237,7 +242,7 @@ function SearchCard({ item }: { item: TrackingTypes.SearchData }) {
           onClick={() => {
             setSelectedParada(null);
           }}
-          className="mt-4 w-full"
+          className="mt-4 w-full bg-[#68548E]"
         >
           Ok
         </Button>

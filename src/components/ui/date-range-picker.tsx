@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 import * as React from "react";
 import { FiCalendar } from "react-icons/fi";
 import { type DateRange } from "react-day-picker";
@@ -49,7 +50,7 @@ export default function DateRangePicker({
           <Button
             variant="outline"
             id="dates"
-            className="w-56 justify-between font-normal"
+            className="w-56 justify-between font-normal border-gray-500 dark:bg-input/30"
           >
             {formattedRange}
             <FiCalendar />

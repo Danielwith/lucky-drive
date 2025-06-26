@@ -13,6 +13,7 @@ export namespace DataTableTypes {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
     actions: TableActions[];
+    customFilters?: (table: Table<TData>) => ReactNode;
   }
 
   export interface paginationProps<TData> {
@@ -271,6 +272,76 @@ export namespace RequestTaxiExpressTypes {
     address: string[];
     modal_data: ModalData;
   }
+}
+
+export namespace TripHistoryTypes {
+  export type TripStatus = "En curso" | "Sin asignar" | "Terminado";
+
+  export interface Trip {
+    id: string;
+    usuario: string;
+    cargo: string;
+    contacto: string;
+    estado: TripStatus;
+    monto: string;
+    sobretiempo: string;
+  }
+
+  export const columns: ColumnDef<Trip>[] = [
+    {
+      id: "actions",
+      header: "Opción",
+      cell: ({ row }) => {
+        const data = row.original;
+
+        return (
+          <ModalDialog
+            trigger={
+              <Button
+                variant="semicircular_fab"
+                size="icon"
+                onClick={() => {
+                  console.log("Editar", data);
+                }}
+              >
+                <Pencil className="h-4 w-4" />
+              </Button>
+            }
+          >
+            {Object.values(data).join(" | ")}
+          </ModalDialog>
+        );
+      },
+    },
+    {
+      accessorKey: "id",
+      header: "ID",
+    },
+    {
+      accessorKey: "usuario",
+      header: "Usuario",
+    },
+    {
+      accessorKey: "cargo",
+      header: "Cargo",
+    },
+    {
+      accessorKey: "contacto",
+      header: "Contacto",
+    },
+    {
+      accessorKey: "estado",
+      header: "Estado",
+    },
+    {
+      accessorKey: "monto",
+      header: "Monto",
+    },
+    {
+      accessorKey: "sobretiempo",
+      header: "Sobretiempo",
+    },
+  ];
 }
 
 export namespace RequestReceptionTypes {

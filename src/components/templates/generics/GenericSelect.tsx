@@ -18,11 +18,17 @@ export default function GenericSelect({
 }: SelectTypes.GenericSelectProps) {
   return (
     <div className="flex flex-col gap-1">
-      <Label htmlFor="select" className="px-1">
-        {label}
-      </Label>
+      {label === "" ? null : (
+        <Label htmlFor="select" className="px-1">
+          {label}
+        </Label>
+      )}
+
       <Select value={value} onValueChange={onChange}>
-        <SelectTrigger id="select" className="w-[180px] z-50 cursor-pointer">
+        <SelectTrigger
+          id="select"
+          className="w-[180px] z-50 cursor-pointer border-gray-500 [&>span]:text-white"
+        >
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent className="z-50">
