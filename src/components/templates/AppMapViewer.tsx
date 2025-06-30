@@ -1,11 +1,13 @@
 import { MapViewerTypes } from "@/lib/types/types";
 import L from "leaflet";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import MarkerIcon2x from "/assets/images/marker-icon-2x.png";
+import MarkerIcon from "/assets/images/marker-icon.svg";
 
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 L.Icon.Default.mergeOptions({
-  iconRetinaUrl: "/assets/images/marker-icon-2x.png",
-  iconUrl: "/assets/images/marker-icon.svg",
+  iconRetinaUrl: MarkerIcon2x,
+  iconUrl: MarkerIcon,
   shadowUrl: "",
   //   shadowUrl: "assets/images/marker-shadow.png",
 });

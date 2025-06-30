@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { PATH } from "@/lib/constants/route_path";
 import { Input } from "@/components/ui/input";
+import LuckyGO from "/assets/images/logo.png";
 
 export default function Login() {
   const [, navigate] = useLocation();
@@ -21,7 +22,7 @@ export default function Login() {
         <div className="flex flex-col flex-wrap h-full justify-around items-center">
           <img
             className="place-self-center w-[40%] min-w-[140px] max-w-[150px]"
-            src="/assets/images/logo.png"
+            src={LuckyGO}
             alt="Lucky Logo"
           ></img>
           <div className="flex flex-col flex-wrap gap-4.5 md:min-w-[18rem]">
