@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { PATH } from "@/lib/constants/route_path";
 import { Input } from "@/components/ui/input";
-import LuckyGO from "/assets/images/logo.png";
+import LuckyGO from "/assets/images/logo.png?url";
 
 export default function Login() {
   const [, navigate] = useLocation();
