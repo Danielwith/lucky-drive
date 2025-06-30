@@ -16,12 +16,12 @@ export default function Login() {
   };
 
   return (
-    <div className="h-screen flex items-center justify-center md:bg-[url('assets/images/login.png')] bg-center bg-cover bg-no-repeat">
+    <div className="h-screen flex items-center justify-center md:bg-[url('/assets/images/login.png')] bg-center bg-cover bg-no-repeat">
       <div className="md:p-6 h-[85%] rounded-2xl w-full max-w-4xl space-y-4 bg-neutral-950/80 md:backdrop-blur-md md:shadow-[0_4px_37.3px_0_rgb(0,0,0)] md:mx-8">
         <div className="flex flex-col flex-wrap h-full justify-around items-center">
           <img
             className="place-self-center w-[40%] min-w-[140px] max-w-[150px]"
-            src="assets/images/logo.png"
+            src="/assets/images/logo.png"
             alt="Lucky Logo"
           ></img>
           <div className="flex flex-col flex-wrap gap-4.5 md:min-w-[18rem]">
@@ -78,7 +78,7 @@ export default function Login() {
                 className="w-full rounded-full h-10"
                 onClick={handleLogin}
               >
-                <img src="assets/icon/microsoft.svg" alt="" />
+                <img src="/assets/icon/microsoft.svg" alt="" />
                 Microsoft 365
               </Button>
             </div>
