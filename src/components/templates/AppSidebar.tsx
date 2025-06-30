@@ -13,6 +13,7 @@ import { Separator } from "../ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { Settings } from "lucide-react";
+import User from "/assets/images/user.png";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const NAV_DATA = useNavStore((state) => state.navData);
@@ -28,7 +29,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             >
               <a href="#">
                 <Avatar>
-                  <AvatarImage src="/assets/images/user.png" />
+                  <AvatarImage src={User} />
                   <AvatarFallback>AVATAR</AvatarFallback>
                 </Avatar>
                 <div>
