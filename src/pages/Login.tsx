@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { PATH } from "@/lib/constants/route_path";
 import { Input } from "@/components/ui/input";
 import LuckyGO from "/assets/images/logo.png?url";
+import MicrosoftIcon from "/assets/icon/microsoft.svg?url";
 
 export default function Login() {
   const [, navigate] = useLocation();
@@ -79,7 +80,7 @@ export default function Login() {
                 className="w-full rounded-full h-10"
                 onClick={handleLogin}
               >
-                <img src="/assets/icon/microsoft.svg" alt="" />
+                <img src={MicrosoftIcon} alt="" />
                 Microsoft 365
               </Button>
             </div>
