@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { PATH } from "@/lib/constants/route_path";
 import { Input } from "@/components/ui/input";
 import LuckyGO from "/assets/images/logo.png?url";
-import MicrosoftIcon from "/assets/icon/microsoft.svg?url";
+import MicrosoftIcon from "/assets/icon/microsoft.svg";
 
 export default function Login() {
   const [, navigate] = useLocation();
