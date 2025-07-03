@@ -5,8 +5,15 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://vite.dev/config/
 export default ({ mode }: { mode: any }) => {
-  process.env = { ...process.env, ...loadEnv(mode as string, process.cwd()) };
+  const loadedEnv = {
+    ...process.env,
+    ...loadEnv(mode as string, process.cwd()),
+  };
   return defineConfig({
+    appType: "spa",
+    define: {
+      __ENV__: loadedEnv,
+    },
     base: "./",
     plugins: [react(), tailwindcss()],
     resolve: {
