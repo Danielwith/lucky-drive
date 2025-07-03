@@ -1,5 +1,4 @@
 import { MapContainerProps } from "react-leaflet";
-import { LatLngExpression } from "leaflet";
 import { ModalDialog } from "@/components/templates/AppDialog";
 import { Button } from "@/components/ui/button";
 import { ColumnDef, Table } from "@tanstack/react-table";
@@ -8,6 +7,8 @@ import { DateRange } from "react-day-picker";
 import { IconType } from "react-icons/lib";
 import { ReactNode } from "react";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
+import { LatLngExpression } from "leaflet";
+import type { MapProps } from "@vis.gl/react-google-maps";
 
 export namespace DataTableTypes {
   export interface props<TData, TValue> {
@@ -139,6 +140,21 @@ export namespace MapViewerTypes {
     markers?: MarkerData[];
     /** Puedes extender con cualquier otra prop de MapContainerProps */
     mapProps?: Partial<Omit<MapContainerProps, "center" | "zoom">>;
+  }
+}
+
+export namespace GoogleMapViewerTypes {
+  export interface MarkerData {
+    position?: google.maps.LatLngLiteral;
+    popupText?: string;
+  }
+
+  export interface MapViewerProps {
+    center?: google.maps.LatLngLiteral;
+    zoom?: number;
+    markers?: MarkerData[];
+    /** Puedes extender con cualquier otra prop de MapContainerProps */
+    mapProps?: Partial<MapProps>;
   }
 }
 

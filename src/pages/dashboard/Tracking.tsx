@@ -1,10 +1,13 @@
-import { AppMapViewer } from "@/components/templates/AppMapViewer";
 import GenericSelect from "@/components/templates/generics/GenericSelect";
 import { Button } from "@/components/ui/button";
 import DateRangePicker from "@/components/ui/date-range-picker";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { MapViewerTypes, SelectTypes, TrackingTypes } from "@/lib/types/types";
+import {
+  GoogleMapViewerTypes,
+  SelectTypes,
+  TrackingTypes,
+} from "@/lib/types/types";
 import { IoSearchSharp } from "react-icons/io5";
 import { useForm, Controller } from "react-hook-form";
 import { FaRegUser } from "react-icons/fa";
@@ -15,13 +18,20 @@ import { TrackingDataService } from "@/services/tracking_data_service";
 import { useState } from "react";
 import { FiBox } from "react-icons/fi";
 import { Separator } from "@/components/ui/separator";
+import { AppGoogleMapViewer } from "@/components/templates/AppGoogleMapViewer";
 
 export default function Tracking() {
-  const center: [number, number] = [-12.0464, -77.0428];
+  const center: google.maps.LatLngLiteral = { lat: -12.0464, lng: -77.0428 };
   const zoom = 16;
-  const markers: MapViewerTypes.MarkerData[] = [
-    { lat: -12.0464, lng: -77.0428, popupText: "Aquí estoy 📍" },
-    { lat: -12.05, lng: -77.03, popupText: "Otro punto" },
+  const markers: GoogleMapViewerTypes.MarkerData[] = [
+    {
+      position: {
+        lat: -12.0464,
+        lng: -77.0428,
+      },
+      popupText: "Aquí estoy 📍",
+    },
+    { position: { lat: -12.05, lng: -77.03 }, popupText: "Otro punto" },
   ];
 
   const transporte: SelectTypes.SelectData[] =
@@ -119,7 +129,7 @@ export default function Tracking() {
           )}
         </div>
       </div>
-      <AppMapViewer center={center} zoom={zoom} markers={markers} />
+      <AppGoogleMapViewer center={center} zoom={zoom} markers={markers} />
     </div>
   );
 }

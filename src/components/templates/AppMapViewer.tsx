@@ -38,5 +38,20 @@ export const AppMapViewer: React.FC<MapViewerTypes.MapViewerProps> = ({
         </Marker>
       ))}
     </MapContainer>
+
+    // <APIProvider apiKey={import.meta.env.XPLORA_GOOGLE_MAPS_KEY}>
+    //   <Map
+    //     defaultZoom={13}
+    //     center={center}
+    //     onCameraChanged={(ev: MapCameraChangedEvent) =>
+    //       console.log(
+    //         "camera changed:",
+    //         ev.detail.center,
+    //         "zoom:",
+    //         ev.detail.zoom
+    //       )
+    //     }
+    //   ></Map>
+    // </APIProvider>
   );
 };

@@ -6,9 +6,7 @@ export default function UserManagement() {
   const data = fetchUserManagementData();
   const tableActions: DataTableTypes.TableActions[] = ["SEPARATOR", "DOWNLOAD"];
   console.log("PRODUCCION?: ", import.meta.env.PROD);
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //@ts-expect-error
-  console.log("PRUEBA: ", __ENV__);
+  console.log("PRUEBA: ", import.meta.env.XPLORA_API_URL);
   return (
     <div className="container h-full max-w-full">
       <DataTable
