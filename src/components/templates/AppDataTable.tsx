@@ -115,7 +115,7 @@ export function DataTable<TData, TValue>({
             icon={<IoSearchSharp />}
             className="max-w-sm  border-gray-500"
           />
-          {actions.includes("ADD") && (
+          {actions.includes("SEPARATOR") && (
             <ToggleGroup
               type="single"
               value={rowSeparator}

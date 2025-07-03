@@ -348,6 +348,36 @@ export namespace TripHistoryTypes {
 
 export namespace DriversManagementTypes {}
 
+export namespace UserManagementTypes {
+  export type UserStatus = "En COLP" | "En ruta" | "Ausente";
+
+  export interface User {
+    usuario: string;
+    cargo: string;
+    contacto: string;
+    estado: UserStatus;
+  }
+
+  export const columns: ColumnDef<User>[] = [
+    {
+      accessorKey: "usuario",
+      header: "Usuario",
+    },
+    {
+      accessorKey: "cargo",
+      header: "Cargo",
+    },
+    {
+      accessorKey: "contacto",
+      header: "Contacto",
+    },
+    {
+      accessorKey: "estado",
+      header: "Estado",
+    },
+  ];
+}
+
 export namespace RequestReceptionTypes {
   // export interface AdminTable {
   //   editable: boolean;
