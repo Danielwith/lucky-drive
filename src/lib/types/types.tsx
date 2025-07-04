@@ -36,7 +36,8 @@ export namespace TaskBoardTypes {
 
   // DEFAULT, no es dinamico
   export interface form {
-    driverInfo: string;
+    driverInfo?: string;
+    motivo?: string;
   }
 
   export interface BoardCard {
@@ -127,6 +128,20 @@ export namespace SelectTypes {
   }
 }
 
+export namespace RadioGroupTypes {
+  export type RadioOption = {
+    value: string;
+    label: string;
+  };
+
+  export interface props {
+    className?: string;
+    value: string;
+    data: RadioOption[];
+    onChange: (value: string) => void;
+  }
+}
+
 export namespace MapViewerTypes {
   export interface MarkerData {
     lat: number;
@@ -159,6 +174,15 @@ export namespace GoogleMapViewerTypes {
 }
 
 export namespace ModalDialogTypes {
+  export interface props {
+    trigger: React.ReactNode; // HTML(XML) que desencadena el mostrar dialogo
+    children: React.ReactNode; // Contenido HTML(XML) del dialogo
+    exitButton?: boolean; // Boton X de salir
+    customStyles?: string;
+  }
+}
+
+export namespace ModalSheetTypes {
   export interface props {
     trigger: React.ReactNode; // HTML(XML) que desencadena el mostrar dialogo
     children: React.ReactNode; // Contenido HTML(XML) del dialogo

@@ -1,9 +1,16 @@
-import { TaskBoardTypes } from "@/lib/types/types";
-import { memo, ReactNode, useCallback, useMemo } from "react";
+import { RadioGroupTypes, TaskBoardTypes } from "@/lib/types/types";
+import {
+  memo,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { ModalDialog } from "@/components/templates/AppDialog";
 import { SearchSelect } from "@/components/templates/generics/SearchSelect";
 import { Controller, useForm } from "react-hook-form";
-import { IoIosCloseCircle } from "react-icons/io";
+import { IoIosCloseCircle, IoMdCloseCircleOutline } from "react-icons/io";
 import { FaTaxi } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,6 +21,11 @@ import {
 import { SearchSelectTypes } from "@/lib/types/types";
 import { CalendarClock } from "lucide-react";
 import { Separator } from "../ui/separator";
+import { ModalSheet } from "./AppSheet";
+import { SheetClose, SheetFooter, SheetHeader, SheetTitle } from "../ui/sheet";
+import GenericRadioGroup from "./generics/GenericRadioGroup";
+import { Textarea } from "../ui/textarea";
+import { Input } from "../ui/input";
 
 export const AppTaskBoard: React.FC<TaskBoardTypes.props> = ({
   cards,
@@ -81,6 +93,7 @@ export const TaskModal = memo(function TaskModal({
   const { handleSubmit, control } = useForm<TaskBoardTypes.form>({
     defaultValues: {
       driverInfo: "",
+      motivo: "",
     },
   });
 
@@ -92,6 +105,7 @@ export const TaskModal = memo(function TaskModal({
 
   const onCancel = (data: TaskBoardTypes.form, closeModal: () => void) => {
     console.log("Form Data CANCEL:", data);
+    onFormAction(data);
     closeModal();
   };
 
@@ -194,86 +208,103 @@ export const TaskModal = memo(function TaskModal({
             switch (task.status) {
               case "Pendiente":
                 return (
-                  <form
-                    onSubmit={handleSubmit((data) => onAssign(data, close))}
-                    className="mt-3"
-                  >
-                    <Controller
-                      control={control}
-                      name="driverInfo"
-                      rules={{ required: "Debe seleccionar un conductor" }}
-                      render={({ field, fieldState }) => (
-                        <>
-                          <SearchSelect
-                            className="w-full border-3 border-[#68548E] placeholder:text-white"
-                            options={drivers}
-                            placeholder="Ingresa nombre o DNI"
-                            onChange={field.onChange}
-                            value={field.value}
-                          />
-                          {fieldState.error && (
-                            <p className="text-red-600">
-                              {fieldState.error.message}
-                            </p>
-                          )}
-                        </>
-                      )}
-                    />
-                    <div className="flex flex-col gap-2 mt-2">
-                      <Button type="submit" className="bg-[#6750A4]">
-                        <FaTaxi /> Asignar
-                      </Button>
-                      <Button
-                        type="reset"
-                        onClick={close}
-                        className="bg-[#D0BCFF] hover:bg-[#d7c7fd] text-black hover:text-black"
-                        variant="outline"
-                      >
-                        <IoIosCloseCircle /> Atrás
-                      </Button>
+                  <>
+                    <form
+                      onSubmit={handleSubmit((data) => onAssign(data, close))}
+                      className="mt-3"
+                    >
+                      <Controller
+                        control={control}
+                        name="driverInfo"
+                        rules={{ required: "Debe seleccionar un conductor" }}
+                        render={({ field, fieldState }) => (
+                          <>
+                            <SearchSelect
+                              className="w-full border-3 border-[#68548E] placeholder:text-white"
+                              options={drivers}
+                              placeholder="Ingresa nombre o DNI"
+                              onChange={field.onChange}
+                              value={field.value}
+                            />
+                            {fieldState.error && (
+                              <p className="text-red-600">
+                                {fieldState.error.message}
+                              </p>
+                            )}
+                          </>
+                        )}
+                      />
+                      <div className="flex flex-col gap-2 mt-2">
+                        <Button type="submit" className="bg-[#6750A4]">
+                          <FaTaxi /> Asignar
+                        </Button>
+                        <Button
+                          type="reset"
+                          onClick={close}
+                          className="bg-[#D0BCFF] hover:bg-[#d7c7fd] text-black hover:text-black"
+                          variant="outline"
+                        >
+                          <IoIosCloseCircle /> Atrás
+                        </Button>
+                      </div>
+                    </form>
+                    <div className="mt-1">
+                      <ModalSheet
+                        exitButton={false}
+                        trigger={
+                          <Button
+                            type="button"
+                            className="bg-[#8C1D18] hover:bg-[#8c1e18e3] w-full"
+                          >
+                            <IoIosCloseCircle /> Cancelar viaje
+                          </Button>
+                        }
+                        children={
+                          <CancelSheet
+                            task={task}
+                            onFormSubmit={(data) => {
+                              onCancel(data, close);
+                            }}
+                          ></CancelSheet>
+                        }
+                      ></ModalSheet>
                     </div>
-                  </form>
+                  </>
                 );
               case "En curso":
                 return (
-                  <form
-                    onSubmit={handleSubmit((data) => onCancel(data, close))}
-                    className="mt-3"
-                  >
-                    <Controller
-                      control={control}
-                      name="driverInfo"
-                      rules={{ required: "Debe seleccionar un conductor" }}
-                      render={({ field, fieldState }) => (
-                        <>
-                          <SearchSelect
-                            className="w-full border-3 border-[#68548E] placeholder:text-white"
-                            options={[
-                              {
-                                label: task.modal_data.selected_driver,
-                                value: task.modal_data.selected_driver,
-                              },
-                            ]}
-                            value={field.value}
-                            onChange={field.onChange}
-                            autoSelectFirst={true}
-                            isDisabled={true}
-                          />
-                          {fieldState.error && (
-                            <p className="text-red-600">
-                              {fieldState.error.message}
-                            </p>
-                          )}
-                        </>
-                      )}
+                  <div className="mt-1">
+                    <SearchSelect
+                      className="w-full border-3 border-[#68548E] placeholder:text-white"
+                      options={[
+                        {
+                          label: task.modal_data.selected_driver,
+                          value: task.modal_data.selected_driver,
+                        },
+                      ]}
+                      value={task.modal_data.selected_driver}
+                      isDisabled={true}
                     />
                     <div className="flex flex-col gap-2 mt-2">
-                      <Button
-                        type="submit"
-                        className="bg-[#8C1D18] hover:bg-[#8c1e18e3]"
-                      >
-                        <IoIosCloseCircle /> Cancelar viaje
-                      </Button>
+                      <ModalSheet
+                        exitButton={false}
+                        trigger={
+                          <Button
+                            type="button"
+                            className="bg-[#8C1D18] hover:bg-[#8c1e18e3] w-full"
+                          >
+                            <IoIosCloseCircle /> Cancelar viaje
+                          </Button>
+                        }
+                        children={
+                          <CancelSheet
+                            task={task}
+                            onFormSubmit={(data) => {
+                              onCancel(data, close);
+                            }}
+                          ></CancelSheet>
+                        }
+                      ></ModalSheet>
                       <Button
                         type="reset"
                         onClick={close}
@@ -283,7 +314,7 @@ export const TaskModal = memo(function TaskModal({
                         <IoIosCloseCircle /> Atrás
                       </Button>
                     </div>
-                  </form>
+                  </div>
                 );
               case "Terminados":
                 return (
@@ -344,6 +375,122 @@ export const TaskModal = memo(function TaskModal({
       trigger={trigger}
       children={children}
     />
+  );
+});
+
+export const CancelSheet = memo(function CancelSheet({
+  task,
+  onFormSubmit,
+}: {
+  task: any;
+  onFormSubmit: (formData: TaskBoardTypes.form) => void;
+}) {
+  const [selected, setSelected] = useState<string>("");
+
+  const motivos: RadioGroupTypes.RadioOption[] = [
+    {
+      label: "Cliente solicitó cancelación de viaje",
+      value: "Cliente solicitó cancelación de viaje",
+    },
+    {
+      label: "Tamaño exesivo de paquete",
+      value: "Tamaño exesivo de paquete",
+    },
+    {
+      label: "Cliente no se presentó",
+      value: "Cliente no se presentó",
+    },
+    {
+      label: "Falla mecánica",
+      value: "Falla mecánica",
+    },
+    {
+      label: "Problema tecnológico",
+      value: "Problema tecnológico",
+    },
+  ];
+
+  const { handleSubmit, control, setValue } = useForm<TaskBoardTypes.form>({
+    defaultValues: {
+      driverInfo: "",
+      motivo: "",
+    },
+  });
+
+  useEffect(() => {
+    setValue("motivo", selected, { shouldValidate: true });
+  }, [selected, setValue]);
+
+  console.log(task);
+
+  return (
+    <form
+      onSubmit={handleSubmit((data: TaskBoardTypes.form) => onFormSubmit(data))}
+      className="px-5 py-12 h-full flex flex-col"
+    >
+      <div>
+        <SheetHeader className="p-0">
+          <SheetTitle className="text-[#EADDFF] text-lg font-semibold">
+            ¿Cuál fue el motivo?
+          </SheetTitle>
+        </SheetHeader>
+        <GenericRadioGroup
+          className="py-5 space-y-1"
+          data={motivos}
+          value={selected}
+          onChange={(val) => {
+            setSelected(val);
+            const ta = document.getElementById(
+              "otro-motivo"
+            ) as HTMLTextAreaElement | null;
+            if (ta) ta.value = "";
+          }}
+        ></GenericRadioGroup>
+        <Textarea
+          id="otro-motivo"
+          className="dark:bg-[#36343B] placeholder:text-[#CAC4D0]"
+          placeholder="Otro motivo"
+          onChange={(e) => setSelected(e.target.value)}
+        ></Textarea>
+        <Controller
+          control={control}
+          name="motivo"
+          rules={{ required: "Indique el motivo" }}
+          render={({ field, fieldState }) => (
+            <>
+              <Input
+                value={field.value}
+                onChange={field.onChange}
+                hidden={true}
+              ></Input>
+              {fieldState.error && (
+                <p className="text-red-600">{fieldState.error.message}</p>
+              )}
+            </>
+          )}
+        ></Controller>
+      </div>
+      <SheetFooter className="w-full px-0 gap-4">
+        <Button
+          type="submit"
+          variant={"circular_fab"}
+          className="bg-[#B3261E] text-white hover:bg-[#b3261ee7] py-5"
+        >
+          <IoMdCloseCircleOutline />
+          Confirmación de cancelación de viaje
+        </Button>
+        <SheetClose asChild>
+          <Button
+            type="button"
+            variant={"circular_fab"}
+            className="bg-transparent border border-[#CCC2DC] text-white hover:bg-white hover:text-black py-5"
+          >
+            <IoMdCloseCircleOutline />
+            Cerrar
+          </Button>
+        </SheetClose>
+      </SheetFooter>
+    </form>
   );
 });
 //#endregion

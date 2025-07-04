@@ -10,7 +10,10 @@ export const AppGoogleMapViewer: React.FC<
   mapProps = {},
 }) => {
   return (
-    <APIProvider apiKey={import.meta.env.XPLORA_GOOGLE_MAPS_KEY}>
+    <APIProvider
+      apiKey={import.meta.env.XPLORA_GOOGLE_MAPS_KEY}
+      language="es-PE"
+    >
       <Map defaultZoom={zoom} defaultCenter={center} {...mapProps}>
         {markers.map((m, i) => (
           <Marker key={i} position={m.position} title={m.popupText} />
