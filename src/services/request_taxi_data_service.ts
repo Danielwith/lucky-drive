@@ -10,17 +10,35 @@ export namespace RequestTaxiDataService {
       return {
         id: `REQ-0102${i}`,
         name: "Martinez Isla, Jose Luis",
-        start: {
-          address: "Av. Mendiburu 1236",
-          ubication: "San Miguel",
-        },
-        end: {
-          address: "Av. Mendiburu 1236",
-          ubication: "SMP",
-        },
         time: "11:35 PM, 06 Jul 2025",
         status: randomStatus,
-        address: ["SMP", "San Miguel"],
+        address: [
+          {
+            label: "Inicio",
+            data_1: "Av. Mendiburú 1236",
+            data_2: "San Miguel",
+          },
+          {
+            label: "1",
+            data_1: "Av. Mendiburú 1236",
+            data_2: "SMP",
+          },
+          {
+            label: "2",
+            data_1: "Av. Mendiburú 1236",
+            data_2: "SMP",
+          },
+          {
+            label: "3",
+            data_1: "Av. Mendiburú 1236",
+            data_2: "SMP",
+          },
+          {
+            label: "4",
+            data_1: "Av. Mendiburú 1236",
+            data_2: "SMP",
+          },
+        ],
         modal_data: {
           distance: "14 Km",
           cost: 24.0,

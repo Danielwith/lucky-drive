@@ -56,7 +56,7 @@ export namespace TaskBoardTypes {
     task_data_1: string | number;
     task_data_2: string | number;
     between?: boolean;
-    Icon: IconType;
+    Icon?: IconType;
   };
 
   export function TaskContentDefault({
@@ -73,9 +73,9 @@ export namespace TaskBoardTypes {
         } gap-2`}
       >
         <div className="flex items-center">
-          <Icon className="w-3 h-3 mr-1"></Icon>
+          {Icon && <Icon className="w-3 h-3 mr-1"></Icon>}
           {/* <PiMapPinFill className="w-3 h-3 mr-1" /> */}
-          <span className="text-neutral-400">{task_label}:&nbsp;</span>
+          <span className="text-neutral-400">{task_label}&nbsp;</span>
           {task_data_1}
         </div>
         <div>
@@ -216,20 +216,18 @@ export namespace RequestTaxiTypes {
     selected_driver?: string;
   }
 
+  export interface Address {
+    label: string;
+    data_1: string;
+    data_2: string;
+  }
+
   export interface Task {
     id: string;
     name: string;
-    start: {
-      address: string;
-      ubication: string;
-    };
-    end?: {
-      address: string;
-      ubication: string;
-    };
     time: string;
     status: string;
-    address: string[];
+    address: Address[];
     modal_data: ModalData;
   }
 }

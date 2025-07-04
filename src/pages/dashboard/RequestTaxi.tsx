@@ -147,26 +147,28 @@ export default function RequestTaxi() {
                 <Separator className="bg-neutral-500"></Separator>
                 <div className="w-full mt-1">
                   <div className="text-sm space-y-0.5 mb-2">
+                    {task.address
+                      .slice(0, 4)
+                      .map((e: RequestTaxiTypes.Address, i: any) => (
+                        <TaskBoardTypes.TaskContentDefault
+                          key={i}
+                          Icon={PiMapPinFill}
+                          task_label={e.label + ":"}
+                          task_data_1={e.data_1}
+                          task_data_2={e.data_2}
+                        />
+                      ))}
                     <TaskBoardTypes.TaskContentDefault
-                      Icon={PiMapPinFill}
-                      task_label="Inicio"
-                      task_data_1={task.start.address}
-                      task_data_2={task.start.ubication}
-                    ></TaskBoardTypes.TaskContentDefault>
-                    {task.end ? (
-                      <TaskBoardTypes.TaskContentDefault
-                        Icon={PiMapPinFill}
-                        task_label="Fin"
-                        task_data_1={task.end.address}
-                        task_data_2={task.end.ubication}
-                      ></TaskBoardTypes.TaskContentDefault>
-                    ) : (
-                      ""
-                    )}
+                      task_label={""}
+                      task_data_1={`+${task.address.length - 4} destino${
+                        task.address.length - 4 === 1 ? "" : "s"
+                      } más`}
+                      task_data_2={""}
+                    />
                   </div>
-                  <TaskBoardTypes.AddressTags
+                  {/* <TaskBoardTypes.AddressTags
                     address={task.address}
-                  ></TaskBoardTypes.AddressTags>
+                  ></TaskBoardTypes.AddressTags> */}
                 </div>
               </AccordionItem>
             </Accordion>
