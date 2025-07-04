@@ -19,6 +19,7 @@ import { useState } from "react";
 import { FiBox } from "react-icons/fi";
 import { Separator } from "@/components/ui/separator";
 import { AppGoogleMapViewer } from "@/components/templates/AppGoogleMapViewer";
+import { LuMinimize2 } from "react-icons/lu";
 
 export default function Tracking() {
   const center: google.maps.LatLngLiteral = { lat: -12.0464, lng: -77.0428 };
@@ -41,6 +42,8 @@ export default function Tracking() {
     null
   );
 
+  const [filterView, setFilterView] = useState<boolean>(true);
+
   const { handleSubmit, control } = useForm<TrackingTypes.TrackingForm>({
     defaultValues: {
       dateRange: undefined,
@@ -56,80 +59,105 @@ export default function Tracking() {
   };
 
   return (
-    <div className="w-full h-full relative">
-      <div className="absolute top-0 w-full z-50 p-2">
-        <div className="flex flex-col flex-wrap gap-5 bg-white dark:bg-[#1D1B20] rounded-xl shadow-material p-4">
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-row flex-wrap items-end justify-between gap-2"
-          >
-            <div className="flex flex-row flex-wrap gap-4">
-              <Controller
-                control={control}
-                name="dateRange"
-                render={({ field }) => (
-                  <DateRangePicker
-                    label="Rango de fecha"
-                    value={field.value}
-                    onChange={field.onChange}
-                  />
-                )}
-              />
-
-              <Controller
-                control={control}
-                name="transporte"
-                render={({ field }) => (
-                  <GenericSelect
-                    label="Tipo de transporte"
-                    data={transporte}
-                    value={field.value}
-                    onChange={field.onChange}
-                    placeholder=""
-                  />
-                )}
-              />
-
-              <div className="flex flex-col gap-1 min-w-[18rem]">
-                <Label htmlFor="conductor" className="px-1">
-                  Conductor
-                </Label>
+    <div className="w-full h-full">
+      <div className="flex flex-col h-full w-full relative z-50">
+        {filterView && (
+          <div className="flex flex-col flex-wrap gap-5 bg-white dark:bg-[#1D1B20] rounded-xl shadow-material p-4">
+            <div className="flex flex-row justify-between">
+              <Label>Filtros</Label>
+              <Button
+                variant={"ghost"}
+                onClick={() => {
+                  setFilterView(false);
+                }}
+              >
+                <LuMinimize2 />
+              </Button>
+            </div>
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="flex flex-row flex-wrap items-end justify-between gap-2"
+            >
+              <div className="flex flex-row flex-wrap gap-4">
                 <Controller
                   control={control}
-                  name="conductor"
+                  name="dateRange"
                   render={({ field }) => (
-                    <Input
-                      className="border-gray-500"
-                      id="conductor"
-                      type="text"
-                      placeholder="Buscar conductor"
-                      icon={<IoSearchSharp />}
+                    <DateRangePicker
+                      label="Rango de fecha"
                       value={field.value}
-                      onChange={(e) => {
-                        field.onChange(e.target.value);
-                      }}
+                      onChange={field.onChange}
                     />
                   )}
                 />
+
+                <Controller
+                  control={control}
+                  name="transporte"
+                  render={({ field }) => (
+                    <GenericSelect
+                      label="Tipo de transporte"
+                      data={transporte}
+                      value={field.value}
+                      onChange={field.onChange}
+                      placeholder=""
+                    />
+                  )}
+                />
+
+                <div className="flex flex-col gap-1 min-w-[18rem]">
+                  <Label htmlFor="conductor" className="px-1">
+                    Conductor
+                  </Label>
+                  <Controller
+                    control={control}
+                    name="conductor"
+                    render={({ field }) => (
+                      <Input
+                        className="border-gray-500"
+                        id="conductor"
+                        type="text"
+                        placeholder="Buscar conductor"
+                        icon={<IoSearchSharp />}
+                        value={field.value}
+                        onChange={(e) => {
+                          field.onChange(e.target.value);
+                        }}
+                      />
+                    )}
+                  />
+                </div>
               </div>
-            </div>
-            <Button variant={"circular_fab_main"}>
-              <IoSearchSharp /> Buscar
+              <Button variant={"circular_fab_main"}>
+                <IoSearchSharp /> Buscar
+              </Button>
+            </form>
+            {results && (
+              <>
+                <Separator className="bg-neutral-500"></Separator>
+                <div className=" pb-2 flex gap-4 w-full overflow-x-auto">
+                  {results.map((item: TrackingTypes.SearchData) => (
+                    <SearchCard key={item.placa} item={item} />
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        )}
+        {!filterView && (
+          <div className="absolute top-3 right-15 z-50">
+            <Button
+              variant={"circular_fab_main"}
+              onClick={() => {
+                setFilterView(true);
+              }}
+            >
+              <IoSearchSharp /> Filtros
             </Button>
-          </form>
-          {results && (
-            <>
-              <Separator className="bg-neutral-500"></Separator>
-              <div className=" pb-2 flex gap-4 w-full overflow-x-auto">
-                {results.map((item: TrackingTypes.SearchData) => (
-                  <SearchCard key={item.placa} item={item} />
-                ))}
-              </div>
-            </>
-          )}
-        </div>
+          </div>
+        )}
+        <AppGoogleMapViewer center={center} zoom={zoom} markers={markers} />
       </div>
-      <AppGoogleMapViewer center={center} zoom={zoom} markers={markers} />
     </div>
   );
 }
@@ -141,7 +169,7 @@ function SearchCard({ item }: { item: TrackingTypes.SearchData }) {
   // Vista original
   if (!selectedParada) {
     return (
-      <div className="min-w-[250px] w-[250px] shadow-material rounded-xl p-3 h-full bg-[#342c44]">
+      <div className="min-w-[250px] w-[250px] shadow-material rounded-xl p-3 h-fit bg-[#342c44]">
         <div className="flex flex-wrap flex-row items-center gap-2.5 overflow-hidden w-full">
           <FaRegUser />
           <p className="w-[calc(100%-1.75rem)] overflow-ellipsis overflow-hidden font-semibold">
@@ -190,7 +218,7 @@ function SearchCard({ item }: { item: TrackingTypes.SearchData }) {
 
   // Vista detallada al seleccionar una parada
   return (
-    <div className="min-w-[250px] w-[250px] shadow-material rounded-xl p-3 h-full bg-[#342c44]">
+    <div className="min-w-[250px] w-[250px] shadow-material rounded-xl p-3 h-fit bg-[#342c44]">
       <div className="flex flex-wrap flex-row items-center gap-2.5 overflow-hidden w-full cursor-pointer hover:bg-gray-100 p-1 rounded">
         <PiMapPinFill color={selectedParada.estado === 1 ? "green" : "red"} />
         <p className="w-[calc(100%-1.75rem)] overflow-ellipsis overflow-hidden font-semibold">
