@@ -72,9 +72,9 @@ export default function RequestTaxi() {
               <AccordionItem value={task.id}>
                 <div className="relative">
                   <h3 className="font-bold relative flex items-center gap-1 h-full text-base/5 my-1">
-                    <span
+                    {/* <span
                       className={`min-w-2 min-h-2 inline-block ${color} rounded-full`}
-                    ></span>
+                    ></span> */}
                     <p className="text-continue max-w-[88%]">{task.name}</p>
                   </h3>
                   {/* SE INSTANCIA, PARA EVITAR REENDERIZADOS */}
@@ -129,9 +129,11 @@ export default function RequestTaxi() {
                                     <p className="font-bold">{p.ubication}</p>
                                   </div>
                                   <div>
-                                    <span
-                                      className={`min-w-2 min-h-2 inline-block ${color} rounded-full`}
-                                    />
+                                    <span>
+                                      {typeof p.amount === "number"
+                                        ? `S/${p.amount.toFixed(2)}`
+                                        : ""}
+                                    </span>
                                   </div>
                                 </div>
                               </AccordionTrigger>

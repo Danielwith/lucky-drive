@@ -76,9 +76,9 @@ export default function RequestCourier() {
               <AccordionItem value={task.id}>
                 <div className="relative">
                   <h3 className="font-bold relative flex items-center gap-1 h-full text-base/5 my-1">
-                    <span
+                    {/* <span
                       className={`min-w-2 min-h-2 inline-block ${color} rounded-full`}
-                    ></span>
+                    ></span> */}
                     <p className="text-continue max-w-[88%]">{task.name}</p>
                   </h3>
                   {/* SE INSTANCIA, PARA EVITAR REENDERIZADOS */}
@@ -111,7 +111,7 @@ export default function RequestCourier() {
                       <Accordion
                         type="single"
                         collapsible
-                        className="w-full flex flex-col gap-2"
+                        className="w-full flex flex-col gap-2 max-h-[40vh] overflow-y-auto"
                       >
                         {task.modal_data.points.map(
                           (p: RequestCourierTypes.Point, i: number) => (

@@ -205,7 +205,7 @@ export namespace RequestTaxiTypes {
     label: string;
     address: string;
     ubication: string;
-    status: string;
+    amount?: number;
   }
 
   export interface ModalData {

@@ -61,9 +61,7 @@ export const AppTaskBoard: React.FC<TaskBoardTypes.props> = ({
                 {tasks
                   .filter((task) => task.statusParent === status)
                   .map((task, index) => (
-                    <div key={index} className="">
-                      {task.renderXml()}
-                    </div>
+                    <div key={index}>{task.renderXml()}</div>
                   ))}
               </div>
             </section>
@@ -222,7 +220,7 @@ export const TaskModal = memo(function TaskModal({
                             <SearchSelect
                               className="w-full border-3 border-[#68548E] placeholder:text-white"
                               options={drivers}
-                              placeholder="Ingresa nombre o DNI"
+                              placeholder="Elige un chofer"
                               onChange={field.onChange}
                               value={field.value}
                             />
