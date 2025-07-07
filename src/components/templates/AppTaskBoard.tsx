@@ -316,45 +316,63 @@ export const TaskModal = memo(function TaskModal({
                 );
               case "Terminados":
                 return (
-                  <form className="mt-3">
-                    <Controller
-                      control={control}
-                      name="driverInfo"
-                      rules={{ required: "Debe seleccionar un conductor" }}
-                      render={({ field, fieldState }) => (
-                        <>
-                          <SearchSelect
-                            className="w-full border-3 border-[#68548E] placeholder:text-white"
-                            options={[
-                              {
-                                label: task.modal_data.selected_driver,
-                                value: task.modal_data.selected_driver,
-                              },
-                            ]}
-                            value={field.value}
-                            onChange={field.onChange}
-                            autoSelectFirst={true}
-                            isDisabled={true}
-                          />
-                          {fieldState.error && (
-                            <p className="text-red-600">
-                              {fieldState.error.message}
-                            </p>
-                          )}
-                        </>
-                      )}
-                    />
-                    <div className="flex flex-col gap-2 mt-2">
-                      <Button
-                        type="button"
-                        onClick={close}
-                        className="bg-[#D0BCFF] hover:bg-[#d7c7fd] text-black hover:text-black"
-                        variant="outline"
-                      >
-                        <IoIosCloseCircle /> Atrás
-                      </Button>
+                  <>
+                    <div className="text-sm font-medium my-2 flex gap-1 flex-col">
+                      <TaskBoardTypes.TaskContentDefault
+                        Icon={CalendarClock}
+                        task_label={"Inicio:"}
+                        task_data_1={" "}
+                        task_data_2={task.modal_data.finished_date.start}
+                        between={false}
+                      />
+                      <TaskBoardTypes.TaskContentDefault
+                        Icon={CalendarClock}
+                        task_label={"Fin:"}
+                        task_data_1={" "}
+                        task_data_2={task.modal_data.finished_date.end}
+                        between={false}
+                      />
                     </div>
-                  </form>
+                    <form className="mt-3">
+                      <Controller
+                        control={control}
+                        name="driverInfo"
+                        rules={{ required: "Debe seleccionar un conductor" }}
+                        render={({ field, fieldState }) => (
+                          <>
+                            <SearchSelect
+                              className="w-full border-3 border-[#68548E] placeholder:text-white"
+                              options={[
+                                {
+                                  label: task.modal_data.selected_driver,
+                                  value: task.modal_data.selected_driver,
+                                },
+                              ]}
+                              value={field.value}
+                              onChange={field.onChange}
+                              autoSelectFirst={true}
+                              isDisabled={true}
+                            />
+                            {fieldState.error && (
+                              <p className="text-red-600">
+                                {fieldState.error.message}
+                              </p>
+                            )}
+                          </>
+                        )}
+                      />
+                      <div className="flex flex-col gap-2 mt-2">
+                        <Button
+                          type="button"
+                          onClick={close}
+                          className="bg-[#D0BCFF] hover:bg-[#d7c7fd] text-black hover:text-black"
+                          variant="outline"
+                        >
+                          <IoIosCloseCircle /> Atrás
+                        </Button>
+                      </div>
+                    </form>
+                  </>
                 );
               default:
                 return null;
@@ -391,8 +409,8 @@ export const CancelSheet = memo(function CancelSheet({
       value: "Cliente solicitó cancelación de viaje",
     },
     {
-      label: "Tamaño exesivo de paquete",
-      value: "Tamaño exesivo de paquete",
+      label: "Tamaño excesivo de paquete",
+      value: "Tamaño excesivo de paquete",
     },
     {
       label: "Cliente no se presentó",

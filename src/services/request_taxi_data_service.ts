@@ -41,7 +41,6 @@ export namespace RequestTaxiDataService {
         ],
         modal_data: {
           distance: "14 Km",
-          cost: 24.0,
           ppto: 993203,
           points: [
             {
@@ -62,6 +61,10 @@ export namespace RequestTaxiDataService {
               amount: 24.0,
             },
           ],
+          finished_date: {
+            start: "11:35 PM 06 jul 2025",
+            end: "11:35 PM 06 jul 2025",
+          },
           selected_driver: "Juan",
         },
       };

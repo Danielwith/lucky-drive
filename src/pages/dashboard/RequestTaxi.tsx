@@ -98,7 +98,13 @@ export default function RequestTaxi() {
                             <span className="text-neutral-400">
                               Costo:&nbsp;
                             </span>
-                            S/{task.modal_data.cost.toFixed(2)}
+                            S/
+                            {task.modal_data.points
+                              .reduce(
+                                (sum, point) => sum + (point.amount ?? 0),
+                                0
+                              )
+                              .toFixed(2)}
                           </div>
                         </div>
                         <div className="flex items-center text-sm">

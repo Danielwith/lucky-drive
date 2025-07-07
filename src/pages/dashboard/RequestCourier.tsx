@@ -100,9 +100,15 @@ export default function RequestCourier() {
                           <div className="flex items-center">
                             <MdPayments className="w-4 h-4 mr-1"></MdPayments>
                             <span className="text-neutral-400">
-                              Costo:&nbsp;
+                              Costo total:&nbsp;
                             </span>
-                            S/{task.modal_data.cost.toFixed(2)}
+                            S/
+                            {task.modal_data.points
+                              .reduce(
+                                (sum, point) => sum + (point.amount ?? 0),
+                                0
+                              )
+                              .toFixed(2)}
                           </div>
                         </div>
                       </div>
@@ -121,17 +127,18 @@ export default function RequestCourier() {
                             >
                               <AccordionTrigger className="p-0 [&>svg]:hidden hover:bg-[#554e65] hover:no-underline">
                                 <div className="w-full flex flex-col border border-[#837f8c] rounded-md p-2 flex-wrap justify-between gap-2 items-center">
-                                  <div className="w-full grid grid-cols-[auto_1fr_auto] items-center justify-between gap-2">
+                                  <div className="w-full grid grid-cols-[auto_1fr_auto_auto_auto] items-center justify-between gap-3">
                                     <div className="flex items-center px-2 w-[80px] justify-center">
                                       <PiMapPinFill className="min-w-5 min-h-5 mr-2"></PiMapPinFill>
                                       <span className="break-all">
                                         {p.label}
                                       </span>
                                     </div>
-                                    <div>
-                                      <p>{p.address}</p>
-                                      <p className="font-bold">{p.ubication}</p>
-                                    </div>
+                                    <span>{p.address}</span>
+                                    <span className="font-bold">
+                                      {p.ubication}
+                                    </span>
+                                    <span>S/{p.amount?.toFixed(2)}</span>
                                     <div>
                                       <span
                                         className={`inline-block border border-[#837f8c] text-[10px] p-1 rounded-[5px]`}
@@ -193,26 +200,28 @@ export default function RequestCourier() {
                 <Separator className="bg-neutral-500"></Separator>
                 <div className="w-full mt-1">
                   <div className="text-sm space-y-0.5 mb-2">
+                    {task.address
+                      .slice(0, 4)
+                      .map((e: RequestCourierTypes.Address, i: any) => (
+                        <TaskBoardTypes.TaskContentDefault
+                          key={i}
+                          Icon={PiMapPinFill}
+                          task_label={e.label + ":"}
+                          task_data_1={e.data_1}
+                          task_data_2={e.data_2}
+                        />
+                      ))}
                     <TaskBoardTypes.TaskContentDefault
-                      Icon={PiMapPinFill}
-                      task_label="Inicio"
-                      task_data_1={task.start.address}
-                      task_data_2={task.start.ubication}
-                    ></TaskBoardTypes.TaskContentDefault>
-                    {task.end ? (
-                      <TaskBoardTypes.TaskContentDefault
-                        Icon={PiMapPinFill}
-                        task_label="Fin"
-                        task_data_1={task.end.address}
-                        task_data_2={task.end.ubication}
-                      ></TaskBoardTypes.TaskContentDefault>
-                    ) : (
-                      ""
-                    )}
+                      task_label={""}
+                      task_data_1={`+${task.address.length - 4} destino${
+                        task.address.length - 4 === 1 ? "" : "s"
+                      } más`}
+                      task_data_2={""}
+                    />
                   </div>
-                  <TaskBoardTypes.AddressTags
+                  {/* <TaskBoardTypes.AddressTags
                     address={task.address}
-                  ></TaskBoardTypes.AddressTags>
+                  ></TaskBoardTypes.AddressTags> */}
                 </div>
               </AccordionItem>
             </Accordion>

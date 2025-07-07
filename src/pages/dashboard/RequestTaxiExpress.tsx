@@ -102,7 +102,13 @@ export default function RequestTaxiExpress() {
                             <span className="text-neutral-400">
                               Costo:&nbsp;
                             </span>
-                            S/{task.modal_data.cost.toFixed(2)}
+                            S/
+                            {task.modal_data.points
+                              .reduce(
+                                (sum, point) => sum + (point.amount ?? 0),
+                                0
+                              )
+                              .toFixed(2)}
                           </div>
                         </div>
                       </div>
@@ -120,18 +126,31 @@ export default function RequestTaxiExpress() {
                               key={`ACCCOURIER_${i}`}
                             >
                               <AccordionTrigger className="p-0 [&>svg]:hidden hover:bg-[#554e65] hover:no-underline">
-                                <div className="w-full flex flex-col border border-[#837f8c] rounded-md p-2 flex-wrap justify-between gap-2 items-center">
-                                  <div className="w-full grid grid-cols-[auto_1fr_auto] items-center justify-between gap-2">
+                                <div className="w-full flex flex-col border border-[#837f8c] rounded-md p-2 flex-wrap justify-between items-center">
+                                  <div className="w-full grid grid-cols-[auto_1fr_auto_auto_auto] items-center justify-between gap-2">
                                     <div className="flex items-center px-2 w-[80px] justify-center">
                                       <PiMapPinFill className="min-w-5 min-h-5 mr-2"></PiMapPinFill>
                                       <span className="break-all">
                                         {p.label}
                                       </span>
                                     </div>
-                                    <div>
-                                      <p>{p.address}</p>
-                                      <p className="font-bold">{p.ubication}</p>
-                                    </div>
+                                    {p.amount ? (
+                                      <>
+                                        <span>{p.address}</span>
+                                        <span className="font-bold">
+                                          {p.ubication}
+                                        </span>
+                                        <span>S/{p.amount?.toFixed(2)}</span>
+                                      </>
+                                    ) : (
+                                      <div>
+                                        <p>{p.address}</p>
+                                        <p className="font-bold">
+                                          {p.ubication}
+                                        </p>
+                                      </div>
+                                    )}
+
                                     {p.items ? (
                                       <div>
                                         <span
@@ -140,11 +159,13 @@ export default function RequestTaxiExpress() {
                                           {p.completed}/{p.items.length}
                                         </span>
                                       </div>
-                                    ) : null}
+                                    ) : (
+                                      <div className="w-[33px]"></div>
+                                    )}
                                   </div>
                                   <div className="w-full">
                                     {p.items ? (
-                                      <AccordionContent className="w-full pb-0">
+                                      <AccordionContent className="w-full pb-0 mt-4">
                                         {p.items.map(
                                           (
                                             e: RequestTaxiExpressTypes.Item,
@@ -181,26 +202,28 @@ export default function RequestTaxiExpress() {
                 <Separator className="bg-neutral-500"></Separator>
                 <div className="w-full mt-1">
                   <div className="text-sm space-y-0.5 mb-2">
+                    {task.address
+                      .slice(0, 4)
+                      .map((e: RequestTaxiExpressTypes.Address, i: any) => (
+                        <TaskBoardTypes.TaskContentDefault
+                          key={i}
+                          Icon={PiMapPinFill}
+                          task_label={e.label + ":"}
+                          task_data_1={e.data_1}
+                          task_data_2={e.data_2}
+                        />
+                      ))}
                     <TaskBoardTypes.TaskContentDefault
-                      Icon={PiMapPinFill}
-                      task_label="Inicio"
-                      task_data_1={task.start.address}
-                      task_data_2={task.start.ubication}
-                    ></TaskBoardTypes.TaskContentDefault>
-                    {task.end ? (
-                      <TaskBoardTypes.TaskContentDefault
-                        Icon={PiMapPinFill}
-                        task_label="Fin"
-                        task_data_1={task.end.address}
-                        task_data_2={task.end.ubication}
-                      ></TaskBoardTypes.TaskContentDefault>
-                    ) : (
-                      ""
-                    )}
+                      task_label={""}
+                      task_data_1={`+${task.address.length - 4} destino${
+                        task.address.length - 4 === 1 ? "" : "s"
+                      } más`}
+                      task_data_2={""}
+                    />
                   </div>
-                  <TaskBoardTypes.AddressTags
+                  {/* <TaskBoardTypes.AddressTags
                     address={task.address}
-                  ></TaskBoardTypes.AddressTags>
+                  ></TaskBoardTypes.AddressTags> */}
                 </div>
               </AccordionItem>
             </Accordion>

@@ -208,12 +208,17 @@ export namespace RequestTaxiTypes {
     amount?: number;
   }
 
+  export interface FDate {
+    start: string;
+    end: string;
+  }
+
   export interface ModalData {
     distance: string;
-    cost: number;
     ppto: number;
     points: Point[];
     selected_driver?: string;
+    finished_date?: FDate;
   }
 
   export interface Address {
@@ -244,32 +249,36 @@ export namespace RequestCourierTypes {
     label: string;
     address: string;
     ubication: string;
+    amount?: number;
     items: Item[];
     completed: number;
   }
 
+  export interface FDate {
+    start: string;
+    end: string;
+  }
+
   export interface ModalData {
     distance: string;
-    cost: number;
     ppto: number;
     points: Point[];
+    finished_date?: FDate;
     selected_driver?: string;
+  }
+
+  export interface Address {
+    label: string;
+    data_1: string;
+    data_2: string;
   }
 
   export interface Task {
     id: string;
     name: string;
-    start: {
-      address: string;
-      ubication: string;
-    };
-    end?: {
-      address: string;
-      ubication: string;
-    };
     time: string;
     status: string;
-    address: string[];
+    address: Address[];
     modal_data: ModalData;
   }
 }
@@ -284,32 +293,36 @@ export namespace RequestTaxiExpressTypes {
     label: string;
     address: string;
     ubication: string;
+    amount?: number;
     items?: Item[];
     completed?: number;
   }
 
+  export interface FDate {
+    start: string;
+    end: string;
+  }
+
   export interface ModalData {
     distance: string;
-    cost: number;
     ppto: number;
     points: Point[];
+    finished_date?: FDate;
     selected_driver?: string;
+  }
+
+  export interface Address {
+    label: string;
+    data_1: string;
+    data_2: string;
   }
 
   export interface Task {
     id: string;
     name: string;
-    start: {
-      address: string;
-      ubication: string;
-    };
-    end?: {
-      address: string;
-      ubication: string;
-    };
     time: string;
     status: string;
-    address: string[];
+    address: Address[];
     modal_data: ModalData;
   }
 }
