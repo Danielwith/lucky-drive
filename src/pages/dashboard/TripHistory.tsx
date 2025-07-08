@@ -69,15 +69,10 @@ export default function TripHistory() {
   );
 }
 
-interface TripDetailModalProps {
-  data: TripHistoryTypes.Trip;
-  close: () => void;
-}
-
 export const TripDetailModal = memo(function TripDetailModal({
   data,
   close,
-}: TripDetailModalProps) {
+}: TripHistoryTypes.ModalProps) {
   const detail: TripHistoryTypes.ModalData = data.modal_data;
 
   return (

@@ -6,24 +6,24 @@ export const fetchUserManagementData = (): UserManagementTypes.User[] => {
       usuario: "prueba",
       cargo: "Comercial",
       contacto: "930558877",
-      estado: "En COLP",
+      correo: "ohurtado@xplora.net",
+      estado: "Habilitado",
     },
     {
       usuario: "prueba",
       cargo: "Comercial",
       contacto: "930558877",
-      estado: "En ruta",
+      correo: "ohurtado@xplora.net",
+      estado: "Habilitado",
     },
     {
       usuario: "prueba",
       cargo: "Comercial",
       contacto: "930558877",
-      estado: "Ausente",
+      correo: "ohurtado@xplora.net",
+      estado: "Deshabilitado",
     },
   ];
 
   return USER_MANAGEMENT_DATA;
-  //   const response = await fetch('/api/navigation');
-  //   if (!response.ok) throw new Error('Error fetching NAV_DATA');
-  //   return response.json();
 };

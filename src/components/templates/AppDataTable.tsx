@@ -31,19 +31,11 @@ import { Button } from "../ui/button";
 import {
   BookOpen,
   Download,
-  Plus,
   Rows2,
   Rows3,
   Rows4,
   SlidersHorizontal,
 } from "lucide-react";
-import { ModalDialog } from "./AppDialog";
-import {
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "../ui/dialog";
 import { IoSearchSharp } from "react-icons/io5";
 import { exportJSONToExcel, getTableJSON } from "@/lib/helpers/ExcelGenerator";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
@@ -85,30 +77,6 @@ export function DataTable<TData, TValue>({
         )}
       >
         <div className="flex gap-3">
-          {actions.includes("ADD") && (
-            <ModalDialog
-              exitButton={true}
-              trigger={
-                <Button
-                  variant="circular_fab_main"
-                  size={"icon"}
-                  className="ml-auto"
-                >
-                  <Plus />
-                </Button>
-              }
-            >
-              <DialogHeader>
-                <DialogTitle>¿Estás seguro?</DialogTitle>
-                <DialogDescription>
-                  Esta acción no se puede deshacer.
-                </DialogDescription>
-              </DialogHeader>
-              <DialogFooter>
-                <Button variant="circular_fab">Confirmar</Button>
-              </DialogFooter>
-            </ModalDialog>
-          )}
           {customFilters?.(table)}
           <Input
             placeholder="Buscar"

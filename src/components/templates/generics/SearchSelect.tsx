@@ -1,4 +1,6 @@
 import { SearchSelectTypes } from "@/lib/types/types";
+import { cn } from "@/lib/utils";
+import { cva, VariantProps } from "class-variance-authority";
 import React, { useEffect } from "react";
 import { IoMdSearch } from "react-icons/io";
 import Select, {
@@ -9,6 +11,23 @@ import Select, {
 } from "react-select";
 
 const DEFAULT_ICON = <IoMdSearch />;
+
+const searchSelectVariants = cva("", {
+  variants: {
+    variant: {
+      default: "",
+      basic:
+        "h-9 [&_.css-hlgwow]:-translate-y-[2px] [&_svg]:hidden dark:bg-input border-input border rounded-md text-base shadow-xs transition-[color,box-shadow] outline-none [&:has(.css-1nmdiq5-menu)]:border-ring [&:has(.css-1nmdiq5-menu)]:ring-ring/50 [&:has(.css-1nmdiq5-menu)]:ring-[3px]",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+});
+
+export type SearchSelectVariant = VariantProps<
+  typeof searchSelectVariants
+>["variant"];
 
 const CustomControl = (
   props: ControlProps<SearchSelectTypes.Option, false> & {
@@ -28,6 +47,7 @@ const CustomControl = (
 
 export const SearchSelect: React.FC<SearchSelectTypes.props> = ({
   options,
+  variant,
   placeholder = "Buscar...",
   onChange,
   value,
@@ -81,7 +101,12 @@ export const SearchSelect: React.FC<SearchSelectTypes.props> = ({
 
   return (
     <Select<SearchSelectTypes.Option>
-      className={className}
+      className={cn(
+        searchSelectVariants({
+          variant,
+        }),
+        className
+      )}
       options={options}
       placeholder={placeholder}
       styles={colourStyles}

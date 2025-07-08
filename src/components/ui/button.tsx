@@ -24,7 +24,7 @@ const buttonVariants = cva(
         circular_fab:
           "border rounded-full text-violet-900 bg-zinc-200 shadow-xs hover:bg-accent hover:text-accent-foreground [&_svg:not([class*='size-'])]:size-5",
         circular_fab_main:
-          "border rounded-full text-white bg-lucky shadow-xs hover:bg-lucky/80 hover:text-accent-foreground [&_svg:not([class*='size-'])]:size-5",
+          "border rounded-full text-white bg-violet-500 shadow-xs hover:bg-violet-500/80 hover:text-accent-foreground [&_svg:not([class*='size-'])]:size-5",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",

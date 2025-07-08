@@ -11,6 +11,9 @@ import { LatLngExpression } from "leaflet";
 import { GoogleMapProps } from "react-google-map-wrapper";
 import { dateEquals } from "../helpers/DataTableFilters";
 import { TripDetailModal } from "@/pages/dashboard/TripHistory";
+import { RiPencilFill } from "react-icons/ri";
+import { DriverModal } from "@/pages/dashboard/DriversManagement";
+import { SearchSelectVariant } from "@/components/templates/generics/SearchSelect";
 
 export namespace DataTableTypes {
   export interface props<TData, TValue> {
@@ -28,7 +31,7 @@ export namespace DataTableTypes {
 
   export type SeparatorLevel = "low" | "mid" | "high";
 
-  export type TableActions = "ADD" | "DOWNLOAD" | "SEPARATOR";
+  export type TableActions = "DOWNLOAD" | "SEPARATOR";
 }
 
 export namespace TaskBoardTypes {
@@ -367,6 +370,11 @@ export namespace TripHistoryTypes {
     finished_date?: FDate;
   }
 
+  export interface ModalProps {
+    data: Trip;
+    close: () => void;
+  }
+
   export interface Trip {
     id: string;
     usuario: string;
@@ -439,15 +447,107 @@ export namespace TripHistoryTypes {
   ];
 }
 
-export namespace DriversManagementTypes {}
+export namespace DriversManagementTypes {
+  export interface Driver {
+    id: string;
+    conductor: string;
+    servicios: string;
+    dni: string;
+    telefono: string;
+    modelo: string;
+    placa: string;
+    soat: number;
+    soat_vigencia: string;
+  }
+
+  export interface ModalProps {
+    data?: Driver;
+    close: () => void;
+    mode: "INSERT" | "UPDATE";
+  }
+
+  export interface form {
+    nombreConductor?: string;
+    dni?: string;
+    telefono?: string;
+    servicios?: string[];
+    modeloVehiculo?: string;
+    placaVehiculo?: string;
+    nroSOAT?: number;
+    vigenciaSOAT?: string;
+  }
+
+  export const columns: ColumnDef<Driver>[] = [
+    {
+      id: "actions",
+      header: "Opción",
+      cell: ({ row }) => {
+        const data = row.original;
+
+        return (
+          <ModalDialog
+            customStyles="sm:max-w-none p-3"
+            exitButton={false}
+            trigger={
+              <Button variant="semicircular_fab" size="icon">
+                <RiPencilFill className="scale-150" />
+              </Button>
+            }
+          >
+            {({ close }) => (
+              <DriverModal data={data} close={close} mode={"UPDATE"} />
+            )}
+          </ModalDialog>
+        );
+      },
+    },
+    {
+      accessorKey: "id",
+      header: "ID",
+    },
+    {
+      accessorKey: "conductor",
+      header: "Conductor",
+    },
+    {
+      accessorKey: "servicios",
+      header: "Servicios",
+    },
+    {
+      accessorKey: "dni",
+      header: "DNI",
+    },
+    {
+      accessorKey: "telefono",
+      header: "Teléfono",
+    },
+    {
+      accessorKey: "modelo",
+      header: "Modelo de vehículo",
+    },
+    {
+      accessorKey: "placa",
+      header: "Placa de vehículo",
+    },
+    {
+      accessorKey: "soat",
+      header: "Nro. SOAT",
+    },
+    {
+      accessorKey: "soat_vigencia",
+      header: "SOAT Vigencia",
+    },
+  ];
+}
 
 export namespace UserManagementTypes {
-  export type UserStatus = "En COLP" | "En ruta" | "Ausente";
+  export type UserStatus = "Habilitado" | "Deshabilitado";
 
   export interface User {
     usuario: string;
     cargo: string;
     contacto: string;
+    correo: string;
     estado: UserStatus;
   }
 
@@ -463,6 +563,10 @@ export namespace UserManagementTypes {
     {
       accessorKey: "contacto",
       header: "Contacto",
+    },
+    {
+      accessorKey: "correo",
+      header: "Correo",
     },
     {
       accessorKey: "estado",
@@ -589,6 +693,7 @@ export namespace SearchSelectTypes {
     isDisabled?: boolean;
     autoSelectFirst?: boolean;
     icon?: React.ReactNode;
+    variant?: SearchSelectVariant | null;
   };
 }
 
