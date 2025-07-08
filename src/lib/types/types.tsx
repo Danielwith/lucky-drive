@@ -8,7 +8,7 @@ import { IconType } from "react-icons/lib";
 import { ReactNode } from "react";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { LatLngExpression } from "leaflet";
-import type { MapProps } from "@vis.gl/react-google-maps";
+import { GoogleMapProps } from "react-google-map-wrapper";
 
 export namespace DataTableTypes {
   export interface props<TData, TValue> {
@@ -58,6 +58,8 @@ export namespace TaskBoardTypes {
     between?: boolean;
     Icon?: IconType;
   };
+
+  export type TaskStatus = "Pendiente" | "En curso" | "Terminados";
 
   export function TaskContentDefault({
     task_label,
@@ -159,9 +161,15 @@ export namespace MapViewerTypes {
 }
 
 export namespace GoogleMapViewerTypes {
+  export interface Position {
+    lng: number;
+    lat: number;
+  }
+
   export interface MarkerData {
-    position?: google.maps.LatLngLiteral;
+    position: Position;
     popupText?: string;
+    color: TaskBoardTypes.TaskStatus;
   }
 
   export interface MapViewerProps {
@@ -169,7 +177,8 @@ export namespace GoogleMapViewerTypes {
     zoom?: number;
     markers?: MarkerData[];
     /** Puedes extender con cualquier otra prop de MapContainerProps */
-    mapProps?: Partial<MapProps>;
+    mapProps?: Partial<GoogleMapProps>;
+    polyline?: Position[];
   }
 }
 
@@ -547,4 +556,24 @@ export namespace SearchSelectTypes {
     isDisabled?: boolean;
     autoSelectFirst?: boolean;
   };
+}
+
+export namespace ApiFetchTypes {
+  export interface ApiResponse<T> {
+    success: boolean;
+    response?: T;
+    errors?: string;
+  }
+
+  export interface ApiEndpoint {
+    controller: string;
+    method: string;
+  }
+
+  export interface ApiFetchOptions extends Omit<RequestInit, "body"> {
+    params?: Record<string, string | number>;
+    body?: any; // Se convierte automáticamente a JSON
+    headers?: HeadersInit;
+    log?: boolean;
+  }
 }

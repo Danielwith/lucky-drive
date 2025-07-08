@@ -15,25 +15,36 @@ import { RiCarLine } from "react-icons/ri";
 import { TbPhone } from "react-icons/tb";
 import { PiMapPinFill } from "react-icons/pi";
 import { TrackingDataService } from "@/services/tracking_data_service";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { FiBox } from "react-icons/fi";
 import { Separator } from "@/components/ui/separator";
 import { AppGoogleMapViewer } from "@/components/templates/AppGoogleMapViewer";
 import { LuMinimize2 } from "react-icons/lu";
+import { PolylineService } from "@/services/tracking/polyline_service";
 
 export default function Tracking() {
   const center: google.maps.LatLngLiteral = { lat: -12.0464, lng: -77.0428 };
   const zoom = 16;
-  const markers: GoogleMapViewerTypes.MarkerData[] = [
-    {
-      position: {
-        lat: -12.0464,
-        lng: -77.0428,
+  const markers = useMemo<GoogleMapViewerTypes.MarkerData[]>(
+    () => [
+      {
+        position: { lat: -12.0464, lng: -77.0428 },
+        popupText: "Aquí estoy 📍",
+        color: "Terminados",
       },
-      popupText: "Aquí estoy 📍",
-    },
-    { position: { lat: -12.05, lng: -77.03 }, popupText: "Otro punto" },
-  ];
+      {
+        position: { lat: -12.05, lng: -77.03 },
+        popupText: "Otro punto",
+        color: "En curso",
+      },
+      {
+        position: { lat: -12.05, lng: -77.04 },
+        popupText: "Otro punto",
+        color: "Pendiente",
+      },
+    ],
+    []
+  );
 
   const transporte: SelectTypes.SelectData[] =
     TrackingDataService.fetchTipoTransporte();
@@ -41,6 +52,8 @@ export default function Tracking() {
   const [results, setResults] = useState<TrackingTypes.SearchData[] | null>(
     null
   );
+
+  const [polyline, setPolyline] = useState<{ lat: number; lng: number }[]>([]);
 
   const [filterView, setFilterView] = useState<boolean>(true);
 
@@ -57,6 +70,34 @@ export default function Tracking() {
     setResults(TrackingDataService.fetchFormSearch(data));
     // Ejecuta tu lógica de búsqueda aquí
   };
+
+  useEffect(() => {
+    const fetchPolyline = async () => {
+      if (markers.length < 2) {
+        setPolyline([]);
+        return;
+      }
+
+      const positions = markers.map((m) => m.position);
+      const result = await PolylineService.fetchPolylineVector(positions);
+
+      if (
+        !result.success ||
+        !result.response?.routes?.[0]?.geometry?.coordinates
+      ) {
+        setPolyline([]);
+        return;
+      }
+
+      const coords = result.response.routes[0].geometry.coordinates;
+      const formatted: { lat: number; lng: number }[] = coords.map(
+        ([lng, lat]: [lng: number, lat: number]) => ({ lat, lng })
+      );
+      setPolyline(formatted);
+    };
+
+    void fetchPolyline();
+  }, [markers]);
 
   return (
     <div className="w-full h-full">
@@ -156,7 +197,12 @@ export default function Tracking() {
             </Button>
           </div>
         )}
-        <AppGoogleMapViewer center={center} zoom={zoom} markers={markers} />
+        <AppGoogleMapViewer
+          center={center}
+          zoom={zoom}
+          markers={markers}
+          polyline={polyline}
+        />
       </div>
     </div>
   );
