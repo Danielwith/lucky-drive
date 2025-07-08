@@ -40,6 +40,7 @@ export function DatePicker({
         <PopoverContent className="w-auto p-0" align="start">
           <Calendar
             mode="single"
+            defaultMonth={date}
             selected={date}
             onSelect={(date) => {
               if (onChange) {

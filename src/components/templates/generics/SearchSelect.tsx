@@ -8,14 +8,17 @@ import Select, {
   StylesConfig,
 } from "react-select";
 
+const DEFAULT_ICON = <IoMdSearch />;
+
 const CustomControl = (
-  props: ControlProps<SearchSelectTypes.Option, false>
+  props: ControlProps<SearchSelectTypes.Option, false> & {
+    selectProps: { iconToShow?: React.ReactNode };
+  }
 ) => {
+  const { iconToShow } = props.selectProps;
   return (
     <components.Control {...props}>
-      <div className="pl-2 scale-125">
-        <IoMdSearch />
-      </div>
+      <div className="pl-2 scale-125">{iconToShow}</div>
 
       {/* El resto del input */}
       {props.children}
@@ -31,7 +34,9 @@ export const SearchSelect: React.FC<SearchSelectTypes.props> = ({
   className,
   isDisabled = false,
   autoSelectFirst = false,
+  icon,
 }) => {
+  const iconToShow = icon ?? DEFAULT_ICON;
   const selectedOption = options.find((opt) => opt.value === value) ?? null;
 
   useEffect(() => {
@@ -90,6 +95,7 @@ export const SearchSelect: React.FC<SearchSelectTypes.props> = ({
         IndicatorSeparator: () => null,
         Control: CustomControl,
       }}
+      {...{ iconToShow }}
     />
   );
 };

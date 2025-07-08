@@ -1,7 +1,7 @@
 import { MapContainerProps } from "react-leaflet";
 import { ModalDialog } from "@/components/templates/AppDialog";
 import { Button } from "@/components/ui/button";
-import { ColumnDef, Table } from "@tanstack/react-table";
+import { ColumnDef, FilterFn, Table } from "@tanstack/react-table";
 import { LucideIcon, Pencil } from "lucide-react";
 import { DateRange } from "react-day-picker";
 import { IconType } from "react-icons/lib";
@@ -9,6 +9,8 @@ import { ReactNode } from "react";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { LatLngExpression } from "leaflet";
 import { GoogleMapProps } from "react-google-map-wrapper";
+import { dateEquals } from "../helpers/DataTableFilters";
+import { TripDetailModal } from "@/pages/dashboard/TripHistory";
 
 export namespace DataTableTypes {
   export interface props<TData, TValue> {
@@ -16,6 +18,7 @@ export namespace DataTableTypes {
     data: TData[];
     actions: TableActions[];
     customFilters?: (table: Table<TData>) => ReactNode;
+    tableFilters?: Record<string, FilterFn<TData>>;
     sheetname?: string;
   }
 
@@ -337,16 +340,43 @@ export namespace RequestTaxiExpressTypes {
 }
 
 export namespace TripHistoryTypes {
-  export type TripStatus = "En curso" | "Sin asignar" | "Terminado";
+  export type TripStatus = "Cancelado" | "Finalizado";
+  export type TripMode = "Taxi" | "Courier" | "Taxi express";
+
+  export interface Point {
+    label: string;
+    address: string;
+    ubication: string;
+    amount?: number;
+    courier_items?: RequestCourierTypes.Item[];
+    taxi_express_items?: RequestTaxiExpressTypes.Item[];
+    completed?: number;
+  }
+
+  export interface FDate {
+    start: string;
+    end: string;
+  }
+
+  export interface ModalData {
+    distance?: string;
+    ppto: number;
+    observation: string;
+    points: Point[];
+    selected_driver?: string;
+    finished_date?: FDate;
+  }
 
   export interface Trip {
     id: string;
     usuario: string;
+    fecha_hora: string;
+    monto: string;
     cargo: string;
     contacto: string;
     estado: TripStatus;
-    monto: string;
-    sobretiempo: string;
+    modo: TripMode;
+    modal_data: ModalData;
   }
 
   export const columns: ColumnDef<Trip>[] = [
@@ -358,6 +388,8 @@ export namespace TripHistoryTypes {
 
         return (
           <ModalDialog
+            customStyles="bg-[#4A4458] px-2 py-3 sm:max-w-none"
+            exitButton={false}
             trigger={
               <Button
                 variant="semicircular_fab"
@@ -370,18 +402,27 @@ export namespace TripHistoryTypes {
               </Button>
             }
           >
-            {Object.values(data).join(" | ")}
+            {({ close }) => <TripDetailModal data={data} close={close} />}
           </ModalDialog>
         );
       },
     },
     {
       accessorKey: "id",
-      header: "ID",
+      header: "ID RQ",
     },
     {
       accessorKey: "usuario",
       header: "Usuario",
+    },
+    {
+      accessorKey: "fecha_hora",
+      header: "Fecha y hora",
+      filterFn: dateEquals,
+    },
+    {
+      accessorKey: "monto",
+      header: "Monto",
     },
     {
       accessorKey: "cargo",
@@ -394,14 +435,6 @@ export namespace TripHistoryTypes {
     {
       accessorKey: "estado",
       header: "Estado",
-    },
-    {
-      accessorKey: "monto",
-      header: "Monto",
-    },
-    {
-      accessorKey: "sobretiempo",
-      header: "Sobretiempo",
     },
   ];
 }
@@ -555,6 +588,7 @@ export namespace SearchSelectTypes {
     className?: string;
     isDisabled?: boolean;
     autoSelectFirst?: boolean;
+    icon?: React.ReactNode;
   };
 }
 

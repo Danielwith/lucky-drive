@@ -40,7 +40,7 @@ export const AppGoogleMapViewer: React.FC<
             lat={m.position.lat}
             lng={m.position.lng}
             title={m.popupText}
-            icon={getColoredMarker(m.color)}
+            icon={getMarkerColor(m.color)}
           />
         ))}
       </GoogleMap>
@@ -48,7 +48,7 @@ export const AppGoogleMapViewer: React.FC<
   );
 };
 
-function getColoredMarker(status: TaskBoardTypes.TaskStatus) {
+function getMarkerColor(status: TaskBoardTypes.TaskStatus) {
   const StatusColor: Record<TaskBoardTypes.TaskStatus, string> = {
     Pendiente: "#C00F0C",
     "En curso": "#E8B931",

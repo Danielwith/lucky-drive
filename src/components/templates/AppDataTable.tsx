@@ -54,6 +54,7 @@ export function DataTable<TData, TValue>({
   data,
   actions,
   customFilters,
+  tableFilters = {},
   sheetname = "data",
 }: DataTableTypes.props<TData, TValue>) {
   const [rowSeparator, setRowSeparator] =
@@ -65,6 +66,9 @@ export function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    filterFns: {
+      ...tableFilters,
+    },
   });
 
   const separator: Record<DataTableTypes.SeparatorLevel, string> = {
