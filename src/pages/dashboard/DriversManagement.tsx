@@ -139,7 +139,8 @@ export const DriverModal = memo(function DriverModal({
                             options={services}
                             placeholder="-"
                             onChange={field.onChange}
-                            // value={field.value}
+                            isMulti
+                            value={field.value}
                           />
                           {fieldState.error && (
                             <p className="text-red-600">

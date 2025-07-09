@@ -687,12 +687,13 @@ export namespace SearchSelectTypes {
   export type props = {
     options: Option[];
     placeholder?: string;
-    onChange?: (value: string) => void;
-    value?: string;
+    onChange?: (value: string | string[]) => void;
+    value?: string | string[];
     className?: string;
     isDisabled?: boolean;
     autoSelectFirst?: boolean;
     icon?: React.ReactNode;
+    isMulti?: boolean;
     variant?: SearchSelectVariant | null;
   };
 }
