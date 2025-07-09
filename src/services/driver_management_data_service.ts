@@ -11,7 +11,7 @@ export const fetchDriverManagementData =
         telefono: "930558877",
         modelo: "AAA",
         placa: "PE-2012",
-        soat: 15451,
+        soat: "15451",
         soat_vigencia: "2025-07-08",
       },
       {
@@ -22,7 +22,7 @@ export const fetchDriverManagementData =
         telefono: "930558877",
         modelo: "AAA",
         placa: "PE-2012",
-        soat: 15451,
+        soat: "15451",
         soat_vigencia: "2025-07-08",
       },
       {
@@ -33,7 +33,7 @@ export const fetchDriverManagementData =
         telefono: "930558877",
         modelo: "AAA",
         placa: "PE-2012",
-        soat: 15451,
+        soat: "15451",
         soat_vigencia: "2025-07-08",
       },
     ];

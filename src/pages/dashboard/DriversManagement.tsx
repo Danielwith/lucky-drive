@@ -2,12 +2,17 @@ import { DataTable } from "@/components/templates/AppDataTable";
 import { ModalDialog } from "@/components/templates/AppDialog";
 import { SearchSelect } from "@/components/templates/generics/SearchSelect";
 import { Button } from "@/components/ui/button";
+import { DatePicker } from "@/components/ui/date-picker";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { isNumericOrControlKey } from "@/lib/helpers/InputValidation";
 import {
   DataTableTypes,
   DriversManagementTypes,
   SearchSelectTypes,
 } from "@/lib/types/types";
 import { fetchDriverManagementData } from "@/services/driver_management_data_service";
+import { parseISO } from "date-fns";
 import { Plus } from "lucide-react";
 import { memo } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -56,14 +61,16 @@ export const DriverModal = memo(function DriverModal({
 }: DriversManagementTypes.ModalProps) {
   const { handleSubmit, control } = useForm<DriversManagementTypes.form>({
     defaultValues: {
-      nombreConductor: "",
-      dni: "",
-      telefono: "",
-      servicios: [],
-      modeloVehiculo: "",
-      placaVehiculo: "",
-      nroSOAT: 0,
-      vigenciaSOAT: "",
+      nombreConductor: data?.conductor ?? "",
+      dni: data?.dni ?? "",
+      telefono: data?.telefono ?? "",
+      servicios: data?.servicios.split(",").map((e) => e.trim()) ?? [],
+      modeloVehiculo: data?.modelo ?? "",
+      placaVehiculo: data?.placa ?? "",
+      nroSOAT: data?.soat ?? "",
+      vigenciaSOAT: data?.soat_vigencia
+        ? parseISO(data?.soat_vigencia)
+        : undefined,
     },
   });
 
@@ -73,8 +80,8 @@ export const DriverModal = memo(function DriverModal({
       value: "Taxi",
     },
     {
-      label: "Taxi express",
-      value: "Taxi express",
+      label: "Taxi Express",
+      value: "Taxi Express",
     },
     {
       label: "Courier",
@@ -102,9 +109,9 @@ export const DriverModal = memo(function DriverModal({
 
   return (
     <div className="w-[745px] px-2 py-2.5 flex flex-col space-y-1 text-gray-200">
-      <div className="flex items-center text-xl gap-2">
+      <div className="flex items-center text-xl gap-2 text-[#E6E0E9]">
         <HiOutlineUser />
-        <h2>
+        <h2 className="font-medium">
           {(() => {
             switch (mode) {
               case "INSERT":
@@ -118,64 +125,269 @@ export const DriverModal = memo(function DriverModal({
       </div>
 
       {/* formulario */}
-      <>
-        {(() => {
+      <form
+        onSubmit={handleSubmit((data) => {
           switch (mode) {
             case "INSERT":
-              return (
-                <>
-                  <form
-                    onSubmit={handleSubmit((data) => onInsert(data, close))}
-                    className="mt-3"
-                  >
-                    <Controller
-                      control={control}
-                      name="servicios"
-                      rules={{ required: "Debe seleccionar un conductor" }}
-                      render={({ field, fieldState }) => (
-                        <>
-                          <SearchSelect
-                            variant={"basic"}
-                            options={services}
-                            placeholder="-"
-                            onChange={field.onChange}
-                            isMulti
-                            value={field.value}
-                          />
-                          {fieldState.error && (
-                            <p className="text-red-600">
-                              {fieldState.error.message}
-                            </p>
-                          )}
-                        </>
-                      )}
-                    />
-                    <div className="flex flex-row gap-2 mt-2 justify-end">
-                      <Button
-                        type="reset"
-                        onClick={close}
-                        className="rounded-full"
-                        variant="outline"
-                      >
-                        Salir
-                      </Button>
-                      <Button
-                        type="submit"
-                        className="bg-[#68548E] rounded-full"
-                      >
-                        Guardar conductor
-                      </Button>
-                    </div>
-                  </form>
-                </>
-              );
+              return onInsert(data, close);
             case "UPDATE":
-              return <div className="mt-1"></div>;
-            default:
-              return null;
+              return onUpdate(data, close);
           }
-        })()}
-      </>
+        })}
+        className="mt-5"
+      >
+        <div
+          className="grid grid-cols-2 gap-y-2.5 gap-x-5 [&>h4]:text-sm [&>h4]:font-medium
+                    [&>div]:flex [&>div]:flex-col [&>div]:gap-1"
+        >
+          <h4>Datos conductor</h4>
+          <h4>Datos vehículo</h4>
+          {/* Nombre conductor */}
+          <div>
+            <Label htmlFor="nombreConductor" className="px-1">
+              Nombre conductor
+            </Label>
+            <Controller
+              control={control}
+              name="nombreConductor"
+              rules={{ required: "Campo obligatorio" }}
+              render={({ field, fieldState }) => (
+                <>
+                  <Input
+                    id="nombreConductor"
+                    type="text"
+                    placeholder="-"
+                    value={field.value}
+                    onChange={(e) => {
+                      field.onChange(e.target.value);
+                    }}
+                  />
+                  {fieldState.error && (
+                    <p className="text-red-600">{fieldState.error.message}</p>
+                  )}
+                </>
+              )}
+            />
+          </div>
+          {/* Modelo de vehículo */}
+          <div>
+            <Label htmlFor="modeloVehiculo" className="px-1">
+              Modelo de vehículo
+            </Label>
+            <Controller
+              control={control}
+              name="modeloVehiculo"
+              rules={{ required: "Campo obligatorio" }}
+              render={({ field, fieldState }) => (
+                <>
+                  <Input
+                    id="modeloVehiculo"
+                    type="text"
+                    placeholder="-"
+                    value={field.value}
+                    onChange={(e) => {
+                      field.onChange(e.target.value);
+                    }}
+                  />
+                  {fieldState.error && (
+                    <p className="text-red-600">{fieldState.error.message}</p>
+                  )}
+                </>
+              )}
+            />
+          </div>
+          {/* DNI/CE */}
+          <div>
+            <Label htmlFor="dni" className="px-1">
+              DNI/CE
+            </Label>
+            <Controller
+              control={control}
+              name="dni"
+              rules={{
+                required: "Campo obligatorio",
+                pattern: {
+                  value: /^(?:\d{8}|[A-Za-z0-9]{9})$/,
+                  message:
+                    "Debe ser 8 dígitos (DNI) o 9 caracteres alfanuméricos (CE)",
+                },
+              }}
+              render={({ field, fieldState }) => (
+                <>
+                  <Input
+                    id="dni"
+                    type="text"
+                    placeholder="-"
+                    value={field.value}
+                    onChange={(e) => {
+                      field.onChange(e.target.value);
+                    }}
+                    onKeyDown={(e) => {
+                      if (!isNumericOrControlKey(e.key)) {
+                        e.preventDefault();
+                      }
+                    }}
+                  />
+                  {fieldState.error && (
+                    <p className="text-red-600">{fieldState.error.message}</p>
+                  )}
+                </>
+              )}
+            />
+          </div>
+          {/* Placa de vehículo */}
+          <div>
+            <Label htmlFor="placaVehiculo" className="px-1">
+              Placa de vehículo
+            </Label>
+            <Controller
+              control={control}
+              name="placaVehiculo"
+              rules={{ required: "Campo obligatorio" }}
+              render={({ field, fieldState }) => (
+                <>
+                  <Input
+                    id="placaVehiculo"
+                    type="text"
+                    placeholder="-"
+                    value={field.value}
+                    onChange={(e) => {
+                      field.onChange(e.target.value);
+                    }}
+                  />
+                  {fieldState.error && (
+                    <p className="text-red-600">{fieldState.error.message}</p>
+                  )}
+                </>
+              )}
+            />
+          </div>
+          {/* Teléfono */}
+          <div>
+            <Label htmlFor="telefono" className="px-1">
+              Teléfono
+            </Label>
+            <Controller
+              control={control}
+              name="telefono"
+              rules={{ required: "Campo obligatorio" }}
+              render={({ field, fieldState }) => (
+                <>
+                  <Input
+                    id="telefono"
+                    type="text"
+                    placeholder="-"
+                    value={field.value}
+                    onChange={(e) => {
+                      field.onChange(e.target.value);
+                    }}
+                    onKeyDown={(e) => {
+                      if (!isNumericOrControlKey(e.key)) {
+                        e.preventDefault();
+                      }
+                    }}
+                  />
+                  {fieldState.error && (
+                    <p className="text-red-600">{fieldState.error.message}</p>
+                  )}
+                </>
+              )}
+            />
+          </div>
+          {/* Nro. SOAT */}
+          <div>
+            <Label htmlFor="nroSOAT" className="px-1">
+              Nro. SOAT
+            </Label>
+            <Controller
+              control={control}
+              name="nroSOAT"
+              rules={{ required: "Campo obligatorio" }}
+              render={({ field, fieldState }) => (
+                <>
+                  <Input
+                    id="nroSOAT"
+                    type="text"
+                    placeholder="-"
+                    value={field.value}
+                    onChange={(e) => {
+                      field.onChange(e.target.value);
+                    }}
+                    onKeyDown={(e) => {
+                      if (!isNumericOrControlKey(e.key)) {
+                        e.preventDefault();
+                      }
+                    }}
+                  />
+                  {fieldState.error && (
+                    <p className="text-red-600">{fieldState.error.message}</p>
+                  )}
+                </>
+              )}
+            />
+          </div>
+          {/* Servicios */}
+          <div>
+            <Label className="px-1">Servicios</Label>
+            <Controller
+              control={control}
+              name="servicios"
+              rules={{ required: "Campo obligatorio" }}
+              render={({ field, fieldState }) => (
+                <>
+                  <SearchSelect
+                    variant={"basic"}
+                    options={services}
+                    placeholder="-"
+                    onChange={field.onChange}
+                    isMulti
+                    value={field.value}
+                  />
+                  {fieldState.error && (
+                    <p className="text-red-600">{fieldState.error.message}</p>
+                  )}
+                </>
+              )}
+            />
+          </div>
+          {/* Vigencia SOAT */}
+          <div>
+            <Controller
+              control={control}
+              name="vigenciaSOAT"
+              rules={{ required: "Campo obligatorio" }}
+              render={({ field, fieldState }) => (
+                <>
+                  <DatePicker
+                    label="Vigencia SOAT"
+                    placeholder="-"
+                    value={field.value}
+                    onChange={(date) => {
+                      field.onChange(date);
+                    }}
+                  />
+                  {fieldState.error && (
+                    <p className="text-red-600">{fieldState.error.message}</p>
+                  )}
+                </>
+              )}
+            />
+          </div>
+        </div>
+        <div className="flex flex-row gap-2 justify-end mt-5">
+          <Button
+            type="reset"
+            onClick={close}
+            className="rounded-full"
+            variant="outline"
+          >
+            Salir
+          </Button>
+          <Button type="submit" className="bg-[#68548E] rounded-full">
+            Guardar conductor
+          </Button>
+        </div>
+      </form>
     </div>
   );
 });

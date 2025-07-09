@@ -22,7 +22,7 @@ const searchSelectVariants = cva("", {
     variant: {
       default: "",
       basic:
-        "h-9 [&_.css-1p3m7a8-multiValue]:!hidden [&_.css-hlgwow]:-translate-y-[2px] [&_.css-hlgwow]:!flex [&_.css-1dyz3mf]:-translate-y-[2px] [&_.css-1wy0on6]:-translate-y-[2px] [&_.select-svg]:hidden dark:bg-input border-input border rounded-md text-base shadow-xs transition-[color,box-shadow] outline-none [&:has(.css-1nmdiq5-menu)]:border-ring [&:has(.css-1nmdiq5-menu)]:ring-ring/50 [&:has(.css-1nmdiq5-menu)]:ring-[3px]",
+        "h-9 [&_.css-1p3m7a8-multiValue]:!hidden [&_.css-hlgwow]:-translate-y-[2px] [&_.css-hlgwow]:!flex [&_.css-1dyz3mf]:-translate-y-[2px] [&_.css-1wy0on6]:-translate-y-[2px] [&_.select-svg]:hidden dark:bg-input/30 border-gray-500 border rounded-md text-base shadow-xs transition-[color,box-shadow] outline-none [&:has(.css-1nmdiq5-menu)]:border-ring [&:has(.css-1nmdiq5-menu)]:ring-ring/50 [&:has(.css-1nmdiq5-menu)]:ring-[3px]",
     },
   },
   defaultVariants: {

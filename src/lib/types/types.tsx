@@ -456,7 +456,7 @@ export namespace DriversManagementTypes {
     telefono: string;
     modelo: string;
     placa: string;
-    soat: number;
+    soat: string;
     soat_vigencia: string;
   }
 
@@ -473,8 +473,8 @@ export namespace DriversManagementTypes {
     servicios?: string[];
     modeloVehiculo?: string;
     placaVehiculo?: string;
-    nroSOAT?: number;
-    vigenciaSOAT?: string;
+    nroSOAT?: string;
+    vigenciaSOAT?: Date;
   }
 
   export const columns: ColumnDef<Driver>[] = [
