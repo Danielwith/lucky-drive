@@ -21,8 +21,15 @@ const searchSelectVariants = cva("", {
   variants: {
     variant: {
       default: "",
-      basic:
-        "h-9 [&_.css-1p3m7a8-multiValue]:!hidden [&_.css-hlgwow]:-translate-y-[2px] [&_.css-hlgwow]:!flex [&_.css-1dyz3mf]:-translate-y-[2px] [&_.css-1wy0on6]:-translate-y-[2px] [&_.select-svg]:hidden dark:bg-input/30 border-gray-500 border rounded-md text-base shadow-xs transition-[color,box-shadow] outline-none [&:has(.css-1nmdiq5-menu)]:border-ring [&:has(.css-1nmdiq5-menu)]:ring-ring/50 [&:has(.css-1nmdiq5-menu)]:ring-[3px]",
+      basic: `[&_.css-1tvwn85-control]:h-full 
+      [&_.css-1mt838r-control]:h-full 
+      [&_.css-hlgwow]:h-[28px] [&_.css-hlgwow]:!flex 
+      [&_.css-1yt0726]:-translate-y-[2px] [&_.css-1yt0726]:absolute 
+      [&_.css-1mjqheq]:bg-[#27252a] [&_.css-1mjqheq]:!-ml-0.5 [&_.css-1mjqheq]:w-[calc(100%-1rem)] [&_.css-1mjqheq]:absolute
+      [&_.css-1dyz3mf]:h-[28px] [&_.css-1dyz3mf]:break-all [&_.css-1dyz3mf]:-translate-y-[2px] 
+      [&_.css-1p3m7a8-multiValue]:!hidden 
+      [&_.css-1wy0on6]:-translate-y-[2px] 
+      h-9 [&_.select-svg]:hidden dark:bg-input/30 border-gray-500 border rounded-md text-base shadow-xs transition-[color,box-shadow] outline-none [&:has(.css-1nmdiq5-menu)]:border-ring [&:has(.css-1nmdiq5-menu)]:ring-ring/50 [&:has(.css-1nmdiq5-menu)]:ring-[3px]`,
     },
   },
   defaultVariants: {

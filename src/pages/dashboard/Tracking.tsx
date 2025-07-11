@@ -1,11 +1,11 @@
 import GenericSelect from "@/components/templates/generics/GenericSelect";
 import { Button } from "@/components/ui/button";
-import DateRangePicker from "@/components/ui/date-range-picker";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   GoogleMapViewerTypes,
   SelectTypes,
+  TaskBoardTypes,
   TrackingTypes,
 } from "@/lib/types/types";
 import { IoSearchSharp } from "react-icons/io5";
@@ -21,6 +21,7 @@ import { Separator } from "@/components/ui/separator";
 import { AppGoogleMapViewer } from "@/components/templates/AppGoogleMapViewer";
 import { LuMinimize2 } from "react-icons/lu";
 import { PolylineService } from "@/services/tracking/polyline_service";
+import { SearchSelect } from "@/components/templates/generics/SearchSelect";
 
 export default function Tracking() {
   const center: google.maps.LatLngLiteral = { lat: -12.0464, lng: -77.0428 };
@@ -29,25 +30,40 @@ export default function Tracking() {
     () => [
       {
         position: { lat: -12.0464, lng: -77.0428 },
-        popupText: "Aquí estoy 📍",
-        color: "Terminados",
+        popupText: "DC", // Iniciales del Conductor
+        status: "Terminados",
+        mode: "Taxi",
       },
       {
         position: { lat: -12.05, lng: -77.03 },
-        popupText: "Otro punto",
-        color: "En curso",
+        popupText: "AB",
+        status: "En curso",
+        mode: "Taxi express",
       },
       {
         position: { lat: -12.05, lng: -77.04 },
-        popupText: "Otro punto",
-        color: "Pendiente",
+        popupText: "ED",
+        status: "Pendiente",
+        mode: "Courier",
       },
     ],
     []
   );
 
-  const transporte: SelectTypes.SelectData[] =
-    TrackingDataService.fetchTipoTransporte();
+  const transporte: SelectTypes.SelectData[] = [
+    {
+      label: "Taxi",
+      value: "Taxi",
+    },
+    {
+      label: "Taxi express",
+      value: "Taxi express",
+    },
+    {
+      label: "Courier",
+      value: "Courier",
+    },
+  ];
 
   const [results, setResults] = useState<TrackingTypes.SearchData[] | null>(
     null
@@ -59,8 +75,8 @@ export default function Tracking() {
 
   const { handleSubmit, control } = useForm<TrackingTypes.TrackingForm>({
     defaultValues: {
-      dateRange: undefined,
-      transporte: "",
+      estado: "",
+      tipo_transporte: "",
       conductor: "",
     },
   });
@@ -122,19 +138,23 @@ export default function Tracking() {
               <div className="flex flex-row flex-wrap gap-4">
                 <Controller
                   control={control}
-                  name="dateRange"
+                  name="tipo_transporte"
                   render={({ field }) => (
-                    <DateRangePicker
-                      label="Rango de fecha"
+                    <SearchSelect
+                      className="w-[180px]"
+                      options={transporte}
                       value={field.value}
+                      variant={"basic"}
                       onChange={field.onChange}
+                      placeholder=""
+                      isMulti
                     />
                   )}
                 />
 
                 <Controller
                   control={control}
-                  name="transporte"
+                  name="estado"
                   render={({ field }) => (
                     <GenericSelect
                       label="Tipo de transporte"
@@ -212,6 +232,12 @@ function SearchCard({ item }: { item: TrackingTypes.SearchData }) {
   const [selectedParada, setSelectedParada] =
     useState<TrackingTypes.ParadaData | null>(null);
 
+  const color: Record<TaskBoardTypes.TaskStatus, string> = {
+    Pendiente: "red",
+    "En curso": "yellow",
+    Terminados: "green",
+  };
+
   // Vista original
   if (!selectedParada) {
     return (
@@ -250,7 +276,7 @@ function SearchCard({ item }: { item: TrackingTypes.SearchData }) {
                 }}
                 className="flex flex-wrap flex-row items-center gap-2.5 overflow-hidden w-full cursor-pointer  p-1 rounded"
               >
-                <PiMapPinFill color={parada.estado === 1 ? "green" : "red"} />
+                <PiMapPinFill color={color[parada.estado]} />
                 <p className="w-[calc(100%-1.75rem)] overflow-ellipsis overflow-hidden">
                   Parada {parada.numero}: {parada.nombre}
                 </p>
@@ -266,41 +292,56 @@ function SearchCard({ item }: { item: TrackingTypes.SearchData }) {
   return (
     <div className="min-w-[250px] w-[250px] shadow-material rounded-xl p-3 h-fit bg-[#342c44]">
       <div className="flex flex-wrap flex-row items-center gap-2.5 overflow-hidden w-full cursor-pointer hover:bg-gray-100 p-1 rounded">
-        <PiMapPinFill color={selectedParada.estado === 1 ? "green" : "red"} />
+        <PiMapPinFill color={color[selectedParada.estado]} />
         <p className="w-[calc(100%-1.75rem)] overflow-ellipsis overflow-hidden font-semibold">
           Parada {selectedParada.numero}: {selectedParada.nombre}
         </p>
       </div>
       <Separator className="my-2 bg-white"></Separator>
-      {selectedParada.estado === 1 ? (
-        <>
-          <p className="font-semibold mb-2">Datos de recepcionario</p>
-          <div className="flex flex-wrap flex-row items-center gap-2.5 overflow-hidden w-full">
-            <FaRegUser />
-            <p className="w-[calc(100%-1.75rem)] overflow-ellipsis overflow-hidden">
-              {item.user}
-            </p>
-          </div>
-          <div className="flex flex-wrap flex-row items-center gap-2.5 overflow-hidden w-full">
-            <RiCarLine />
-            <p className="w-[calc(100%-1.75rem)] overflow-ellipsis overflow-hidden">
-              {item.placa}
-            </p>
-          </div>
-          <div className="flex flex-wrap flex-row items-center gap-2.5 overflow-hidden w-full">
-            <TbPhone />
-            <p className="w-[calc(100%-1.75rem)] overflow-ellipsis overflow-hidden">
-              {item.telefono}
-            </p>
-          </div>
-        </>
-      ) : (
-        <>
-          <p className="font-semibold mb-2 text-red-600">
-            Pedido no recepcionado
-          </p>
-        </>
-      )}
+      <>
+        {(() => {
+          switch (selectedParada.estado) {
+            case "Pendiente":
+              return (
+                <>
+                  <p className="font-semibold mb-2 text-red-600">
+                    Pedido no recepcionado
+                  </p>
+                </>
+              );
+            case "En curso":
+              return (
+                <>
+                  <h1>No implementado</h1>
+                </>
+              );
+            case "Terminados":
+              return (
+                <>
+                  <p className="font-semibold mb-2">Datos de recepcionario</p>
+                  <div className="flex flex-wrap flex-row items-center gap-2.5 overflow-hidden w-full">
+                    <FaRegUser />
+                    <p className="w-[calc(100%-1.75rem)] overflow-ellipsis overflow-hidden">
+                      {item.user}
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap flex-row items-center gap-2.5 overflow-hidden w-full">
+                    <RiCarLine />
+                    <p className="w-[calc(100%-1.75rem)] overflow-ellipsis overflow-hidden">
+                      {item.placa}
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap flex-row items-center gap-2.5 overflow-hidden w-full">
+                    <TbPhone />
+                    <p className="w-[calc(100%-1.75rem)] overflow-ellipsis overflow-hidden">
+                      {item.telefono}
+                    </p>
+                  </div>
+                </>
+              );
+          }
+        })()}
+      </>
 
       <Separator className="my-2 bg-white"></Separator>
       <p className="font-semibold">Observaciones</p>

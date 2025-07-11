@@ -90,19 +90,20 @@ export const DriverModal = memo(function DriverModal({
   ];
 
   const onInsert = (
-    data: DriversManagementTypes.form,
+    dataForm: DriversManagementTypes.form,
     closeModal: () => void
   ) => {
-    console.log("Form Data INSERT:", data);
+    console.log("Form Data INSERT:", dataForm);
 
     closeModal();
   };
 
   const onUpdate = (
-    data: DriversManagementTypes.form,
+    dataForm: DriversManagementTypes.form,
     closeModal: () => void
   ) => {
-    console.log("Form Data UPDATE:", data);
+    console.log("Form Data UPDATE:", dataForm);
+    console.log(data?.id);
 
     closeModal();
   };

@@ -3,7 +3,6 @@ import { ModalDialog } from "@/components/templates/AppDialog";
 import { Button } from "@/components/ui/button";
 import { ColumnDef, FilterFn, Table } from "@tanstack/react-table";
 import { LucideIcon, Pencil } from "lucide-react";
-import { DateRange } from "react-day-picker";
 import { IconType } from "react-icons/lib";
 import { ReactNode } from "react";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
@@ -167,6 +166,8 @@ export namespace MapViewerTypes {
 }
 
 export namespace GoogleMapViewerTypes {
+  export type MarkerType = "Taxi" | "Courier" | "Taxi express";
+
   export interface Position {
     lng: number;
     lat: number;
@@ -175,7 +176,8 @@ export namespace GoogleMapViewerTypes {
   export interface MarkerData {
     position: Position;
     popupText?: string;
-    color: TaskBoardTypes.TaskStatus;
+    status: TaskBoardTypes.TaskStatus;
+    mode: MarkerType;
   }
 
   export interface MapViewerProps {
@@ -649,8 +651,8 @@ export namespace RequestReceptionTypes {
 
 export namespace TrackingTypes {
   export interface TrackingForm {
-    dateRange: DateRange | undefined;
-    transporte: string;
+    estado: string;
+    tipo_transporte: string;
     conductor: string;
   }
 
@@ -668,7 +670,7 @@ export namespace TrackingTypes {
   export interface ParadaData {
     numero: number;
     nombre: string;
-    estado: number;
+    estado: TaskBoardTypes.TaskStatus;
     info: ParadaInfoData;
   }
 

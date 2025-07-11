@@ -1,4 +1,4 @@
-import { SelectTypes, TrackingTypes } from "@/lib/types/types";
+import { TrackingTypes } from "@/lib/types/types";
 export namespace TrackingDataService {
   export const fetchFormSearch = (
     formRequest: TrackingTypes.TrackingForm
@@ -14,7 +14,7 @@ export namespace TrackingDataService {
           {
             numero: 3,
             nombre: "Parada Central",
-            estado: 1,
+            estado: "Terminados",
             info: {
               observacion: "Conductor puntual y sin incidencias",
               fotos: [
@@ -28,7 +28,7 @@ export namespace TrackingDataService {
           {
             numero: 4,
             nombre: "Parada Norte",
-            estado: 0,
+            estado: "Pendiente",
             info: {
               observacion: "Retraso por obras en la vía",
               fotos: [],
@@ -45,7 +45,7 @@ export namespace TrackingDataService {
           {
             numero: 2,
             nombre: "Estación Norte",
-            estado: 0,
+            estado: "Pendiente",
             info: {
               observacion: "Pasajeros bajaron en destino alternativo",
               fotos: ["https://placehold.co/600x400"],
@@ -62,7 +62,7 @@ export namespace TrackingDataService {
           {
             numero: 4,
             nombre: "Terminal Sur",
-            estado: 1,
+            estado: "Pendiente",
             info: {
               observacion: "Entrega completada exitosamente",
               fotos: [
@@ -72,19 +72,6 @@ export namespace TrackingDataService {
             },
           },
         ],
-      },
-    ];
-  };
-
-  export const fetchTipoTransporte = (): SelectTypes.SelectData[] => {
-    return [
-      {
-        label: "UNO",
-        value: "UNO",
-      },
-      {
-        label: "DOS",
-        value: "DOS",
       },
     ];
   };
