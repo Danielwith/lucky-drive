@@ -329,7 +329,6 @@ export const DriverModal = memo(function DriverModal({
           </div>
           {/* Servicios */}
           <div>
-            <Label className="px-1">Servicios</Label>
             <Controller
               control={control}
               name="servicios"
@@ -337,6 +336,7 @@ export const DriverModal = memo(function DriverModal({
               render={({ field, fieldState }) => (
                 <>
                   <SearchSelect
+                    label="Servicios"
                     variant={"basic"}
                     options={services}
                     placeholder="-"

@@ -131,7 +131,7 @@ export namespace SelectTypes {
 
   export interface SelectData {
     label: string;
-    value: string;
+    value: any;
   }
 }
 
@@ -687,6 +687,7 @@ export namespace SearchSelectTypes {
   };
 
   export type props = {
+    label: string;
     options: Option[];
     placeholder?: string;
     onChange?: (value: string | string[]) => void;

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 import { SearchSelectTypes } from "@/lib/types/types";
 import { cn } from "@/lib/utils";
 import { cva, VariantProps } from "class-variance-authority";
@@ -25,8 +26,8 @@ const searchSelectVariants = cva("", {
       [&_.css-1mt838r-control]:h-full 
       [&_.css-hlgwow]:h-[28px] [&_.css-hlgwow]:!flex 
       [&_.css-1yt0726]:-translate-y-[2px] [&_.css-1yt0726]:absolute 
-      [&_.css-1mjqheq]:bg-[#27252a] [&_.css-1mjqheq]:!-ml-0.5 [&_.css-1mjqheq]:w-[calc(100%-1rem)] [&_.css-1mjqheq]:absolute
-      [&_.css-1dyz3mf]:h-[28px] [&_.css-1dyz3mf]:break-all [&_.css-1dyz3mf]:-translate-y-[2px] 
+      [&_.css-1mjqheq]:z-50 [&_.css-1mjqheq]:w-[calc(100%-1rem)] [&_.css-1mjqheq]:absolute
+      [&_.css-1dyz3mf]:h-[28px] [&_.css-1dyz3mf]:break-all [&_.css-1dyz3mf]:-translate-y-[2px] [&:has(.css-1mjqheq)_.css-1dyz3mf]:text-transparent
       [&_.css-1p3m7a8-multiValue]:!hidden 
       [&_.css-1wy0on6]:-translate-y-[2px] 
       h-9 [&_.select-svg]:hidden dark:bg-input/30 border-gray-500 border rounded-md text-base shadow-xs transition-[color,box-shadow] outline-none [&:has(.css-1nmdiq5-menu)]:border-ring [&:has(.css-1nmdiq5-menu)]:ring-ring/50 [&:has(.css-1nmdiq5-menu)]:ring-[3px]`,
@@ -94,6 +95,7 @@ const CustomValueContainer = <OptionType, IsMulti extends boolean = false>(
 };
 
 export const SearchSelect: React.FC<SearchSelectTypes.props> = ({
+  label = "",
   options,
   variant,
   placeholder = "Buscar...",
@@ -178,26 +180,33 @@ export const SearchSelect: React.FC<SearchSelectTypes.props> = ({
   }
 
   return (
-    <Select<SearchSelectTypes.Option, boolean>
-      className={cn(
-        searchSelectVariants({
-          variant,
-        }),
-        className
+    <div className="flex flex-col gap-1">
+      {label === "" ? null : (
+        <Label htmlFor="select" className="px-1">
+          {label}
+        </Label>
       )}
-      options={options}
-      placeholder={placeholder}
-      styles={colourStyles}
-      onChange={handleChange as any}
-      value={selectedValue as any}
-      isDisabled={isDisabled}
-      isClearable={true}
-      isMulti={isMulti}
-      closeMenuOnSelect={!isMulti}
-      hideSelectedOptions={false}
-      noOptionsMessage={() => "No hay resultados"}
-      components={selectComponents}
-      {...{ iconToShow }}
-    />
+      <Select<SearchSelectTypes.Option, boolean>
+        className={cn(
+          searchSelectVariants({
+            variant,
+          }),
+          className
+        )}
+        options={options}
+        placeholder={placeholder}
+        styles={colourStyles}
+        onChange={handleChange as any}
+        value={selectedValue as any}
+        isDisabled={isDisabled}
+        isClearable={true}
+        isMulti={isMulti}
+        closeMenuOnSelect={!isMulti}
+        hideSelectedOptions={false}
+        noOptionsMessage={() => "No hay resultados"}
+        components={selectComponents}
+        {...{ iconToShow }}
+      />
+    </div>
   );
 };

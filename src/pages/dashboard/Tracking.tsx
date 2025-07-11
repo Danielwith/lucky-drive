@@ -65,11 +65,22 @@ export default function Tracking() {
     },
   ];
 
+  const estado: SelectTypes.SelectData[] = [
+    {
+      label: "Inactivo",
+      value: "Inactivo",
+    },
+    {
+      label: "Activo",
+      value: "Activo",
+    },
+  ];
+
   const [results, setResults] = useState<TrackingTypes.SearchData[] | null>(
     null
   );
 
-  const [polyline, setPolyline] = useState<{ lat: number; lng: number }[]>([]);
+  // const [polyline, setPolyline] = useState<{ lat: number; lng: number }[]>([]);
 
   const [filterView, setFilterView] = useState<boolean>(true);
 
@@ -87,33 +98,33 @@ export default function Tracking() {
     // Ejecuta tu lógica de búsqueda aquí
   };
 
-  useEffect(() => {
-    const fetchPolyline = async () => {
-      if (markers.length < 2) {
-        setPolyline([]);
-        return;
-      }
+  // useEffect(() => {
+  //   const fetchPolyline = async () => {
+  //     if (markers.length < 2) {
+  //       setPolyline([]);
+  //       return;
+  //     }
 
-      const positions = markers.map((m) => m.position);
-      const result = await PolylineService.fetchPolylineVector(positions);
+  //     const positions = markers.map((m) => m.position);
+  //     const result = await PolylineService.fetchPolylineVector(positions);
 
-      if (
-        !result.success ||
-        !result.response?.routes?.[0]?.geometry?.coordinates
-      ) {
-        setPolyline([]);
-        return;
-      }
+  //     if (
+  //       !result.success ||
+  //       !result.response?.routes?.[0]?.geometry?.coordinates
+  //     ) {
+  //       setPolyline([]);
+  //       return;
+  //     }
 
-      const coords = result.response.routes[0].geometry.coordinates;
-      const formatted: { lat: number; lng: number }[] = coords.map(
-        ([lng, lat]: [lng: number, lat: number]) => ({ lat, lng })
-      );
-      setPolyline(formatted);
-    };
+  //     const coords = result.response.routes[0].geometry.coordinates;
+  //     const formatted: { lat: number; lng: number }[] = coords.map(
+  //       ([lng, lat]: [lng: number, lat: number]) => ({ lat, lng })
+  //     );
+  //     setPolyline(formatted);
+  //   };
 
-    void fetchPolyline();
-  }, [markers]);
+  //   void fetchPolyline();
+  // }, [markers]);
 
   return (
     <div className="w-full h-full">
@@ -135,12 +146,26 @@ export default function Tracking() {
               onSubmit={handleSubmit(onSubmit)}
               className="flex flex-row flex-wrap items-end justify-between gap-2"
             >
-              <div className="flex flex-row flex-wrap gap-4">
+              <div className="flex flex-row flex-wrap gap-4 grow">
+                <Controller
+                  control={control}
+                  name="estado"
+                  render={({ field }) => (
+                    <GenericSelect
+                      label="Estado"
+                      data={estado}
+                      value={field.value}
+                      onChange={field.onChange}
+                      placeholder=""
+                    />
+                  )}
+                />
                 <Controller
                   control={control}
                   name="tipo_transporte"
                   render={({ field }) => (
                     <SearchSelect
+                      label="Tipo de transporte"
                       className="w-[180px]"
                       options={transporte}
                       value={field.value}
@@ -151,22 +176,7 @@ export default function Tracking() {
                     />
                   )}
                 />
-
-                <Controller
-                  control={control}
-                  name="estado"
-                  render={({ field }) => (
-                    <GenericSelect
-                      label="Tipo de transporte"
-                      data={transporte}
-                      value={field.value}
-                      onChange={field.onChange}
-                      placeholder=""
-                    />
-                  )}
-                />
-
-                <div className="flex flex-col gap-1 min-w-[18rem]">
+                <div className="flex flex-col gap-1 min-w-[18rem] grow">
                   <Label htmlFor="conductor" className="px-1">
                     Conductor
                   </Label>
@@ -221,7 +231,7 @@ export default function Tracking() {
           center={center}
           zoom={zoom}
           markers={markers}
-          polyline={polyline}
+          // polyline={polyline}
         />
       </div>
     </div>
@@ -241,7 +251,7 @@ function SearchCard({ item }: { item: TrackingTypes.SearchData }) {
   // Vista original
   if (!selectedParada) {
     return (
-      <div className="min-w-[250px] w-[250px] shadow-material rounded-xl p-3 h-fit bg-[#342c44]">
+      <div className="min-w-[328px] w-[328px] shadow-material rounded-xl p-3 h-fit bg-[#342c44]">
         <div className="flex flex-wrap flex-row items-center gap-2.5 overflow-hidden w-full">
           <FaRegUser />
           <p className="w-[calc(100%-1.75rem)] overflow-ellipsis overflow-hidden font-semibold">
