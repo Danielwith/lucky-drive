@@ -13,6 +13,10 @@ export const fetchDriverManagementData =
         placa: "PE-2012",
         soat: "15451",
         soat_vigencia: "2025-07-08",
+        categoria: "II-B",
+        clase: "A",
+        correo: "gg@gmail.com",
+        licencia: "B12345678",
       },
       {
         id: "0002",
@@ -24,6 +28,10 @@ export const fetchDriverManagementData =
         placa: "PE-2012",
         soat: "15451",
         soat_vigencia: "2025-07-08",
+        categoria: "II-B",
+        clase: "A",
+        correo: "gg@gmail.com",
+        licencia: "B12345678",
       },
       {
         id: "0003",
@@ -35,6 +43,10 @@ export const fetchDriverManagementData =
         placa: "PE-2012",
         soat: "15451",
         soat_vigencia: "2025-07-08",
+        categoria: "II-B",
+        clase: "A",
+        correo: "gg@gmail.com",
+        licencia: "B12345678",
       },
     ];
 

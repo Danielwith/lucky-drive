@@ -8,20 +8,24 @@ import {
   TaskBoardTypes,
   TrackingTypes,
 } from "@/lib/types/types";
-import { IoSearchSharp } from "react-icons/io5";
+import { IoCarOutline, IoSearchSharp } from "react-icons/io5";
 import { useForm, Controller } from "react-hook-form";
-import { FaRegUser } from "react-icons/fa";
-import { RiCarLine } from "react-icons/ri";
-import { TbPhone } from "react-icons/tb";
-import { PiMapPinFill } from "react-icons/pi";
 import { TrackingDataService } from "@/services/tracking_data_service";
 import { useEffect, useMemo, useState } from "react";
-import { FiBox } from "react-icons/fi";
+import { RxPlus } from "react-icons/rx";
 import { Separator } from "@/components/ui/separator";
 import { AppGoogleMapViewer } from "@/components/templates/AppGoogleMapViewer";
 import { LuMinimize2 } from "react-icons/lu";
 import { PolylineService } from "@/services/tracking/polyline_service";
 import { SearchSelect } from "@/components/templates/generics/SearchSelect";
+import { IoIosCheckmark, IoIosInformationCircleOutline } from "react-icons/io";
+import { Checkbox } from "@/components/ui/checkbox";
+import { FaRegUser } from "react-icons/fa";
+import { HiOutlinePhone } from "react-icons/hi";
+import { PiMapPinFill } from "react-icons/pi";
+import { cn } from "@/lib/utils";
+import { ModalDialog } from "@/components/templates/AppDialog";
+import { DriverModal } from "./DriversManagement";
 
 export default function Tracking() {
   const center: google.maps.LatLngLiteral = { lat: -12.0464, lng: -77.0428 };
@@ -29,18 +33,21 @@ export default function Tracking() {
   const markers = useMemo<GoogleMapViewerTypes.MarkerData[]>(
     () => [
       {
+        driverId: 1,
         position: { lat: -12.0464, lng: -77.0428 },
         popupText: "DC", // Iniciales del Conductor
         status: "Terminados",
         mode: "Taxi",
       },
       {
+        driverId: 2,
         position: { lat: -12.05, lng: -77.03 },
         popupText: "AB",
         status: "En curso",
         mode: "Taxi express",
       },
       {
+        driverId: 3,
         position: { lat: -12.05, lng: -77.04 },
         popupText: "ED",
         status: "Pendiente",
@@ -79,24 +86,61 @@ export default function Tracking() {
   const [results, setResults] = useState<TrackingTypes.SearchData[] | null>(
     null
   );
+  const [selectedMarker, setSelectedMarker] =
+    useState<GoogleMapViewerTypes.MarkerData | null>(null);
 
   // const [polyline, setPolyline] = useState<{ lat: number; lng: number }[]>([]);
 
   const [filterView, setFilterView] = useState<boolean>(true);
-
+  const [checkedItems, setCheckedItems] = useState<Record<any, boolean>>({});
   const { handleSubmit, control } = useForm<TrackingTypes.TrackingForm>({
     defaultValues: {
       estado: "",
-      tipo_transporte: "",
+      tipo_transporte: [],
       conductor: "",
     },
   });
+
+  // Marcar todos
+  const checkAll = () => {
+    const allChecked: Record<string, boolean> = {};
+    results?.forEach((item) => {
+      allChecked[item.id] = true;
+    });
+    setCheckedItems(allChecked);
+  };
+
+  // Desmarcar todos
+  const uncheckAll = () => {
+    const noneChecked: Record<string, boolean> = {};
+    results?.forEach((item) => {
+      noneChecked[item.id] = false;
+    });
+    setCheckedItems(noneChecked);
+  };
+
+  // Manejo individual
+  const toggleCheck = (key: any, value: boolean) => {
+    setCheckedItems((prev) => ({ ...prev, [key]: value }));
+  };
 
   const onSubmit = (data: TrackingTypes.TrackingForm) => {
     console.log("Form Data:", data);
     setResults(TrackingDataService.fetchFormSearch(data));
     // Ejecuta tu lógica de búsqueda aquí
   };
+
+  const visibleMarkers = useMemo(
+    () => markers.filter((m) => checkedItems[m.driverId]),
+    [markers, checkedItems]
+  );
+
+  useEffect(() => {
+    // Reinicia los checkbox del Card
+    const init: Record<string, boolean> = {};
+    results?.forEach((item) => (init[item.id] = true));
+    setCheckedItems(init);
+  }, [results]);
 
   // useEffect(() => {
   //   const fetchPolyline = async () => {
@@ -206,182 +250,123 @@ export default function Tracking() {
             {results && (
               <>
                 <Separator className="bg-neutral-500"></Separator>
-                <div className=" pb-2 flex gap-4 w-full overflow-x-auto">
-                  {results.map((item: TrackingTypes.SearchData) => (
-                    <SearchCard key={item.placa} item={item} />
-                  ))}
+                <div className="flex w-full gap-2">
+                  <Button variant={"circular_fab_main"} onClick={checkAll}>
+                    <IoIosCheckmark className="scale-150" />
+                    Marcar todos
+                  </Button>
+                  <Button variant={"circular_fab_main"} onClick={uncheckAll}>
+                    <RxPlus />
+                    Desmarcar todos
+                  </Button>
+                </div>
+                <div className="grid pb-2 gap-4 w-full">
+                  <div className="flex pb-4 gap-4 overflow-x-auto">
+                    {results.map((item: TrackingTypes.SearchData) => (
+                      <SearchCard
+                        key={item.id}
+                        item={item}
+                        checked={checkedItems[item.id] ?? true}
+                        onCheckedChange={(val) => toggleCheck(item.id, val)}
+                      />
+                    ))}
+                  </div>
                 </div>
               </>
             )}
           </div>
         )}
-        {!filterView && (
-          <div className="absolute top-3 right-15 z-50">
-            <Button
-              variant={"circular_fab_main"}
-              onClick={() => {
-                setFilterView(true);
-              }}
-            >
-              <IoSearchSharp /> Filtros
-            </Button>
-          </div>
-        )}
         <AppGoogleMapViewer
           center={center}
           zoom={zoom}
-          markers={markers}
+          markers={visibleMarkers}
+          onMarkerClick={(marker: GoogleMapViewerTypes.MarkerData) => {
+            console.log("Marker clickeado en el padre:", marker);
+            setSelectedMarker(marker);
+          }}
           // polyline={polyline}
         />
+        <ModalDialog
+          trigger={null}
+          open={!!selectedMarker}
+          exitButton={false}
+          onOpenChange={(o) => {
+            if (!o) setSelectedMarker(null);
+          }}
+        >
+          {() => <DriverDetailModal data={selectedMarker} />}
+        </ModalDialog>
       </div>
     </div>
   );
 }
 
-function SearchCard({ item }: { item: TrackingTypes.SearchData }) {
-  const [selectedParada, setSelectedParada] =
-    useState<TrackingTypes.ParadaData | null>(null);
-
-  const color: Record<TaskBoardTypes.TaskStatus, string> = {
-    Pendiente: "red",
-    "En curso": "yellow",
-    Terminados: "green",
+function SearchCard({
+  item,
+  checked,
+  onCheckedChange,
+}: TrackingTypes.TrackingCardProps) {
+  const color: Record<TrackingTypes.TrackingDriverStatus, string> = {
+    Atendiendo: "#F2B8B5",
+    Disponible: "#14AE5C",
   };
 
-  // Vista original
-  if (!selectedParada) {
-    return (
-      <div className="min-w-[328px] w-[328px] shadow-material rounded-xl p-3 h-fit bg-[#342c44]">
-        <div className="flex flex-wrap flex-row items-center gap-2.5 overflow-hidden w-full">
-          <FaRegUser />
-          <p className="w-[calc(100%-1.75rem)] overflow-ellipsis overflow-hidden font-semibold">
-            {item.user}
-          </p>
-        </div>
-        <div className="flex flex-wrap flex-row items-center gap-2.5 overflow-hidden w-full">
-          <RiCarLine />
-          <p className="w-[calc(100%-1.75rem)] overflow-ellipsis overflow-hidden">
-            {item.placa}
-          </p>
-        </div>
-        <div className="flex flex-wrap flex-row items-center gap-2.5 overflow-hidden w-full">
-          <TbPhone />
-          <p className="w-[calc(100%-1.75rem)] overflow-ellipsis overflow-hidden">
-            {item.telefono}
-          </p>
-        </div>
-        <div className="flex flex-wrap flex-row items-center gap-2.5 overflow-hidden w-full pb-4">
-          <FiBox />
-          <p className="w-[calc(100%-1.75rem)] overflow-ellipsis overflow-hidden">
-            Destinos completados {item.destino.from}/{item.destino.to}
-          </p>
-        </div>
-        {item.paradas && (
-          <>
-            {item.paradas.map((parada: TrackingTypes.ParadaData) => (
-              <div
-                key={parada.numero}
-                onClick={() => {
-                  setSelectedParada(parada);
-                }}
-                className="flex flex-wrap flex-row items-center gap-2.5 overflow-hidden w-full cursor-pointer  p-1 rounded"
-              >
-                <PiMapPinFill color={color[parada.estado]} />
-                <p className="w-[calc(100%-1.75rem)] overflow-ellipsis overflow-hidden">
-                  Parada {parada.numero}: {parada.nombre}
-                </p>
-              </div>
-            ))}
-          </>
-        )}
-      </div>
-    );
-  }
-
-  // Vista detallada al seleccionar una parada
   return (
-    <div className="min-w-[250px] w-[250px] shadow-material rounded-xl p-3 h-fit bg-[#342c44]">
-      <div className="flex flex-wrap flex-row items-center gap-2.5 overflow-hidden w-full cursor-pointer hover:bg-gray-100 p-1 rounded">
-        <PiMapPinFill color={color[selectedParada.estado]} />
-        <p className="w-[calc(100%-1.75rem)] overflow-ellipsis overflow-hidden font-semibold">
-          Parada {selectedParada.numero}: {selectedParada.nombre}
-        </p>
-      </div>
-      <Separator className="my-2 bg-white"></Separator>
-      <>
-        {(() => {
-          switch (selectedParada.estado) {
-            case "Pendiente":
-              return (
-                <>
-                  <p className="font-semibold mb-2 text-red-600">
-                    Pedido no recepcionado
-                  </p>
-                </>
-              );
-            case "En curso":
-              return (
-                <>
-                  <h1>No implementado</h1>
-                </>
-              );
-            case "Terminados":
-              return (
-                <>
-                  <p className="font-semibold mb-2">Datos de recepcionario</p>
-                  <div className="flex flex-wrap flex-row items-center gap-2.5 overflow-hidden w-full">
-                    <FaRegUser />
-                    <p className="w-[calc(100%-1.75rem)] overflow-ellipsis overflow-hidden">
-                      {item.user}
-                    </p>
-                  </div>
-                  <div className="flex flex-wrap flex-row items-center gap-2.5 overflow-hidden w-full">
-                    <RiCarLine />
-                    <p className="w-[calc(100%-1.75rem)] overflow-ellipsis overflow-hidden">
-                      {item.placa}
-                    </p>
-                  </div>
-                  <div className="flex flex-wrap flex-row items-center gap-2.5 overflow-hidden w-full">
-                    <TbPhone />
-                    <p className="w-[calc(100%-1.75rem)] overflow-ellipsis overflow-hidden">
-                      {item.telefono}
-                    </p>
-                  </div>
-                </>
-              );
-          }
-        })()}
-      </>
-
-      <Separator className="my-2 bg-white"></Separator>
-      <p className="font-semibold">Observaciones</p>
-      <p>{selectedParada.info.observacion}</p>
-      <Separator className="my-3 bg-white"></Separator>
-
-      <p className="font-semibold text-center">Fotos de sustento</p>
-      {selectedParada.info.fotos.length > 0 && (
-        <div className="mt-2 flex flex-wrap justify-center gap-2">
-          {selectedParada.info.fotos.map((url, i) => (
-            <img
-              key={i}
-              src={url}
-              alt={`Foto ${i + 1}`}
-              className="w-[68px] h-[68px] object-cover rounded"
-            />
-          ))}
+    <div className="min-w-[328px] w-[328px] grid grid-cols-[auto_1fr_auto] bg-lucky px-4 py-3 rounded-2xl gap-4">
+      <div
+        className={cn("w-2 h-auto rounded-xl", `bg-[${color[item.estado]}]`)}
+      ></div>
+      <ul className="[&_li]:flex [&_li]:items-center [&_li]:gap-2">
+        <li>
+          <FaRegUser />
+          <span className="font-semibold text-xl">{item.user}</span>
+        </li>
+        <li>
+          <IoCarOutline />
+          <span className="text-sm">{item.tipo_transporte.join(", ")}</span>
+        </li>
+        <li>
+          <HiOutlinePhone />
+          <span className="text-sm">{item.telefono}</span>
+        </li>
+        <li>
+          <PiMapPinFill fill={color[item.estado]} />
+          <span className="text-sm">{item.estado_info}</span>
+        </li>
+      </ul>
+      <div className="flex flex-col items-center justify-between">
+        <div>
+          <Checkbox
+            checked={checked}
+            onCheckedChange={onCheckedChange}
+          ></Checkbox>
         </div>
-      )}
-      <div className="">
-        <Button
-          variant="circular_fab_main"
-          onClick={() => {
-            setSelectedParada(null);
-          }}
-          className="mt-4 w-full bg-[#68548E]"
+        <ModalDialog
+          customStyles="sm:max-w-none p-3"
+          exitButton={false}
+          trigger={
+            <Button
+              variant={"ghost"}
+              className="hover:bg-transparent !p-0 h-6 w-6"
+            >
+              <IoIosInformationCircleOutline className="scale-125" />
+            </Button>
+          }
         >
-          Ok
-        </Button>
+          {({ close }) => (
+            <DriverModal
+              data={item.driver_info}
+              close={close}
+              mode={"UPDATE"}
+              readonly
+            />
+          )}
+        </ModalDialog>
       </div>
     </div>
   );
+}
+
+function DriverDetailModal({ data }: TrackingTypes.DriverDetailProps) {
+  return <h1>dd</h1>;
 }

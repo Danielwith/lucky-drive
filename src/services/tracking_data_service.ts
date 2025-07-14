@@ -6,73 +6,163 @@ export namespace TrackingDataService {
     console.log(formRequest);
     return [
       {
-        user: "Juan Pérez",
-        placa: "ABC-123",
-        telefono: "+51 987654321",
-        destino: { from: 1, to: 5 },
-        paradas: [
-          {
-            numero: 3,
-            nombre: "Parada Central",
-            estado: "Terminados",
-            info: {
-              observacion: "Conductor puntual y sin incidencias",
-              fotos: [
-                "https://placehold.co/600x400",
-                "https://placehold.co/600",
-                "https://placehold.co/600",
-                "https://placehold.co/600",
-              ],
-            },
-          },
-          {
-            numero: 4,
-            nombre: "Parada Norte",
-            estado: "Pendiente",
-            info: {
-              observacion: "Retraso por obras en la vía",
-              fotos: [],
-            },
-          },
-        ],
+        id: 1,
+        user: "Oscar Hurtado",
+        tipo_transporte: ["Taxi", "Taxi express", "Courier"],
+        telefono: "933166556",
+        estado: "Disponible",
+        estado_info: "Disponible",
+        driver_info: {
+          id: "0001",
+          conductor: "Oscar Hurtado",
+          servicios: "Taxi, Courier, Taxi Express",
+          dni: "0123648",
+          telefono: "930558877",
+          modelo: "AAA",
+          placa: "PE-2012",
+          soat: "15451",
+          soat_vigencia: "2025-07-08",
+          categoria: "II-B",
+          clase: "A",
+          correo: "gg@gmail.com",
+          licencia: "B12345678",
+        },
       },
       {
-        user: "María García",
-        placa: "XYZ-789",
-        telefono: "+51 912345678",
-        destino: { from: 2, to: 6 },
-        paradas: [
-          {
-            numero: 2,
-            nombre: "Estación Norte",
-            estado: "Pendiente",
-            info: {
-              observacion: "Pasajeros bajaron en destino alternativo",
-              fotos: ["https://placehold.co/600x400"],
-            },
-          },
-        ],
+        id: 2,
+        user: "Diego Silva",
+        tipo_transporte: ["Taxi", "Taxi express"],
+        telefono: "933166556",
+        estado: "Atendiendo",
+        estado_info: "En Taxi express: Paradas 01/03",
+        driver_info: {
+          id: "0001",
+          conductor: "Oscar Hurtado",
+          servicios: "Taxi, Courier, Taxi Express",
+          dni: "0123648",
+          telefono: "930558877",
+          modelo: "AAA",
+          placa: "PE-2012",
+          soat: "15451",
+          soat_vigencia: "2025-07-08",
+          categoria: "II-B",
+          clase: "A",
+          correo: "gg@gmail.com",
+          licencia: "B12345678",
+        },
       },
       {
-        user: "Carlos Ruiz",
-        placa: "LMN-456",
-        telefono: "+51 998877665",
-        destino: { from: 3, to: 8 },
-        paradas: [
-          {
-            numero: 4,
-            nombre: "Terminal Sur",
-            estado: "Pendiente",
-            info: {
-              observacion: "Entrega completada exitosamente",
-              fotos: [
-                "https://placehold.co/600x400",
-                "https://placehold.co/600x400",
-              ],
-            },
-          },
-        ],
+        id: 3,
+        user: "Oscar Hurtado",
+        tipo_transporte: ["Taxi", "Taxi express", "Courier"],
+        telefono: "933166556",
+        estado: "Disponible",
+        estado_info: "Disponible",
+        driver_info: {
+          id: "0001",
+          conductor: "Oscar Hurtado",
+          servicios: "Taxi, Courier, Taxi Express",
+          dni: "0123648",
+          telefono: "930558877",
+          modelo: "AAA",
+          placa: "PE-2012",
+          soat: "15451",
+          soat_vigencia: "2025-07-08",
+          categoria: "II-B",
+          clase: "A",
+          correo: "gg@gmail.com",
+          licencia: "B12345678",
+        },
+      },
+      {
+        id: 4,
+        user: "Oscar Hurtado",
+        tipo_transporte: ["Taxi", "Taxi express", "Courier"],
+        telefono: "933166556",
+        estado: "Disponible",
+        estado_info: "Disponible",
+        driver_info: {
+          id: "0001",
+          conductor: "Oscar Hurtado",
+          servicios: "Taxi, Courier, Taxi Express",
+          dni: "0123648",
+          telefono: "930558877",
+          modelo: "AAA",
+          placa: "PE-2012",
+          soat: "15451",
+          soat_vigencia: "2025-07-08",
+          categoria: "II-B",
+          clase: "A",
+          correo: "gg@gmail.com",
+          licencia: "B12345678",
+        },
       },
     ];
+  };
+
+  export const fetchMarkerDriverInfo = (
+    driverId: number
+  ): TrackingTypes.DriverDetail => {
+    return {
+      user: "Diego Silva",
+      tipo_transporte: ["Taxi", "Taxi express"],
+      telefono: "93061788",
+      estado: "Disponible",
+      estado_info: "En Taxi Express: Paradas 01/03",
+      paradas: [
+        {
+          estado: "En curso",
+          parada: "2: Makro Callao",
+        },
+        {
+          estado: "Pendiente",
+          parada: "3: Mercado Productores Sta.Anita",
+        },
+        {
+          estado: "Pendiente",
+          parada: "4: Mercado Productores Sta.Anita",
+        },
+        {
+          estado: "Pendiente",
+          parada: "5: Mercado Productores Sta.Anita",
+        },
+        {
+          estado: "Pendiente",
+          parada: "6: Mercado Productores Sta.Anita",
+        },
+        {
+          estado: "Pendiente",
+          parada: "7: Mercado Productores Sta.Anita",
+        },
+        {
+          estado: "Pendiente",
+          parada: "8: Mercado Productores Sta.Anita",
+        },
+        {
+          estado: "Pendiente",
+          parada: "3: Mercado Productores Sta.Anita",
+        },
+        {
+          estado: "Pendiente",
+          parada: "3: Mercado Productores Sta.Anita",
+        },
+      ],
+      parada_detalle: {
+        numero: 2,
+        nombre: "Makro Callao",
+        estado: "En curso",
+        recepcionario: {
+          nombre: "Diego Silva",
+          documento: "47051888",
+          telefono: "93061788",
+        },
+        observacion: "Ninguna",
+        fotos: [
+          "https://placehold.co/600x400/EEE/31343C",
+          "https://placehold.co/600x400/EEE/31343C",
+          "https://placehold.co/600x400/EEE/31343C",
+        ],
+      },
+    };
   };
 }

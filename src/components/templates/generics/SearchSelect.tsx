@@ -23,13 +23,14 @@ const searchSelectVariants = cva("", {
     variant: {
       default: "",
       basic: `[&_.css-1tvwn85-control]:h-full 
-      [&_.css-1mt838r-control]:h-full 
+      [&_.css-1mt838r-control]:h-full [&_.css-13tui3l-control>.css-1dyz3mf]:-translate-y-[6px]
       [&_.css-hlgwow]:h-[28px] [&_.css-hlgwow]:!flex 
       [&_.css-1yt0726]:-translate-y-[2px] [&_.css-1yt0726]:absolute 
       [&_.css-1mjqheq]:z-50 [&_.css-1mjqheq]:w-[calc(100%-1rem)] [&_.css-1mjqheq]:absolute
       [&_.css-1dyz3mf]:h-[28px] [&_.css-1dyz3mf]:break-all [&_.css-1dyz3mf]:-translate-y-[2px] [&:has(.css-1mjqheq)_.css-1dyz3mf]:text-transparent
       [&_.css-1p3m7a8-multiValue]:!hidden 
-      [&_.css-1wy0on6]:-translate-y-[2px] 
+      [&_.css-1wy0on6]:-translate-y-[2px]
+      [&:has(.css-13tui3l-control)]:pointer-events-none [&:has(.css-13tui3l-control)]:cursor-not-allowed [&:has(.css-13tui3l-control)]:opacity-50
       h-9 [&_.select-svg]:hidden dark:bg-input/30 border-gray-500 border rounded-md text-base shadow-xs transition-[color,box-shadow] outline-none [&:has(.css-1nmdiq5-menu)]:border-ring [&:has(.css-1nmdiq5-menu)]:ring-ring/50 [&:has(.css-1nmdiq5-menu)]:ring-[3px]`,
     },
   },

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { ModalDialogTypes } from "@/lib/types/types";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import { ReactNode, useState } from "react";
@@ -21,14 +23,22 @@ export function ModalDialog({
   children,
   exitButton = true,
   customStyles,
+  open: controlledOpen,
+  onOpenChange: controlledOnOpenChange,
 }: Props) {
-  const [open, setOpen] = useState(false);
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(false);
+  const isControlled = controlledOpen !== undefined;
+  const open = isControlled ? controlledOpen! : uncontrolledOpen;
+  const setOpen = isControlled
+    ? controlledOnOpenChange!
+    : (v: boolean) => setUncontrolledOpen(v);
+
   const close = () => setOpen(false);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
-      <VisuallyHidden asChild>
+      <VisuallyHidden asChild className="hidden">
         <DialogTitle>Dialog</DialogTitle>
       </VisuallyHidden>
       <DialogContent
@@ -41,31 +51,5 @@ export function ModalDialog({
           : children}
       </DialogContent>
     </Dialog>
-    // <Dialog>
-    //   <ContextMenu>
-    //     <ContextMenuTrigger>Right click</ContextMenuTrigger>
-    //     <ContextMenuContent>
-    //       <ContextMenuItem>Open</ContextMenuItem>
-    //       <ContextMenuItem>Download</ContextMenuItem>
-    //       <DialogTrigger asChild>
-    //         <ContextMenuItem>
-    //           <span>Delete</span>
-    //         </ContextMenuItem>
-    //       </DialogTrigger>
-    //     </ContextMenuContent>
-    //   </ContextMenu>
-    //   <DialogContent>
-    //     <DialogHeader>
-    //       <DialogTitle>Are you absolutely sure?</DialogTitle>
-    //       <DialogDescription>
-    //         This action cannot be undone. Are you sure you want to permanently
-    //         delete this file from our servers?
-    //       </DialogDescription>
-    //     </DialogHeader>
-    //     <DialogFooter>
-    //       <Button type="submit">Confirm</Button>
-    //     </DialogFooter>
-    //   </DialogContent>
-    // </Dialog>
   );
 }

@@ -18,6 +18,7 @@ export const AppGoogleMapViewer: React.FC<
   markers = [],
   mapProps = {},
   polyline = [],
+  onMarkerClick,
 }) => {
   return (
     <GoogleMapApiLoader
@@ -44,6 +45,7 @@ export const AppGoogleMapViewer: React.FC<
             lng={m.position.lng}
             title={m.popupText}
             icon={getMarkerIcon(m)}
+            onClick={() => onMarkerClick?.(m)}
           />
         ))}
       </GoogleMap>

@@ -409,6 +409,7 @@ export const TripDetailModal = memo(function TripDetailModal({
 
       <div className="mt-3">
         <SearchSelect
+          label=""
           className="w-full border-2 border-[#68548E] placeholder:text-white"
           options={
             detail.selected_driver

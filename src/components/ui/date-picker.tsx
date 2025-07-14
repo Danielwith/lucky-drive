@@ -11,6 +11,7 @@ type DatePickerProps = {
   placeholder?: string;
   value?: Date;
   onChange?: (date: Date) => void;
+  disabled?: boolean;
 };
 
 export function DatePicker({
@@ -18,6 +19,7 @@ export function DatePicker({
   placeholder = "Fecha",
   value,
   onChange,
+  disabled = false,
 }: DatePickerProps) {
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState<Date | undefined>(undefined);
@@ -37,7 +39,8 @@ export function DatePicker({
         <PopoverTrigger asChild>
           <Button
             variant="outline"
-            className="min-w-48 w-auto justify-between font-normal border-gray-500 dark:bg-input/30 "
+            disabled={disabled}
+            className="min-w-48 w-auto justify-between font-normal border-gray-500 dark:bg-input/30"
           >
             {date ? date.toLocaleDateString("es-PE") : placeholder}
             <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />

@@ -174,6 +174,7 @@ export namespace GoogleMapViewerTypes {
   }
 
   export interface MarkerData {
+    driverId: number;
     position: Position;
     popupText?: string;
     status: TaskBoardTypes.TaskStatus;
@@ -187,6 +188,7 @@ export namespace GoogleMapViewerTypes {
     /** Puedes extender con cualquier otra prop de MapContainerProps */
     mapProps?: Partial<GoogleMapProps>;
     polyline?: Position[];
+    onMarkerClick?: (marker: MarkerData) => void;
   }
 }
 
@@ -196,6 +198,10 @@ export namespace ModalDialogTypes {
     children: React.ReactNode; // Contenido HTML(XML) del dialogo
     exitButton?: boolean; // Boton X de salir
     customStyles?: string;
+
+    // Este sirve es que el trigger es una funcion y no un XML
+    open?: boolean;
+    onOpenChange?: (open: boolean) => void;
   }
 }
 
@@ -456,6 +462,10 @@ export namespace DriversManagementTypes {
     servicios: string;
     dni: string;
     telefono: string;
+    correo: string;
+    licencia: string;
+    clase: string;
+    categoria: string;
     modelo: string;
     placa: string;
     soat: string;
@@ -466,11 +476,16 @@ export namespace DriversManagementTypes {
     data?: Driver;
     close: () => void;
     mode: "INSERT" | "UPDATE";
+    readonly?: boolean;
   }
 
   export interface form {
     nombreConductor?: string;
     dni?: string;
+    correo?: string;
+    licencia?: string;
+    clase?: string;
+    categoria?: string;
     telefono?: string;
     servicios?: string[];
     modeloVehiculo?: string;
@@ -650,33 +665,64 @@ export namespace RequestReceptionTypes {
 }
 
 export namespace TrackingTypes {
+  export interface TrackingCardProps {
+    item: TrackingTypes.SearchData;
+    checked: boolean;
+    onCheckedChange: (value: boolean) => void;
+  }
+
+  export interface DriverDetailProps {
+    data: GoogleMapViewerTypes.MarkerData | null;
+  }
+
   export interface TrackingForm {
     estado: string;
-    tipo_transporte: string;
+    tipo_transporte: string[];
     conductor: string;
   }
 
+  export type TrackingDriverStatus = "Disponible" | "Atendiendo";
+  export type TrackingMode = "Taxi" | "Courier" | "Taxi express";
+  export type ParadaStatus = "En curso" | "Pendiente";
+
   export interface SearchData {
+    id: number;
     user: string;
-    placa: string;
+    estado: TrackingDriverStatus;
+    tipo_transporte: TrackingMode[];
     telefono: string;
-    destino: {
-      from: number;
-      to: number;
-    };
-    paradas: ParadaData[];
+    estado_info: string;
+    driver_info: DriversManagementTypes.Driver;
   }
 
-  export interface ParadaData {
-    numero: number;
-    nombre: string;
-    estado: TaskBoardTypes.TaskStatus;
-    info: ParadaInfoData;
+  export interface DriverDetail {
+    user: string;
+    estado: TrackingDriverStatus;
+    tipo_transporte: TrackingMode[];
+    telefono: string;
+    estado_info: string;
+    paradas: ParadaListData[];
+    parada_detalle: ParadaInfoData;
   }
 
   export interface ParadaInfoData {
+    numero: number;
+    nombre: string;
+    estado: ParadaStatus;
+    recepcionario: RecepcionarioData;
     observacion: string;
     fotos: string[];
+  }
+
+  interface RecepcionarioData {
+    nombre: string;
+    documento: string;
+    telefono: string;
+  }
+
+  export interface ParadaListData {
+    estado: ParadaStatus;
+    parada: string;
   }
 }
 
