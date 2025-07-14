@@ -5,7 +5,6 @@ import { Label } from "@/components/ui/label";
 import {
   GoogleMapViewerTypes,
   SelectTypes,
-  TaskBoardTypes,
   TrackingTypes,
 } from "@/lib/types/types";
 import { IoCarOutline, IoSearchSharp } from "react-icons/io5";
@@ -16,7 +15,7 @@ import { RxPlus } from "react-icons/rx";
 import { Separator } from "@/components/ui/separator";
 import { AppGoogleMapViewer } from "@/components/templates/AppGoogleMapViewer";
 import { LuMinimize2 } from "react-icons/lu";
-import { PolylineService } from "@/services/tracking/polyline_service";
+// import { PolylineService } from "@/services/tracking/polyline_service";
 import { SearchSelect } from "@/components/templates/generics/SearchSelect";
 import { IoIosCheckmark, IoIosInformationCircleOutline } from "react-icons/io";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -290,8 +289,8 @@ export default function Tracking() {
           trigger={null}
           open={!!selectedMarker}
           exitButton={false}
-          onOpenChange={(o) => {
-            if (!o) setSelectedMarker(null);
+          onOpenChange={(open) => {
+            if (!open) setSelectedMarker(null);
           }}
         >
           {() => <DriverDetailModal data={selectedMarker} />}
@@ -368,5 +367,6 @@ function SearchCard({
 }
 
 function DriverDetailModal({ data }: TrackingTypes.DriverDetailProps) {
+  console.log(data);
   return <h1>dd</h1>;
 }

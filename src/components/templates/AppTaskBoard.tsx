@@ -218,6 +218,7 @@ export const TaskModal = memo(function TaskModal({
                         render={({ field, fieldState }) => (
                           <>
                             <SearchSelect
+                              label=""
                               className="w-full border-3 border-[#68548E] placeholder:text-white"
                               options={drivers}
                               placeholder="Elige un chofer"
@@ -273,6 +274,7 @@ export const TaskModal = memo(function TaskModal({
                 return (
                   <div className="mt-1">
                     <SearchSelect
+                      label=""
                       className="w-full border-3 border-[#68548E] placeholder:text-white"
                       options={[
                         {
@@ -348,6 +350,7 @@ export const TaskModal = memo(function TaskModal({
                                   value: task.modal_data.selected_driver,
                                 },
                               ]}
+                              label=""
                               value={field.value}
                               onChange={field.onChange}
                               autoSelectFirst={true}

@@ -103,6 +103,7 @@ export namespace TrackingDataService {
   export const fetchMarkerDriverInfo = (
     driverId: number
   ): TrackingTypes.DriverDetail => {
+    console.log(driverId);
     return {
       user: "Diego Silva",
       tipo_transporte: ["Taxi", "Taxi express"],
