@@ -21,8 +21,7 @@ import { HiOutlineUser } from "react-icons/hi";
 export default function DriversManagement() {
   const data = fetchDriverManagementData();
   const tableActions: DataTableTypes.TableActions[] = ["SEPARATOR", "DOWNLOAD"];
-  console.log("PRODUCCION?: ", import.meta.env.PROD);
-  console.log("PRUEBA: ", import.meta.env.XPLORA_API_URL);
+
   return (
     <div className="container h-full max-w-full">
       <DataTable

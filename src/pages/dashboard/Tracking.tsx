@@ -126,6 +126,7 @@ export default function Tracking() {
   const onSubmit = (data: TrackingTypes.TrackingForm) => {
     console.log("Form Data:", data);
     setResults(TrackingDataService.fetchFormSearch(data));
+    setFilterView(true);
     // Ejecuta tu lógica de búsqueda aquí
   };
 
@@ -172,115 +173,115 @@ export default function Tracking() {
   return (
     <div className="w-full h-full">
       <div className="flex flex-col h-full w-full relative z-50">
-        {filterView && (
-          <div className="flex flex-col flex-wrap gap-5 bg-white dark:bg-[#1D1B20] rounded-xl shadow-material p-4">
-            <div className="flex flex-row justify-between">
-              <Label>Filtros</Label>
+        <div className="flex flex-col flex-wrap gap-5 bg-white dark:bg-[#1D1B20] rounded-xl shadow-material p-4">
+          <div className="flex flex-row justify-between">
+            <Label>Filtros</Label>
+            {results && (
               <Button
                 variant={"ghost"}
                 onClick={() => {
-                  setFilterView(false);
+                  setFilterView(!filterView);
                 }}
               >
                 <LuMinimize2 />
               </Button>
-            </div>
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className="flex flex-row flex-wrap items-end justify-between gap-2"
-            >
-              <div className="flex flex-row flex-wrap gap-4 grow">
-                <Controller
-                  control={control}
-                  name="estado"
-                  render={({ field }) => (
-                    <GenericSelect
-                      label="Estado"
-                      data={estado}
-                      value={field.value}
-                      onChange={field.onChange}
-                      placeholder=""
-                    />
-                  )}
-                />
-                <Controller
-                  control={control}
-                  name="tipo_transporte"
-                  render={({ field }) => (
-                    <SearchSelect
-                      label="Tipo de transporte"
-                      className="w-[180px]"
-                      options={transporte}
-                      value={field.value}
-                      variant={"basic"}
-                      onChange={field.onChange}
-                      placeholder=""
-                      isMulti
-                    />
-                  )}
-                />
-                <div className="flex flex-col gap-1 min-w-[18rem] grow">
-                  <Label htmlFor="conductor" className="px-1">
-                    Conductor
-                  </Label>
-                  <Controller
-                    control={control}
-                    name="conductor"
-                    render={({ field }) => (
-                      <Input
-                        className="border-gray-500"
-                        id="conductor"
-                        type="text"
-                        placeholder="Buscar conductor"
-                        icon={<IoSearchSharp />}
-                        value={field.value}
-                        onChange={(e) => {
-                          field.onChange(e.target.value);
-                        }}
-                      />
-                    )}
-                  />
-                </div>
-              </div>
-              <Button variant={"circular_fab_main"}>
-                <IoSearchSharp /> Buscar
-              </Button>
-            </form>
-            {results && (
-              <>
-                <Separator className="bg-neutral-500"></Separator>
-                <div className="flex w-full gap-2">
-                  <Button variant={"circular_fab_main"} onClick={checkAll}>
-                    <IoIosCheckmark className="scale-150" />
-                    Marcar todos
-                  </Button>
-                  <Button variant={"circular_fab_main"} onClick={uncheckAll}>
-                    <RxPlus />
-                    Desmarcar todos
-                  </Button>
-                </div>
-                <div className="grid pb-2 gap-4 w-full">
-                  <div className="flex pb-4 gap-4 overflow-x-auto">
-                    {results.map((item: TrackingTypes.SearchData) => (
-                      <SearchCard
-                        key={item.id}
-                        item={item}
-                        checked={checkedItems[item.id] ?? true}
-                        onCheckedChange={(val) => toggleCheck(item.id, val)}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </>
             )}
           </div>
-        )}
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex flex-row flex-wrap items-end justify-between gap-2"
+          >
+            <div className="flex flex-row flex-wrap gap-4 grow">
+              <Controller
+                control={control}
+                name="estado"
+                render={({ field }) => (
+                  <GenericSelect
+                    label="Estado"
+                    data={estado}
+                    value={field.value}
+                    onChange={field.onChange}
+                    placeholder=""
+                  />
+                )}
+              />
+              <Controller
+                control={control}
+                name="tipo_transporte"
+                render={({ field }) => (
+                  <SearchSelect
+                    label="Tipo de transporte"
+                    className="w-[180px]"
+                    options={transporte}
+                    value={field.value}
+                    variant={"basic"}
+                    onChange={field.onChange}
+                    placeholder=""
+                    isMulti
+                  />
+                )}
+              />
+              <div className="flex flex-col gap-1 min-w-[18rem] grow">
+                <Label htmlFor="conductor" className="px-1">
+                  Conductor
+                </Label>
+                <Controller
+                  control={control}
+                  name="conductor"
+                  render={({ field }) => (
+                    <Input
+                      className="border-gray-500"
+                      id="conductor"
+                      type="text"
+                      placeholder="Buscar conductor"
+                      icon={<IoSearchSharp />}
+                      value={field.value}
+                      onChange={(e) => {
+                        field.onChange(e.target.value);
+                      }}
+                    />
+                  )}
+                />
+              </div>
+            </div>
+            <Button variant={"circular_fab_main"}>
+              <IoSearchSharp /> Buscar
+            </Button>
+          </form>
+          {results && filterView && (
+            <>
+              <Separator className="bg-neutral-500"></Separator>
+              <div className="flex w-full gap-2">
+                <Button variant={"circular_fab_main"} onClick={checkAll}>
+                  <IoIosCheckmark className="scale-150" />
+                  Marcar todos
+                </Button>
+                <Button variant={"circular_fab_main"} onClick={uncheckAll}>
+                  <RxPlus />
+                  Desmarcar todos
+                </Button>
+              </div>
+              <div className="grid pb-2 gap-4 w-full">
+                <div className="flex pb-4 gap-4 overflow-x-auto">
+                  {results.map((item: TrackingTypes.SearchData) => (
+                    <SearchCard
+                      key={item.id}
+                      item={item}
+                      checked={checkedItems[item.id] ?? true}
+                      onCheckedChange={(val) => toggleCheck(item.id, val)}
+                    />
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+
         <AppGoogleMapViewer
           center={center}
           zoom={zoom}
           markers={visibleMarkers}
           onMarkerClick={(marker: GoogleMapViewerTypes.MarkerData) => {
-            console.log("Marker clickeado en el padre:", marker);
             setSelectedMarker(marker);
           }}
           // polyline={polyline}

@@ -1,4 +1,5 @@
-import { DriversManagementTypes } from "@/lib/types/types";
+import { apiFetch } from "@/lib/helpers/ApiFetch";
+import { ApiFetchTypes, DriversManagementTypes } from "@/lib/types/types";
 
 export const fetchDriverManagementData =
   (): DriversManagementTypes.Driver[] => {
@@ -50,5 +51,14 @@ export const fetchDriverManagementData =
       },
     ];
 
+    // const endpoint: ApiFetchTypes.ApiEndpoint = {
+    //   controller: "/Controlador",
+    //   method: "/consultar",
+    // };
+
     return DRIVER_MANAGEMENT_DATA;
+    // return apiFetch<any>(endpoint, {
+    //   method: "GET",
+    //   log: true,
+    // });
   };
