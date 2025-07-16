@@ -7,20 +7,36 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { isNumericOrControlKey } from "@/lib/helpers/InputValidation";
 import {
+  ApiFetchTypes,
   DataTableTypes,
   DriversManagementTypes,
   SearchSelectTypes,
 } from "@/lib/types/types";
-import { fetchDriverManagementData } from "@/services/driver_management_data_service";
+import { DriverManagementService } from "@/services/driver_management_data_service";
 import { parseISO } from "date-fns";
 import { Plus } from "lucide-react";
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { HiOutlineUser } from "react-icons/hi";
 
 export default function DriversManagement() {
-  const data = fetchDriverManagementData();
+  // const data = DriverManagementService.fetchDriverManagementData();
+  const [data, setData] = useState<DriversManagementTypes.Driver[]>([]);
   const tableActions: DataTableTypes.TableActions[] = ["SEPARATOR", "DOWNLOAD"];
+
+  useEffect(() => {
+    void DriverManagementService.fetchDriverManagementData()
+      .then((res: ApiFetchTypes.ApiResponse<any>) => {
+        if (res.response) {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+          setData(res.response.lConductores);
+        }
+        console.log(res);
+      })
+      .catch((err: unknown) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <div className="container h-full max-w-full">
@@ -72,8 +88,8 @@ export const DriverModal = memo(function DriverModal({
       modeloVehiculo: data?.modelo ?? "",
       placaVehiculo: data?.placa ?? "",
       nroSOAT: data?.soat ?? "",
-      vigenciaSOAT: data?.soat_vigencia
-        ? parseISO(data?.soat_vigencia)
+      vigenciaSOAT: data?.soatVigencia
+        ? parseISO(data?.soatVigencia)
         : undefined,
     },
   });
@@ -98,6 +114,15 @@ export const DriverModal = memo(function DriverModal({
     closeModal: () => void
   ) => {
     console.log("Form Data INSERT:", dataForm);
+    void DriverManagementService.postInsertDriver(dataForm)
+      .then((res: ApiFetchTypes.ApiResponse<any>) => {
+        if (res.response) {
+          console.log(res);
+        }
+      })
+      .catch((err: unknown) => {
+        console.log(err);
+      });
 
     closeModal();
   };

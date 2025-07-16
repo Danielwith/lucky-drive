@@ -1,25 +1,48 @@
 import { useLocation } from "wouter";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { PATH } from "@/lib/constants/route_path";
 import { Input } from "@/components/ui/input";
 import LuckyGO from "/assets/images/logo.png?url";
+import { LoginService } from "@/services/login_service";
+import { Controller, useForm } from "react-hook-form";
+import { ApiFetchTypes, LoginTypes } from "@/lib/types/types";
 
 export default function Login() {
   const [, navigate] = useLocation();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { control, handleSubmit } = useForm<LoginTypes.LoginForm>();
 
-  const handleLogin = () => {
-    // Validar datos reales acá
-    localStorage.setItem("auth", "true");
-    navigate(`${PATH.DASHBOARD}/request-reception`);
+  const handleLogin = (data: LoginTypes.LoginForm) => {
+    const credential: LoginTypes.LoginForm = {
+      sDocUsu: data.sDocUsu,
+      sClaUsu: data.sClaUsu,
+      sVerApp: "string",
+      sVerAnd: "string",
+      sModCel: "string",
+      dLatUsu: 0,
+      dLonUsu: 0,
+    };
+
+    void LoginService.postLogin(credential)
+      .then((res: ApiFetchTypes.ApiResponse<LoginTypes.LoginResponse>) => {
+        if (res.response) {
+          localStorage.setItem("token", res.response.oUsurio.sToken);
+          localStorage.setItem("auth", "true");
+          navigate(`${PATH.DASHBOARD}/request-reception`);
+        }
+        console.log(res);
+      })
+      .catch((err: unknown) => {
+        console.log(err);
+      });
   };
 
   return (
     <div className="h-screen flex items-center justify-center md:bg-[url('/assets/images/login.png')] bg-center bg-cover bg-no-repeat">
       <div className="md:p-6 h-[85%] rounded-2xl w-full max-w-4xl space-y-4 bg-neutral-950/80 md:backdrop-blur-md md:shadow-[0_4px_37.3px_0_rgb(0,0,0)] md:mx-8">
-        <div className="flex flex-col flex-wrap h-full justify-around items-center">
+        <form
+          onSubmit={handleSubmit(handleLogin)}
+          className="flex flex-col flex-wrap h-full justify-around items-center"
+        >
           <img
             className="place-self-center w-[40%] min-w-[140px] max-w-[150px]"
             src={LuckyGO}
@@ -33,33 +56,50 @@ export default function Login() {
               </h3>
             </div>
             <div>
-              <Input
-                className="mb-2"
-                variant={"filled"}
-                inputSize={"lg"}
-                type="text"
-                placeholder="Usuario"
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
-              ></Input>
-              <Input
-                variant={"filled"}
-                inputSize={"lg"}
-                type="password"
-                placeholder="Contraseña"
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
-              ></Input>
+              <Controller
+                name="sDocUsu"
+                control={control}
+                defaultValue=""
+                rules={{ required: "Ingrese su usuario" }}
+                render={({ field, fieldState }) => (
+                  <>
+                    <Input
+                      variant="filled"
+                      inputSize="lg"
+                      type="text"
+                      placeholder="Usuario"
+                      {...field}
+                    />
+                    {fieldState.error && (
+                      <p className="text-red-600">{fieldState.error.message}</p>
+                    )}
+                  </>
+                )}
+              />
+              <Controller
+                name="sClaUsu"
+                control={control}
+                defaultValue=""
+                rules={{ required: "Ingrese su contraseña" }}
+                render={({ field, fieldState }) => (
+                  <>
+                    <Input
+                      className="mt-2"
+                      variant="filled"
+                      inputSize="lg"
+                      type="password"
+                      placeholder="Contraseña"
+                      {...field}
+                    />
+                    {fieldState.error && (
+                      <p className="text-red-600">{fieldState.error.message}</p>
+                    )}
+                  </>
+                )}
+              />
             </div>
             <div className="flex flex-col gap-3">
-              <Button
-                className="w-full rounded-full h-10"
-                onClick={handleLogin}
-              >
+              <Button className="w-full rounded-full h-10" type="submit">
                 Ingresar
               </Button>
               <Button
@@ -75,17 +115,14 @@ export default function Login() {
                 </div>
                 <div className="h-[1px] bg-[#F0EEE040]"></div>
               </div>
-              <Button
-                className="w-full rounded-full h-10"
-                onClick={handleLogin}
-              >
+              <Button className="w-full rounded-full h-10" type="button">
                 <img src="/assets/icon/microsoft.svg" alt="" />
                 Microsoft 365
               </Button>
             </div>
           </div>
           <p className="text-xs text-center">Grupo Lucky - V.2025-02-11.01</p>
-        </div>
+        </form>
       </div>
     </div>
   );

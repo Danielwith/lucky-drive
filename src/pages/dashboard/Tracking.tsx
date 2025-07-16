@@ -7,7 +7,11 @@ import {
   SelectTypes,
   TrackingTypes,
 } from "@/lib/types/types";
-import { IoCarOutline, IoSearchSharp } from "react-icons/io5";
+import {
+  IoCarOutline,
+  IoCloseCircleOutline,
+  IoSearchSharp,
+} from "react-icons/io5";
 import { useForm, Controller } from "react-hook-form";
 import { TrackingDataService } from "@/services/tracking_data_service";
 import { useEffect, useMemo, useState } from "react";
@@ -22,12 +26,12 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { FaRegUser } from "react-icons/fa";
 import { HiOutlinePhone } from "react-icons/hi";
 import { PiMapPinFill } from "react-icons/pi";
-import { cn } from "@/lib/utils";
 import { ModalDialog } from "@/components/templates/AppDialog";
 import { DriverModal } from "./DriversManagement";
 
 export default function Tracking() {
   const center: google.maps.LatLngLiteral = { lat: -12.0464, lng: -77.0428 };
+  const tempDriverInfo = TrackingDataService.fetchMarkerDriverInfo(1);
   const zoom = 16;
   const markers = useMemo<GoogleMapViewerTypes.MarkerData[]>(
     () => [
@@ -37,6 +41,7 @@ export default function Tracking() {
         popupText: "DC", // Iniciales del Conductor
         status: "Terminados",
         mode: "Taxi",
+        driverInfo: tempDriverInfo,
       },
       {
         driverId: 2,
@@ -44,6 +49,7 @@ export default function Tracking() {
         popupText: "AB",
         status: "En curso",
         mode: "Taxi express",
+        driverInfo: tempDriverInfo,
       },
       {
         driverId: 3,
@@ -51,6 +57,7 @@ export default function Tracking() {
         popupText: "ED",
         status: "Pendiente",
         mode: "Courier",
+        driverInfo: tempDriverInfo,
       },
     ],
     []
@@ -287,6 +294,7 @@ export default function Tracking() {
           // polyline={polyline}
         />
         <ModalDialog
+          customStyles="sm:max-w-none bg-lucky px-4 py-3 z-[999]"
           trigger={null}
           open={!!selectedMarker}
           exitButton={false}
@@ -294,7 +302,9 @@ export default function Tracking() {
             if (!open) setSelectedMarker(null);
           }}
         >
-          {() => <DriverDetailModal data={selectedMarker} />}
+          {({ close }) => (
+            <DriverDetailModal data={selectedMarker} close={close} />
+          )}
         </ModalDialog>
       </div>
     </div>
@@ -314,7 +324,8 @@ function SearchCard({
   return (
     <div className="min-w-[328px] w-[328px] grid grid-cols-[auto_1fr_auto] bg-lucky px-4 py-3 rounded-2xl gap-4">
       <div
-        className={cn("w-2 h-auto rounded-xl", `bg-[${color[item.estado]}]`)}
+        className={"w-2 h-auto rounded-xl"}
+        style={{ backgroundColor: color[item.estado] }}
       ></div>
       <ul className="[&_li]:flex [&_li]:items-center [&_li]:gap-2">
         <li>
@@ -367,7 +378,158 @@ function SearchCard({
   );
 }
 
-function DriverDetailModal({ data }: TrackingTypes.DriverDetailProps) {
-  console.log(data);
-  return <h1>dd</h1>;
+function DriverDetailModal({ data, close }: TrackingTypes.DriverDetailProps) {
+  if (data) {
+    const color: Record<TrackingTypes.TrackingDriverStatus, string> = {
+      Atendiendo: "#F2B8B5",
+      Disponible: "#14AE5C",
+    };
+
+    const fillColor: Record<TrackingTypes.ParadaStatus, string> = {
+      "En curso": "#14AE5C",
+      Pendiente: "#C00F0C",
+    };
+    const item = data.driverInfo;
+
+    return (
+      <div className="w-[621px]">
+        {/* //w-[621px] */}
+        <div className="grid grid-cols-2 gap-4">
+          <div className="flex flex-col gap-4 border border-l-0 border-t-0 border-b-0 border-r-neutral-400 pr-4">
+            <div className="grid grid-cols-[auto_1fr] gap-4">
+              <div
+                className={"w-2 h-auto rounded-xl"}
+                style={{ backgroundColor: color[item.estado] }}
+              ></div>
+              <ul className="[&_li]:flex [&_li]:items-center [&_li]:gap-2">
+                <li>
+                  <FaRegUser />
+                  <span className="font-semibold text-xl">{item.user}</span>
+                </li>
+                <li>
+                  <IoCarOutline className="scale-125" />
+                  <span className="text-sm">
+                    {item.tipo_transporte.join(", ")}
+                  </span>
+                </li>
+                <li>
+                  <HiOutlinePhone className="scale-125" />
+                  <span className="text-sm">{item.telefono}</span>
+                </li>
+                <li>
+                  <PiMapPinFill
+                    className="scale-125"
+                    fill={color[item.estado]}
+                  />
+                  <span className="text-sm">{item.estado_info}</span>
+                </li>
+              </ul>
+            </div>
+            <Separator
+              orientation="horizontal"
+              className="bg-neutral-400"
+            ></Separator>
+            <div>
+              <Label className="mb-4">Lista de paradas</Label>
+              <ul className="[&_li]:flex [&_li]:items-center [&_li]:gap-2 flex flex-col gap-1 min-h-36 h-36 overflow-auto">
+                {item.paradas.map((e: TrackingTypes.ParadaListData, i) => (
+                  <li key={i}>
+                    <PiMapPinFill fill={fillColor[e.estado]} />
+                    <span className="font-light text-xs">{e.parada}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            {/* <Separator
+              orientation="vertical"
+              className="bg-neutral-400"
+            ></Separator> */}
+          </div>
+          <div className="flex flex-col gap-2">
+            <div className="grid grid-cols-[1fr_auto] items-center">
+              <div className="[&>p]:font-semibold">
+                <p>Parada {item.parada_detalle.numero}:</p>
+                <p>{item.parada_detalle.nombre}</p>
+              </div>
+              <PiMapPinFill
+                className="mx-2 scale-125"
+                fill={fillColor[item.parada_detalle.estado]}
+              />
+            </div>
+            <div>
+              <Label>Datos de recepcionario</Label>
+              <ul className="[&_li]:flex [&_li]:items-center [&_li]:gap-2 [&_li>span]:text-sm flex flex-col gap-1 my-1">
+                <li>
+                  <FaRegUser />
+                  <span>{item.parada_detalle.recepcionario.nombre}</span>
+                </li>
+                <li>
+                  <IoCarOutline className="scale-125" />
+                  <span>{item.parada_detalle.recepcionario.documento}</span>
+                </li>
+                <li>
+                  <HiOutlinePhone className="scale-125" />
+                  <span>{item.parada_detalle.recepcionario.telefono}</span>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <Label>Observaciones</Label>
+              <p className="text-sm mt-2 break-words">
+                {item.parada_detalle.observacion}
+              </p>
+            </div>
+            {item.parada_detalle.fotos.length > 0 && (
+              <div>
+                <Label>Fotos de sustento</Label>
+                <div className="py-2 flex flex-row gap-2 overflow-auto">
+                  {item.parada_detalle.fotos.map((url, i) => (
+                    <ModalDialog
+                      key={i}
+                      customStyles="w-full sm:max-w-[954px] max-w-[954px] h-[90dvh] max-h-[652px] bg-transparent p-0 border-0"
+                      exitButton={false}
+                      trigger={
+                        <img
+                          src={url}
+                          alt={`Foto ${i + 1}`}
+                          className="w-[68px] h-[68px] object-cover rounded cursor-pointer"
+                        />
+                      }
+                    >
+                      {({ close }) => (
+                        <div
+                          className="w-full h-full p-6 relative rounded-2xl bg-center bg-cover bg-no-repeat"
+                          style={{
+                            backgroundImage: `url(${url})`,
+                          }}
+                        >
+                          <Button
+                            variant={"circular_fab_main"}
+                            size={"icon"}
+                            className="scale-125 absolute right-6"
+                            onClick={close}
+                          >
+                            <IoCloseCircleOutline className="scale-175" />
+                          </Button>
+                        </div>
+                      )}
+                    </ModalDialog>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+        <div className="w-full p-3">
+          <Button
+            className="w-full"
+            variant={"circular_fab_main"}
+            onClick={close}
+          >
+            Ok
+          </Button>
+        </div>
+      </div>
+    );
+  }
 }

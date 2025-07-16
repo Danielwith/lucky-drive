@@ -4,7 +4,7 @@ const BASE_URL = import.meta.env.XPLORA_API_URL;
 
 function buildUrl(
   endpoint: ApiFetchTypes.ApiEndpoint,
-  params?: Record<string, string | number>,
+  params?: Record<string, string | number>, // ESTO ES PARA METODO GET
   customApiUrl?: string
 ): string {
   const query = params
@@ -44,11 +44,12 @@ export async function apiFetch<T>(
         errors: `Error ${response.status}: ${errorText}`,
       };
     }
-
-    const data = (await response.json()) as T;
+    // EL RESPONSE DEL BACK END SI O SI DEBE TENER nRetorno y sRetorno
+    const data = await response.json();
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    if (data?.response.nRetorno !== 1) throw new Error(data?.response.sRetorno);
     if (options?.log) console.log(`[API] ${url}`, data);
-
-    return { success: true, response: data };
+    return { success: true, response: data?.response };
   } catch (error) {
     if (options?.log) console.error(`[API] ${url}`, error);
     return { success: false, errors: (error as Error).message };

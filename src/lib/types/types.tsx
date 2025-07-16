@@ -179,6 +179,7 @@ export namespace GoogleMapViewerTypes {
     popupText?: string;
     status: TaskBoardTypes.TaskStatus;
     mode: MarkerType;
+    driverInfo: TrackingTypes.DriverDetail;
   }
 
   export interface MapViewerProps {
@@ -197,7 +198,7 @@ export namespace ModalDialogTypes {
     trigger: React.ReactNode; // HTML(XML) que desencadena el mostrar dialogo
     children: React.ReactNode; // Contenido HTML(XML) del dialogo
     exitButton?: boolean; // Boton X de salir
-    customStyles?: string;
+    customStyles?: React.HTMLAttributes<HTMLDivElement>["className"];
 
     // Este sirve es que el trigger es una funcion y no un XML
     open?: boolean;
@@ -469,7 +470,7 @@ export namespace DriversManagementTypes {
     modelo: string;
     placa: string;
     soat: string;
-    soat_vigencia: string;
+    soatVigencia: string;
   }
 
   export interface ModalProps {
@@ -551,8 +552,17 @@ export namespace DriversManagementTypes {
       header: "Nro. SOAT",
     },
     {
-      accessorKey: "soat_vigencia",
+      accessorKey: "soatVigencia",
       header: "SOAT Vigencia",
+      cell: ({ getValue }) => {
+        const rawDate = getValue<string>(); // formato ISO
+        const formattedDate = new Date(rawDate).toLocaleDateString("es-PE", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+        });
+        return formattedDate;
+      },
     },
   ];
 }
@@ -673,6 +683,7 @@ export namespace TrackingTypes {
 
   export interface DriverDetailProps {
     data: GoogleMapViewerTypes.MarkerData | null;
+    close: () => void;
   }
 
   export interface TrackingForm {
@@ -764,5 +775,45 @@ export namespace ApiFetchTypes {
     body?: any; // Se convierte automáticamente a JSON
     headers?: HeadersInit;
     log?: boolean;
+  }
+}
+
+export namespace LoginTypes {
+  export interface LoginForm {
+    sDocUsu: string;
+    sClaUsu: string;
+    sVerApp: string;
+    sVerAnd: string;
+    sModCel: string;
+    dLatUsu: number;
+    dLonUsu: number;
+  }
+
+  export interface LoginResponse {
+    nRetorno: number;
+    sRetorno: string;
+    oUsurio: Usuario;
+  }
+
+  export interface Usuario {
+    nIdUsu: number;
+    sUser: string;
+    sPassrword: string;
+    sNombre: string;
+    sCorreo: string;
+    sTel: string;
+    sTipDoc: string;
+    bTaxi: number;
+    bTaxiXpress: number;
+    bCarga: number;
+    bCourier: number;
+    modelo_vehiculo: string;
+    placa_vehiculo: string;
+    nro_soat: string;
+    vigencia_soat: string; // ISO date string
+    fecha_registro: string; // ISO date string
+    sToken: string;
+    nIdUsuarioLuckyGo: number;
+    bConductor: number;
   }
 }
