@@ -765,6 +765,17 @@ export namespace ApiFetchTypes {
     errors?: string;
   }
 
+  export class ApiError extends Error {
+    public readonly success = false;
+    public readonly errors: string;
+
+    constructor(message: string) {
+      super(message);
+      this.name = "ApiError";
+      this.errors = message;
+    }
+  }
+
   export interface ApiEndpoint {
     controller: string;
     method: string;

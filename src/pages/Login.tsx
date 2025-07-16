@@ -31,7 +31,7 @@ export default function Login() {
         }
         console.log(res);
       })
-      .catch((err: unknown) => {
+      .catch((err: ApiFetchTypes.ApiError) => {
         console.log(err);
       });
   };

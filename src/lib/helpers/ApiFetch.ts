@@ -52,6 +52,6 @@ export async function apiFetch<T>(
     return { success: true, response: data?.response };
   } catch (error) {
     if (options?.log) console.error(`[API] ${url}`, error);
-    return { success: false, errors: (error as Error).message };
+    throw new ApiFetchTypes.ApiError((error as Error).message);
   }
 }
