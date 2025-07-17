@@ -6,9 +6,11 @@ import LuckyGO from "/assets/images/logo.png?url";
 import { LoginService } from "@/services/login_service";
 import { Controller, useForm } from "react-hook-form";
 import { ApiFetchTypes, LoginTypes } from "@/lib/types/types";
+import { useAuthStore } from "@/lib/store/auth_store";
 
 export default function Login() {
   const [, navigate] = useLocation();
+  const { login } = useAuthStore((s) => s);
   const { control, handleSubmit } = useForm<LoginTypes.LoginForm>();
 
   const handleLogin = (data: LoginTypes.LoginForm) => {
@@ -25,8 +27,7 @@ export default function Login() {
     void LoginService.postLogin(credential)
       .then((res: ApiFetchTypes.ApiResponse<LoginTypes.LoginResponse>) => {
         if (res.response) {
-          localStorage.setItem("token", res.response.oUsurio.sToken);
-          localStorage.setItem("auth", "true");
+          login(res.response.oUsurio.sToken, res.response.oUsurio);
           navigate(`${PATH.DASHBOARD}/request-reception`);
         }
         console.log(res);
@@ -68,6 +69,7 @@ export default function Login() {
                       inputSize="lg"
                       type="text"
                       placeholder="Usuario"
+                      autoComplete="username"
                       {...field}
                     />
                     {fieldState.error && (
@@ -105,6 +107,7 @@ export default function Login() {
               <Button
                 className="hover:bg-transparent h-4 text-xs font-normal"
                 variant={"ghost"}
+                type="button"
               >
                 ¿Olvidaste tu contraseña?
               </Button>

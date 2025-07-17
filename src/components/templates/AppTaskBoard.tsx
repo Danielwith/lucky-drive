@@ -41,7 +41,7 @@ export const AppTaskBoard: React.FC<TaskBoardTypes.props> = ({
           return (
             <section
               key={status}
-              className="rounded-2xl flex flex-col h-full grow gap-5 "
+              className="rounded-2xl flex flex-col h-full grow gap-5 min-w-[300px]"
             >
               {/* Header */}
               <header className="mx-3 border-b bg-neutral-700 border-neutral-700 rounded-lg">

@@ -1,3 +1,4 @@
+import { SpinnerService } from "@/services/init/spinner_service";
 import { ApiFetchTypes } from "../types/types";
 
 const BASE_URL = import.meta.env.XPLORA_API_URL;
@@ -21,6 +22,10 @@ export async function apiFetch<T>(
   options?: ApiFetchTypes.ApiFetchOptions,
   customApiUrl?: string
 ): Promise<ApiFetchTypes.ApiResponse<T>> {
+  SpinnerService.show(options?.message);
+
+  const token = localStorage.getItem("token");
+
   const url = buildUrl(endpoint, options?.params, customApiUrl);
 
   const fetchOptions: RequestInit = {
@@ -35,7 +40,6 @@ export async function apiFetch<T>(
 
   try {
     const response = await fetch(url, fetchOptions);
-
     if (!response.ok) {
       const errorText = await response.text();
       if (options?.log) console.error(`[API] ${url}`, errorText);
@@ -53,5 +57,7 @@ export async function apiFetch<T>(
   } catch (error) {
     if (options?.log) console.error(`[API] ${url}`, error);
     throw new ApiFetchTypes.ApiError((error as Error).message);
+  } finally {
+    SpinnerService.hide();
   }
 }

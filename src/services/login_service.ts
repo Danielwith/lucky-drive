@@ -12,6 +12,7 @@ export namespace LoginService {
       method: "POST",
       body: credentials,
       log: true,
+      message: "Verificando credenciales",
     });
   };
 }

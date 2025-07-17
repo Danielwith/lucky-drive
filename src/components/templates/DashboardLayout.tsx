@@ -13,9 +13,9 @@ export default function DashboardLayout({
 
   return (
     <SidebarProvider>
-      <div className="flex grow bg-neutral-400/20 backdrop-blur-xs md:my-3 md:mx-5 rounded-xl relative h-screen md:h-[calc(100dvh-1.5rem)]">
+      <div className="flex grow md:grid md:grid-cols-[auto_minmax(0,1fr)] bg-neutral-400/20 backdrop-blur-xs md:my-3 md:mx-5 pr-2 rounded-xl relative w-screen h-screen md:h-[calc(100dvh-1.5rem)]">
         <AppSidebar variant="inset" />
-        <SidebarInset className="bg-dark-blur">
+        <SidebarInset className="bg-dark-blur overflow-auto">
           <DashboardHeader />
           <div className="overflow-auto w-full h-full md:rounded-xl rounded-b-xl">
             {staticChildren.current}

@@ -786,6 +786,7 @@ export namespace ApiFetchTypes {
     body?: any; // Se convierte automáticamente a JSON
     headers?: HeadersInit;
     log?: boolean;
+    message?: string;
   }
 }
 
@@ -826,5 +827,12 @@ export namespace LoginTypes {
     sToken: string;
     nIdUsuarioLuckyGo: number;
     bConductor: number;
+  }
+}
+
+export namespace SpinnerTypes {
+  export interface State {
+    loading: boolean;
+    message?: string;
   }
 }
