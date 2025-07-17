@@ -15,7 +15,7 @@ const TIMER = 60 * 1000; // 1 MINUTO
 
 export const useAuthStore = create<AuthState>((set, get) => {
   const storedToken = localStorage.getItem("token");
-  const storedUserData = JSON.parse(localStorage.getItem("user_data") ?? "");
+  const storedUserData = JSON.parse(localStorage.getItem("user_data") ?? "{}");
   const initialLoggedIn =
     localStorage.getItem("auth") === "true" && !!storedToken;
 

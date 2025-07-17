@@ -7,6 +7,7 @@ import { LoginService } from "@/services/login_service";
 import { Controller, useForm } from "react-hook-form";
 import { ApiFetchTypes, LoginTypes } from "@/lib/types/types";
 import { useAuthStore } from "@/lib/store/auth_store";
+import { ToastService } from "@/services/init/toast_service";
 
 export default function Login() {
   const [, navigate] = useLocation();
@@ -33,7 +34,9 @@ export default function Login() {
         console.log(res);
       })
       .catch((err: ApiFetchTypes.ApiError) => {
-        console.log(err);
+        ToastService.toast(err.message, {
+          type: "error",
+        });
       });
   };
 
