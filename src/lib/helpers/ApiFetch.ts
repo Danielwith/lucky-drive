@@ -1,7 +1,9 @@
 import { SpinnerService } from "@/services/init/spinner_service";
 import { ApiFetchTypes } from "../types/types";
+import { useAuthStore } from "../store/auth_store";
 
 const BASE_URL = import.meta.env.XPLORA_API_URL;
+const { token } = useAuthStore.getState();
 
 function buildUrl(
   endpoint: ApiFetchTypes.ApiEndpoint,
@@ -24,14 +26,13 @@ export async function apiFetch<T>(
 ): Promise<ApiFetchTypes.ApiResponse<T>> {
   SpinnerService.show(options?.message);
 
-  const token = localStorage.getItem("token");
-
   const url = buildUrl(endpoint, options?.params, customApiUrl);
 
   const fetchOptions: RequestInit = {
     ...options,
     headers: {
       "Content-Type": "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
       // eslint-disable-next-line @typescript-eslint/no-misused-spread
       ...options?.headers,
     },

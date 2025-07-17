@@ -294,7 +294,7 @@ export default function Tracking() {
           // polyline={polyline}
         />
         <ModalDialog
-          customStyles="sm:max-w-none bg-lucky px-4 py-3 z-[999]"
+          customStyles="sm:max-w-none bg-lucky px-4 py-3"
           trigger={null}
           open={!!selectedMarker}
           exitButton={false}
